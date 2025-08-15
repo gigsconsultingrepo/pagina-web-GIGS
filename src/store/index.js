@@ -1,3 +1,4 @@
+import clients from '@/modules/clients';
 import blog from '@/modules/blog';
 import challenges from '@/modules/challenges';
 import about from '@/modules/about';
@@ -11,6 +12,7 @@ const API_URL = "/api";
 
 export default createStore({
   modules: { 
+    clients: clients.store, 
     blog: blog.store, 
     challenges: challenges.store,
     about: about.store,

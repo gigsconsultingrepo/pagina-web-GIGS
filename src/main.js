@@ -1,3 +1,4 @@
+import clientsModule from '@/modules/clients';
 import blogModule from '@/modules/blog';
 import challengesModule from '@/modules/challenges';
 import aboutModule from '@/modules/about';
@@ -40,6 +41,7 @@ registerModules({
   //Dev
   home: homeModule,
   about: aboutModule, 
+  clients: clientsModule,  
   challenges: challengesModule,
   services: servicesModule,
   blog: blogModule,

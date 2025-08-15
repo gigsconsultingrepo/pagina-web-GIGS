@@ -3,6 +3,7 @@ import { useRouter } from "vue-router";
 import sampleRouter from "@/modules/guias/sample/router";
 import HomeRouter from '@/modules/home/views/homeComponent.vue';
 import aboutRouter from '@/modules/about/views/aboutComponent.vue';
+import clientsRouter from '@/modules/clients/views/clientsComponent.vue';
 import servicesRouter from '@/modules/services/views/servicesComponent.vue';
 import challengesRouter from '@/modules/challenges/views/challengesComponent.vue';
 import blogRouter from '@/modules/blog/views/blogComponent.vue';
@@ -24,6 +25,11 @@ const router = createRouter({
         path: '/acerca-de-gigs',
         name: 'about',
         component: aboutRouter
+      },
+      {
+        path: '/clientes',
+        name: 'clients',
+        component: clientsRouter
       },
       {
         path: '/retos',
