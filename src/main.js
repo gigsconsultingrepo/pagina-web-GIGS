@@ -1,3 +1,6 @@
+import blogModule from '@/modules/blog';
+import challengesModule from '@/modules/challenges';
+import aboutModule from '@/modules/about';
 import servicesModule from '@/modules/services';
 import homeModule from '@/modules/home';
 
@@ -33,10 +36,13 @@ const app = createApp(App);
 app.use(store);
 app.use(router);
 app.use(vuetify);
-registerModules({ 
+registerModules({  
   //Dev
   home: homeModule,
+  about: aboutModule, 
+  challenges: challengesModule,
   services: servicesModule,
+  blog: blogModule,
 
 });
 

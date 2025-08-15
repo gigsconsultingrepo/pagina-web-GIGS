@@ -1,3 +1,6 @@
+import blog from '@/modules/blog';
+import challenges from '@/modules/challenges';
+import about from '@/modules/about';
 import services from '@/modules/services';
 import sample from "@/modules/guias/sample";
 import home from '@/modules/home';
@@ -7,7 +10,10 @@ import { createStore } from "vuex";
 const API_URL = "/api";
 
 export default createStore({
-  modules: {
+  modules: { 
+    blog: blog.store, 
+    challenges: challenges.store,
+    about: about.store,
     services: services.store,
     home: home.store,
     sample: sample.store,

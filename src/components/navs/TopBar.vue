@@ -9,11 +9,13 @@ const mobileMenuOpen = ref(false)
 const activeId = ref('home')
 
 const navigationItems = [
-  { id: 'home', icon: 'mdi-home', text: 'Inicio', routeName: 'home', path: '/' },
-  { id: 'contact', icon: 'mdi-phone-plus', text: 'Contáctanos', routeName: 'contact', path: '/contact' },
-  { id: 'proyects', icon: 'mdi-folder-star-multiple', text: 'Proyectos', routeName: 'projects', path: '/projects' },
-  { id: 'service', icon: 'mdi-room-service', text: 'Servicios', routeName: 'services', path: '/services' },
-  { id: 'question', icon: 'mdi-account-question', text: 'Preguntas frecuentes', routeName: 'faq', path: '/faq' },
+  { id: 'home', icon: 'mdi-home', text: 'INICIO', routeName: 'home', path: '/' },
+  { id: 'about', icon: 'mdi-account-quest-ion', text: 'ACERCA DE GIGS', routeName: 'about', path: '/acerca-de-gigs' },
+  { id: 'clients', icon: 'mdi-folder-star-multiple', text: 'CLIENTES', routeName: ' clients', path: '/clientes' },
+  { id: 'challenges', icon: 'mdi-room-service', text: 'RETOS', routeName: 'challenges', path: '/retos' },
+  { id: 'services', icon: 'mdi-account-question', text: 'SERVICIOS', routeName: 'services', path: '/servicios' },
+  { id: 'blog', icon: 'mdi-account-question', text: 'BLOG', routeName: 'blog', path: '/blog' },
+  { id: 'contact', icon: 'mdi-phone-plus', text: 'CONTACTO', routeName: 'contact', path: '/contacto' },
 ]
 
 const resolveActiveFromRoute = (r) => {
@@ -79,10 +81,6 @@ watch(() => route.fullPath, () => resolveActiveFromRoute(route))
         :class="{ active: activeId === item.id }" @click="navigateTo(item)">
         <v-icon size="20">{{ item.icon }}</v-icon>
         <span class="label">{{ item.text }}</span>
-      </button>
-      <button class="mobile-link danger" @click="logout">
-        <v-icon size="20">mdi-logout</v-icon>
-        <span class="label">Desconectarse</span>
       </button>
     </div>
   </header>

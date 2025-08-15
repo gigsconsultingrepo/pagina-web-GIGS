@@ -28,15 +28,15 @@ for /r "src\modules\%NOMBRE_COMPONENTE%" %%F in (*) do (
 )
 
 :: Modificar main.js
-powershell -Command "(Get-Content src\main.js) -replace 'registerModules\({', 'registerModules({`n  %NOMBRE_COMPONENTE%: %NOMBRE_COMPONENTE%Module,' | Set-Content src\main.js"
+powershell -Command "(Get-Content src\main.js) -replace 'registerModules\({', 'registerModules({  %NOMBRE_COMPONENTE%: %NOMBRE_COMPONENTE%Module,' | Set-Content src\main.js"
 powershell -Command "'import %NOMBRE_COMPONENTE%Module from ''@/modules/%NOMBRE_COMPONENTE%'';', (Get-Content src\main.js) | Set-Content src\main.js"
 
 :: Modificar router/index.js
-powershell -Command "'import %NOMBRE_COMPONENTE%Router from ''@/modules/%NOMBRE_COMPONENTE%/router'';', (Get-Content src\router\index.js) | Set-Content src\router\index.js"
-powershell -Command "(Get-Content src\router\index.js) -replace 'routes:', 'routes:`n  ...applyMiddleware(%NOMBRE_COMPONENTE%Router),' | Set-Content src\router\index.js"
+powershell -Command "'import %NOMBRE_COMPONENTE%Router from ''@/modules/%NOMBRE_COMPONENTE%/views/%NOMBRE_COMPONENTE%Component.vue'';', (Get-Content src\router\index.js) | Set-Content src\router\index.js"
+powershell -Command "(Get-Content src\router\index.js) -replace 'routes:[', 'routes:[{ path:, name:%NOMBRE_COMPONENTE%, component:%NOMBRE_COMPONENTE%Router' | Set-Content src\router\index.js"
 
 :: Modificar store/index.js
 powershell -Command "'import %NOMBRE_COMPONENTE% from ''@/modules/%NOMBRE_COMPONENTE%'';', (Get-Content src\store\index.js) | Set-Content src\store\index.js"
-powershell -Command "(Get-Content src\store\index.js) -replace 'modules: {', 'modules: {`n  %NOMBRE_COMPONENTE%: %NOMBRE_COMPONENTE%.store,' | Set-Content src\store\index.js"
+powershell -Command "(Get-Content src\store\index.js) -replace 'modules: {', 'modules: { %NOMBRE_COMPONENTE%: %NOMBRE_COMPONENTE%.store,' | Set-Content src\store\index.js"
 
 echo Componente '%NOMBRE_COMPONENTE%' creado exitosamente.

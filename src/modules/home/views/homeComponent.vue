@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import TopBar from '@/components/navs/TopBar.vue';
 
 const isLoading = ref(true)
 setTimeout(() => {
@@ -14,7 +13,6 @@ setTimeout(() => {
   </v-overlay>
 
   <div class="pa-4 home-component">
-    <!-- <TopBar/> -->
     HOLA INICIO
   </div>
 </template>
