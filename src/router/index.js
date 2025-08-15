@@ -1,6 +1,7 @@
 import store from "@/store/index";
-import sampleRouter from "@/modules/guias/sample/router";
 import { useRouter } from "vue-router";
+import sampleRouter from "@/modules/guias/sample/router";
+import servicesRouter from '@/modules/services/views/servicesComponent.vue';
 
 import NotFound from '@/views/View404.vue';
 
@@ -12,6 +13,11 @@ const router = createRouter({
   routes:
     [
       ...sampleRouter,
+      {
+        path: '/services',
+        name: 'services',
+        component: servicesRouter
+      },
       {
         path: "/",
         name: "home",

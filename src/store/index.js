@@ -1,3 +1,4 @@
+import services from '@/modules/services';
 import sample from "@/modules/guias/sample";
 import home from '@/modules/home';
 
@@ -7,6 +8,7 @@ const API_URL = "/api";
 
 export default createStore({
   modules: {
+    services: services.store,
     home: home.store,
     sample: sample.store,
   },

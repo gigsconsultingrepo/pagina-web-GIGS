@@ -1,3 +1,4 @@
+import servicesModule from '@/modules/services';
 import homeModule from '@/modules/home';
 
 
@@ -32,9 +33,10 @@ const app = createApp(App);
 app.use(store);
 app.use(router);
 app.use(vuetify);
-registerModules({
+registerModules({ 
   //Dev
-  home: homeModule
+  home: homeModule,
+  services: servicesModule,
 
 });
 
