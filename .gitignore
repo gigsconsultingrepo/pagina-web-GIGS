@@ -16,9 +16,9 @@ dist-ssr
 *.yaml
 .github/workflows/*
 firebase.json
-.github/*
+.github
 
-.firebase/*
+.firebase
 
 # Editor directories and files
 .vscode/*
