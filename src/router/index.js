@@ -7,6 +7,7 @@ import clientsRouter from '@/modules/clients/views/clientsComponent.vue';
 import servicesRouter from '@/modules/services/views/servicesComponent.vue';
 import challengesRouter from '@/modules/challenges/views/challengesComponent.vue';
 import blogRouter from '@/modules/blog/views/blogComponent.vue';
+import contactRouter from '@/modules/contact/views/contactComponent.vue';
 
 import NotFound from '@/views/View404.vue';
 
@@ -49,7 +50,7 @@ const router = createRouter({
       {
         path: '/contacto',
         name: 'contact',
-        // component: contactRouter
+        component: contactRouter
       },
       {
         path: '/:pathMatch(.*)*',

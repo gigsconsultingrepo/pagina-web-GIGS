@@ -1,5 +1,5 @@
 <style scoped>
-.service-component {
+.contact-component {
   background-color: #f0f0f0;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -8,9 +8,9 @@
 
 </style>
 <template>
-  <div class="service-component">
+  <div class="contact-component">
     
-    <h1>Page -{{ pageTitle }}</h1>
+    <h1>Page {{ pageTitle }}</h1>
   
   </div>
 
@@ -20,11 +20,11 @@
 import axios from 'axios';
 
 export default {
-  name: "servicesHomeComponent",
+  name: "contactHomeComponent",
 
   computed: {
     pageTitle() {
-      let title = this.$store.getters['services/pageTitle'];
+      let title = this.$store.getters['contact/pageTitle'];
 
       return title;
     },

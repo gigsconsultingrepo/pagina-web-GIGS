@@ -2,7 +2,7 @@ import servicesComponent from "../views/servicesComponent.vue"
 
 export default [
   {
-    path: '/services',
+    path: '/servicios',
     name: 'services',
     component: servicesComponent
   }

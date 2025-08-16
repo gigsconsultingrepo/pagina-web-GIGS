@@ -1,3 +1,4 @@
+import contact from '@/modules/contact';
 import clients from '@/modules/clients';
 import blog from '@/modules/blog';
 import challenges from '@/modules/challenges';
@@ -18,6 +19,7 @@ export default createStore({
     about: about.store,
     services: services.store,
     home: home.store,
+    contact: contact.store, 
     sample: sample.store,
   },
   state: {

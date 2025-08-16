@@ -1,3 +1,4 @@
+import contactModule from '@/modules/contact';
 import clientsModule from '@/modules/clients';
 import blogModule from '@/modules/blog';
 import challengesModule from '@/modules/challenges';
@@ -45,7 +46,7 @@ registerModules({
   challenges: challengesModule,
   services: servicesModule,
   blog: blogModule,
-
+  contact: contactModule,  
 });
 
 app.mount("#app");

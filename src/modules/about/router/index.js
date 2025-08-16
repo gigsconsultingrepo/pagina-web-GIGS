@@ -2,7 +2,7 @@ import aboutHomeComponent from "../views/aboutComponent.vue"
 
 export default [
   {
-    path: '/about',
+    path: '/acerca-de-gigs',
     name: 'about',
     component: aboutHomeComponent
   }
