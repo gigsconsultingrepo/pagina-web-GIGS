@@ -68,9 +68,6 @@ watch(() => route.fullPath, () => resolveActiveFromRoute(route))
       </button>
     </nav>
     <div class="actions">
-      <button class="icon-btn logout" @click="logout" title="Desconectarse">
-        <v-icon>mdi-logout</v-icon>
-      </button>
       <button class="icon-btn hamburger" @click="toggleMobileMenu" :aria-expanded="mobileMenuOpen"
         aria-controls="mobile-menu">
         <v-icon>{{ mobileMenuOpen ? 'mdi-close' : 'mdi-menu' }}</v-icon>

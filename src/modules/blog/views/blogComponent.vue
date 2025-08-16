@@ -1,46 +1,24 @@
-<style scoped>
-.blog-component {
-  background-color: #f0f0f0;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-}
+<script setup>
+//Imports que se usan con mas frecuencia
+import { ref, watch, onMounted } from 'vue'
 
-</style>
+//Variable reactiva, si queremos que no sea reactiva quitamos el 'ref'
+const nameTitle = ref('Blog')
+
+//Desde el script para manipular estas variable lo hacemos desde .value => nameTitle.value = .....
+
+</script>
+
 <template>
-  <div class="blog-component">
-    
-    <h1>Page {{ pageTitle }}</h1>
-  
-  </div>
+  <div class="about-component">
 
+    <h1>Page {{ nameTitle }}</h1>
+
+  </div>
 </template>
 
-<script>
-import axios from 'axios';
-
-export default {
-  name: "blogHomeComponent",
-
-  computed: {
-    pageTitle() {
-      let title = this.$store.getters['blog/pageTitle'];
-
-      return title;
-    },
-    
-  },
-  watch: {
-   
-  },
-  data() {
-    return {
-    }
-  },
-  methods: {
-  },
-
-  mounted() {
-  }
-};
-</script>
+<style scoped>
+.about-component {
+  background-color: blue;
+}
+</style>

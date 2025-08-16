@@ -1,46 +1,24 @@
-<style scoped>
-.clients-component {
-  background-color: #f0f0f0;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-}
+<script setup>
+//Imports que se usan con mas frecuencia
+import { ref, watch, onMounted } from 'vue'
 
-</style>
+//Variable reactiva, si queremos que no sea reactiva quitamos el 'ref'
+const nameTitle = ref('Acerca de Gigs Consulting')
+
+//Desde el script para manipular estas variable lo hacemos desde .value => nameTitle.value = .....
+
+</script>
+
 <template>
-  <div class="clients-component">
-    
-    <h1>Page {{ pageTitle }}</h1>
-  
-  </div>
+  <div class="about-component">
 
+    <h1>Page {{ clientes }}</h1>
+
+  </div>
 </template>
 
-<script>
-import axios from 'axios';
-
-export default {
-  name: "clientsHomeComponent",
-
-  computed: {
-    pageTitle() {
-      let title = this.$store.getters['clients/pageTitle'];
-
-      return title;
-    },
-    
-  },
-  watch: {
-   
-  },
-  data() {
-    return {
-    }
-  },
-  methods: {
-  },
-
-  mounted() {
-  }
-};
-</script>
+<style scoped>
+.about-component {
+  background-color: green;
+}
+</style>

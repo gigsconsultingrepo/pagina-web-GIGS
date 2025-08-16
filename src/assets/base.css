@@ -126,3 +126,7 @@ button:focus-visible {
     background-color: #f9f9f9;
   } 
 }
+
+.about-component{
+  height: calc(100vh - 4rem);
+}
