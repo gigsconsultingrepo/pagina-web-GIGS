@@ -3,7 +3,7 @@
 import { ref, watch, onMounted } from 'vue'
 
 //Variable reactiva, si queremos que no sea reactiva quitamos el 'ref'
-const nameTitle = ref('Acerca de Gigs Consulting')
+const nameTitle = ref('Retos')
 
 //Desde el script para manipular estas variable lo hacemos desde .value => nameTitle.value = .....
 
@@ -12,7 +12,7 @@ const nameTitle = ref('Acerca de Gigs Consulting')
 <template>
   <div class="about-component">
 
-    <h1>Page {{ retos }}</h1>
+    <h1>Page {{ nameTitle }}</h1>
 
   </div>
 </template>
