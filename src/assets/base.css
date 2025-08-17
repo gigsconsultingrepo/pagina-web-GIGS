@@ -142,13 +142,17 @@ button:focus-visible {
   height: calc(100vh - 4rem);
 }
 
-.btn-primary:hover{
+.btn-primary:hover {
   transform: scale(1.02);
   background: var(--color-navy) !important;
   color: var(--color-primary-soft) !important;
 }
-.btn-second:hover{
+.btn-second:hover {
   transform: scale(1.02);
   background: var(--vt-c-white) !important;
   color: var(--color-primary-dark) !important;
+}
+
+.pa-none {
+  padding: 0px !important;
 }
