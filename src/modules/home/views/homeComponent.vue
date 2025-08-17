@@ -51,8 +51,8 @@ const { t } = useI18n({
           </div>
         </v-col>
 
-        <v-col cols="12" md="5" lg="5" class="d-flex justify-center">
-          <img src="@/assets/img/hero.png" alt="Ilustración de asesor" width="258" class="hero-img"/>
+        <v-col cols="12" md="5" lg="5" class="order-1 order-md-2 d-flex justify-center px-4 mb-6 mb-md-0">
+          <v-img src="@/assets/img/hero.png" alt="Ilustración de asesor" class="hero-figure" cover eager />
         </v-col>
       </v-row>
     </v-container>
