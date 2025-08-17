@@ -141,3 +141,14 @@ button:focus-visible {
 .about-component {
   height: calc(100vh - 4rem);
 }
+
+.btn-primary:hover{
+  transform: scale(1.02);
+  background: var(--color-navy) !important;
+  color: var(--color-primary-soft) !important;
+}
+.btn-second:hover{
+  transform: scale(1.02);
+  background: var(--vt-c-white) !important;
+  color: var(--color-primary-dark) !important;
+}

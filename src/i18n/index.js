@@ -1,8 +1,9 @@
 import { createI18n } from 'vue-i18n'
 
 const STORAGE_KEY = 'gigs-locale'
+
 export const i18n = createI18n({
-  legacy: false,                // IMPORTANTE
+  legacy: false,
   globalInjection: true,
   locale: localStorage.getItem(STORAGE_KEY) || 'es',
   fallbackLocale: 'es',
