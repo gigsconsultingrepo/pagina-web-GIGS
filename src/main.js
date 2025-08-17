@@ -5,6 +5,7 @@ import challengesModule from '@/modules/challenges';
 import aboutModule from '@/modules/about';
 import servicesModule from '@/modules/services';
 import homeModule from '@/modules/home';
+import { i18n, setLocale } from './i18n'
 
 
 import "./assets/main.css";
@@ -37,6 +38,8 @@ const app = createApp(App);
 
 app.use(store);
 app.use(router);
+app.use(i18n);
+setLocale(localStorage.getItem('app:locale') || 'es')
 app.use(vuetify);
 registerModules({  
   //Dev

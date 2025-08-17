@@ -1,6 +1,44 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+
+// INICIO TRADUCCIONES ==================================
+const messages = {
+  es: {
+    nav: {
+      home: 'INICIO',
+      about: 'ACERCA DE GIGS',
+      clients: 'CLIENTES',
+      challenges: 'RETOS',
+      services: 'SERVICIOS',
+      blog: 'BLOG',
+      contact: 'CONTACTO'
+    },
+    lang: { toggle: 'ES/EN' }
+  },
+  en: {
+    nav: {
+      home: 'HOME',
+      about: 'ABOUT',
+      clients: 'CLIENTS',
+      challenges: 'CHALLENGES',
+      services: 'SERVICES',
+      blog: 'BLOG',
+      contact: 'CONTACT'
+    },
+    lang: { toggle: 'EN/ES' }
+  }
+}
+
+// usa scope local para pasar los mensajes:
+const { t } = useI18n({
+  useScope: 'local',
+  inheritLocale: true,
+  messages
+})
+
+// FIN TRADUCCIONES ==================================
 
 const router = useRouter()
 const route = useRoute()
@@ -8,230 +46,223 @@ const route = useRoute()
 const mobileMenuOpen = ref(false)
 const activeId = ref('home')
 
-const navigationItems = [
-  { id: 'home', icon: 'mdi-home', text: 'INICIO', routeName: 'home', path: '/' },
-  { id: 'about', icon: 'mdi-account-quest-ion', text: 'ACERCA DE GIGS', routeName: 'about', path: '/acerca-de-gigs' },
-  { id: 'clients', icon: 'mdi-folder-star-multiple', text: 'CLIENTES', routeName: ' clients', path: '/clientes' },
-  { id: 'challenges', icon: 'mdi-room-service', text: 'RETOS', routeName: 'challenges', path: '/retos' },
-  { id: 'services', icon: 'mdi-account-question', text: 'SERVICIOS', routeName: 'services', path: '/servicios' },
-  { id: 'blog', icon: 'mdi-account-question', text: 'BLOG', routeName: 'blog', path: '/blog' },
-  { id: 'contact', icon: 'mdi-phone-plus', text: 'CONTACTO', routeName: 'contact', path: '/contacto' },
+const items = [
+  { id: 'home', icon:'mdi-home', key: 'home', routeName: 'home', path: '/' },
+  { id: 'about', icon:'mdi-information', key: 'about', routeName: 'about', path: '/about' },
+  { id: 'clients', icon:'mdi-hand-heart', key: 'clients', routeName: 'clients', path: '/clients' },
+  { id: 'challenges', icon:'mdi-puzzle-star', key: 'challenges', routeName: 'challenges', path: '/challenges' },
+  { id: 'services', icon:'mdi-account-wrench', key: 'services', routeName: 'services', path: '/services' },
+  { id: 'blog', icon:'mdi-post', key: 'blog', routeName: 'blog', path: '/blog' },
+  { id: 'contact', icon:'mdi-human-greeting-proximity', key: 'contact', routeName: 'contact', path: '/contact' }
 ]
 
-const resolveActiveFromRoute = (r) => {
-  const byName = navigationItems.find(i => i.routeName === r.name)
+const resolveActive = (r) => {
+  const byName = items.find(i => i.routeName === r.name)
   if (byName) { activeId.value = byName.id; return }
-  const fullPath = r.fullPath || r.path || ''
-  const byPath = navigationItems.find(i => i.path && fullPath.startsWith(i.path))
+  const fp = r.fullPath || r.path || ''
+  const byPath = items.find(i => i.path && fp.startsWith(i.path))
   activeId.value = byPath?.id ?? 'home'
 }
 
 const navigateTo = async (item) => {
   activeId.value = item.id
   mobileMenuOpen.value = false
-  if (item.routeName && router.hasRoute(item.routeName)) {
-    try { await router.push({ name: item.routeName }) } catch (err) { console.error(err) }
-    return
-  }
-  if (item.path) {
-    try { await router.push(item.path) } catch (err) { console.error(err) }
-    return
-  }
-  console.warn(`[TopBar] No hay routeName/path configurado para: ${item.id}`)
+  if (item.routeName && router.hasRoute(item.routeName)) await router.push({ name: item.routeName })
+  else if (item.path) await router.push(item.path)
 }
 
-const toggleMobileMenu = () => { mobileMenuOpen.value = !mobileMenuOpen.value }
-
-const logout = async () => {
-  if (router.hasRoute('login')) {
-    try { await router.push({ name: 'login' }) } catch (_) { }
-  } else {
-    try { await router.push('/') } catch (_) { }
-  }
-}
-
-onMounted(() => resolveActiveFromRoute(route))
-watch(() => route.name, () => resolveActiveFromRoute(route))
-watch(() => route.fullPath, () => resolveActiveFromRoute(route))
+onMounted(() => resolveActive(route))
+watch(() => route.name, () => resolveActive(route))
+watch(() => route.fullPath, () => resolveActive(route))
 </script>
 
 <template>
-  <header class="topbar" role="navigation" aria-label="Top navigation">
-    <div class="brand" @click="navigateTo(navigationItems[0])" tabindex="0">
-      <img src="@/assets/img/logo-gigs.jpg" alt="GIGS Consulting Logo" class="logo" />
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand" @click="navigateTo(items[0])">
+        <img src="@/assets/img/logo-gigs.jpg" alt="GIGS" class="logo" />
+      </div>
+
+      <nav class="nav-links">
+        <button v-for="it in items" :key="it.id" class="link" :class="{ active: activeId === it.id }"
+          @click="navigateTo(it)" :aria-current="activeId === it.id ? 'page' : null">
+          <v-icon size="18" class="ni">{{ it.icon }}</v-icon>
+          <span class="label">{{ t('nav.' + it.key) }}</span>
+        </button>
+      </nav>
+      
+      <div class="actions">
+        <button class="lang-toggle" @click="toggleLocale">
+          <v-icon size="18" class="ni">mdi-translate-variant</v-icon>
+          <span>{{ t('lang.toggle') }}</span>
+        </button>
+        <button class="hamburger" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Menu">
+          <v-icon>{{ mobileMenuOpen ? 'mdi-close' : 'mdi-menu' }}</v-icon>
+        </button>
+      </div>
     </div>
-    <nav class="nav-links">
-      <button v-for="item in navigationItems" :key="item.id" class="link" :class="{ active: activeId === item.id }"
-        @click="navigateTo(item)" :aria-current="activeId === item.id ? 'page' : null">
-        <v-icon size="20">{{ item.icon }}</v-icon>
-        <span class="label">{{ item.text }}</span>
+
+    <div class="mobile-menu" v-show="mobileMenuOpen">
+      <button v-for="it in items" :key="it.id" class="mobile-link" :class="{ active: activeId === it.id }"
+        @click="navigateTo(it)">
+        <v-icon size="18" class="ni">mdi-circle-small</v-icon>
+        <span class="label">{{ t('nav.' + it.key) }}</span>
       </button>
-    </nav>
-    <div class="actions">
-      <button class="icon-btn hamburger" @click="toggleMobileMenu" :aria-expanded="mobileMenuOpen"
-        aria-controls="mobile-menu">
-        <v-icon>{{ mobileMenuOpen ? 'mdi-close' : 'mdi-menu' }}</v-icon>
-      </button>
-    </div>
-    <div id="mobile-menu" class="mobile-menu" v-show="mobileMenuOpen">
-      <button v-for="item in navigationItems" :key="item.id" class="mobile-link"
-        :class="{ active: activeId === item.id }" @click="navigateTo(item)">
-        <v-icon size="20">{{ item.icon }}</v-icon>
-        <span class="label">{{ item.text }}</span>
-      </button>
+      <div class="mobile-lang">
+        <button class="lang-toggle" @click="toggleLocale">
+          <span>{{ t('lang.toggle') }}</span>
+        </button>
+      </div>
     </div>
   </header>
 </template>
 
 <style scoped>
 .topbar {
-  background: var(--vt-c-indigo);
-  color: var(--vt-c-white);
-  border-bottom: 1px solid var(--color-border);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, .08);
   position: sticky;
   top: 0;
   z-index: 100;
-  width: 100%;
+  background: var(--vt-c-white);
+  color: var(--vt-c-text-light-1);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.topbar::after {
+  content: "";
+  display: block;
+  height: 4px;
+  background: var(--vt-c-indigo);
+}
+
+.topbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
   height: 64px;
-  display: grid;
-  grid-template-columns: 1fr auto auto;
+  padding: 0 16px;
+  display: flex;
   align-items: center;
-  gap: .75rem;
-  padding: 0 .75rem;
+  gap: 16px;
 }
 
 .brand {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: .75rem;
-  cursor: pointer;
 }
 
 .logo {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
 }
 
 .nav-links {
+  margin: 0 auto;
   display: none;
   align-items: center;
-  gap: .25rem;
+  gap: 16px;
 }
 
 .link {
+  background: transparent;
+  border: 0;
+  padding: 8px 12px;
+  border-radius: 999px;
+  letter-spacing: .4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--vt-c-text-light-1);
+  cursor: pointer;
+  text-transform: uppercase;
   display: inline-flex;
   align-items: center;
-  gap: .5rem;
-  padding: .5rem .75rem;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--vt-c-white-soft);
-  border: none;
-  cursor: pointer;
-  transition: background-color .2s ease, color .2s ease, transform .05s ease;
+  gap: 8px;
+  transition: background-color .2s ease, color .2s ease;
 }
 
 .link:hover {
-  background: rgba(255, 255, 255, .12);
-}
-
-.link:active {
-  transform: translateY(1px);
+  background: var(--vt-c-white-mute);
 }
 
 .link.active {
-  background: var(--vt-c-white);
-  color: var(--vt-c-indigo);
-  font-weight: 600;
+  background: var(--vt-c-indigo);
+  color: var(--vt-c-white);
 }
 
-.link .label {
-  font-size: .9rem;
+.ni {
+  margin-right: 2px;
 }
 
 .actions {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: .25rem;
+  gap: 8px;
 }
 
-.icon-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  border: none;
-  background: transparent;
-  color: var(--vt-c-white);
+.lang-toggle {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--vt-c-white);
+  color: var(--vt-c-text-light-1);
+  font-weight: 800;
+  letter-spacing: .4px;
   cursor: pointer;
-  transition: background-color .2s ease, transform .05s ease;
-}
-
-.icon-btn:hover {
-  background: rgba(255, 255, 255, .12);
-}
-
-.icon-btn:active {
-  transform: translateY(1px);
-}
-
-.logout {
-  margin-right: .25rem;
 }
 
 .hamburger {
   display: inline-flex;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--vt-c-text-light-1);
 }
 
 .mobile-menu {
-  position: fixed;
-  top: 64px;
-  left: 0;
-  right: 0;
-  background: var(--vt-c-indigo);
+  display: none;
+  background: var(--vt-c-white);
   border-bottom: 1px solid var(--color-border);
-  padding: .5rem;
-  display: grid;
-  grid-auto-rows: minmax(44px, auto);
-  gap: .25rem;
+  padding: 8px;
 }
 
 .mobile-link {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  color: var(--vt-c-text-light-1);
   display: inline-flex;
   align-items: center;
-  gap: .75rem;
-  width: 100%;
-  padding: .75rem .75rem;
-  background: transparent;
-  color: var(--vt-c-white);
-  border: none;
-  border-radius: 12px;
-  text-align: left;
-  cursor: pointer;
-  transition: background-color .2s ease, color .2s ease;
+  gap: 8px;
 }
 
 .mobile-link:hover {
-  background: rgba(255, 255, 255, .12);
+  background: var(--vt-c-white-mute);
 }
 
 .mobile-link.active {
-  background: var(--vt-c-white);
-  color: var(--vt-c-indigo);
+  background: var(--vt-c-indigo);
+  color: var(--vt-c-white);
 }
 
-.mobile-link.danger {
-  color: #ffd9d9;
+.mobile-lang {
+  padding: 8px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media (min-width: 900px) {
   .nav-links {
-    display: inline-flex;
+    display: flex;
   }
 
   .hamburger,

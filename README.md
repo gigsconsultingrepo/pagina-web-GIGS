@@ -4,3 +4,12 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
 c
+
+
+INSTALAR
+
+# núcleo i18n
+npm i vue-i18n@9
+
+# build y DX (opcional pero recomendado con Vite)
+npm i -D @intlify/unplugin-vue-i18n eslint-plugin-vue-i18n
