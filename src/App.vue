@@ -16,7 +16,6 @@ import Footer from './components/navs/Footer.vue';
 
 <style>
 .app-content {
-  min-height: calc(100vh - 64px);
   background: #fff;
 }
 
