@@ -59,7 +59,7 @@ const { t, tm } = useI18n({
 
 const icons = [empresa, chatbots, nube, portafolio]
 
-const showcaseImgs = [fabrica, fabrica, nufabricabe]
+const showcaseImgs = [fabrica, fabrica, fabrica]
 
 const router = useRouter()
 const goCard = (i) => {
