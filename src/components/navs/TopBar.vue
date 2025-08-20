@@ -76,18 +76,18 @@ const items = [
   { id: 'about', icon: 'mdi-information', key: 'about', routeName: 'about', path: '/about' },
   { id: 'clients', icon: 'mdi-hand-heart', key: 'clients', routeName: 'clients', path: '/clients' },
   { id: 'challenges', icon: 'mdi-puzzle-star', key: 'challenges', routeName: 'challenges', path: '/challenges' },
-  { id: 'services', icon: 'mdi-account-wrench', key: 'services', routeName: 'services', path: '/services' },
+  { id: 'services', icon: 'mdi-account-wrench', key: 'services', routeName: 'services', path: '/servicios' },
   { id: 'blog', icon: 'mdi-post', key: 'blog', routeName: 'blog', path: '/blog' },
   { id: 'contact', icon: 'mdi-human-greeting-proximity', key: 'contact', routeName: 'contact', path: '/contact' }
 ]
 
 const servicesChildren = [
-  { id: 'software-factory', key: 'softwareFactory', path: '/services/software-factory' },
+  { id: 'software-factory', key: 'softwareFactory', path: '/services/fabrica-software' },
   { id: 'taas', key: 'taas', path: '/services/taas' },
-  { id: 'digital-transformation', key: 'digitalTransformation', path: '/services/digital-transformation' },
-  { id: 'help-desk', key: 'helpDesk', path: '/services/help-desk' },
-  { id: 'db-management', key: 'dbManagement', path: '/services/db-management' },
-  { id: 'app-maintenance', key: 'appMaintenance', path: '/services/app-maintenance' }
+  { id: 'digital-transformation', key: 'digitalTransformation', path: '/services/transformación-digital' },
+  { id: 'help-desk', key: 'helpDesk', path: '/services/mesa-ayuda' },
+  { id: 'db-management', key: 'dbManagement', path: '/services/gestion-base-datos' },
+  { id: 'app-maintenance', key: 'appMaintenance', path: '/services/mantenimiento-aplicaciones' }
 ]
 
 const isInServices = computed(() => {
@@ -151,13 +151,12 @@ watch(activeId, () => { servicesOpen.value = false })
 
           <div v-else class="dropdown" @mouseenter="openServices" @mouseleave="closeServices">
             <button class="link" :class="{ active: isInServices }" aria-haspopup="menu"
-              :aria-expanded="servicesOpen ? 'true' : 'false'" @click="servicesOpen = !servicesOpen"
+              :aria-expanded="servicesOpen ? 'true' : 'false'" 
               @keydown.enter.prevent="servicesOpen = !servicesOpen"
               @keydown.space.prevent="servicesOpen = !servicesOpen">
-              <!-- Ícono sólo si estamos en services -->
               <v-icon v-if="isInServices" size="18" class="ni">mdi-account-wrench</v-icon>
-              <span class="label">{{ t('nav.services') }}</span>
-              <v-icon size="16" class="caret">mdi-menu-down</v-icon>
+              <span class="label" @click="navigateTo(it)">{{ t('nav.services') }}</span>
+              <v-icon size="16" class="caret" @click="servicesOpen = !servicesOpen">mdi-menu-down</v-icon>
             </button>
 
             <ul v-show="servicesOpen" class="menu" role="menu">

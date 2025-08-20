@@ -72,6 +72,31 @@ const goAll = () => router.push('/services')
 <template>
   <section class="services-top">
     <v-container class="py-8 py-md-12">
+      <div class="info-head">
+        <h2 class="info-title">{{ t('showcase.title') }}</h2>
+        <p class="info-sub">{{ t('showcase.subtitle') }}</p>
+      </div>
+
+      <v-row class="g-8 g-md-12" align="stretch" justify="center">
+        <v-col v-for="(it, i) in tm('showcaseItems')" :key="'info-' + i" cols="12" sm="6" md="4"
+          class="d-flex justify-center">
+          <article class="info-card" :style="{ backgroundImage: `url(${showcaseImgs[i]})` }">
+            <div class="info-content">
+              <h3 class="info-name">{{ it.title }}</h3>
+              <button class="info-pill" type="button" @click="goCard(i)">
+                {{ t('cta.more') }}
+              </button>
+            </div>
+          </article>
+        </v-col>
+      </v-row>
+
+      <div class="info-bottom">
+        <button class="info-primary" type="button" @click="goAll">
+          {{ t('cta.all') }}
+        </button>
+      </div>
+
       <div class="title-wrap d-flex align-start ga-4 mb-8 mb-md-12">
         <span class="t-big">{{ t('head.top') }}</span>
         <div class="t-side">
@@ -96,30 +121,6 @@ const goAll = () => router.push('/services')
           </div>
         </v-col>
       </v-row>
-
-      <div class="info-head">
-        <h2 class="info-title">{{ t('showcase.title') }}</h2>
-        <p class="info-sub">{{ t('showcase.subtitle') }}</p>
-      </div>
-
-      <v-row class="g-8 g-md-12" align="stretch" justify="center">
-        <v-col v-for="(it, i) in tm('showcaseItems')" :key="'info-' + i" cols="12" sm="6" md="4" class="d-flex justify-center">
-          <article class="info-card" :style="{ backgroundImage: `url(${showcaseImgs[i]})` }">
-            <div class="info-content">
-              <h3 class="info-name">{{ it.title }}</h3>
-              <button class="info-pill" type="button" @click="goCard(i)">
-                {{ t('cta.more') }}
-              </button>
-            </div>
-          </article>
-        </v-col>
-      </v-row>
-
-      <div class="info-bottom">
-        <button class="info-primary" type="button" @click="goAll">
-          {{ t('cta.all') }}
-        </button>
-      </div>
     </v-container>
   </section>
 </template>
@@ -281,7 +282,7 @@ const goAll = () => router.push('/services')
   justify-content: flex-end;
 }
 
-.info-content{
+.info-content {
   background: var(--vt-c-white);
   padding-bottom: 1em;
   padding-left: 1em;
