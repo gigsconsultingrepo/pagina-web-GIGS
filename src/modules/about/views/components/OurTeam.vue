@@ -184,10 +184,10 @@ const prev = () => {
   z-index: 10;
 }
 .arrow-btn.left {
-  left: -150px;
+  left: -100px;
 }
 .arrow-btn.right {
-  right: -150px;
+  right: -100px;
 }
 
 .team-card {

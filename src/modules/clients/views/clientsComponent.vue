@@ -1,24 +1,23 @@
 <script setup>
-//Imports que se usan con mas frecuencia
-import { ref, watch, onMounted } from 'vue'
-
-//Variable reactiva, si queremos que no sea reactiva quitamos el 'ref'
-const nameTitle = ref('clientes')
-
-//Desde el script para manipular estas variable lo hacemos desde .value => nameTitle.value = .....
-
+import Clients from "./components/Clients.vue";
+import ActivitySectors from "./components/ActivitySectors.vue";
+import OurClients from "./components/OurClients.vue";
+import FeaturedClients from "./components/FeaturedClients.vue";
+import Testimonials from "./components/Testimonials.vue";
 </script>
 
 <template>
-  <div class="about-component">
-
-    <h1>Page {{ nameTitle }}</h1>
-
-  </div>
+  <section class="content-about">
+    <Clients />
+    <ActivitySectors />
+    <OurClients />
+    <FeaturedClients />
+    <Testimonials />
+  </section>
 </template>
 
 <style scoped>
-.about-component {
-  background-color: green;
+.content-about {
+  background: var(--color-background);
 }
 </style>
