@@ -23,7 +23,7 @@ const messages = {
         title: 'Contacto',
         phone: '+57 310 2885249',
         phoneRaw: '+573102885249',
-        mail: 'info@gigs.consulting',
+        mail: '',
         addr: 'CL 23 A BIS # 85 A – 25 OF 707, Bogotá'
       }
     }
@@ -49,7 +49,7 @@ const messages = {
         title: 'Contact',
         phone: '+57 310 2885249',
         phoneRaw: '+573102885249',
-        mail: 'info@gigs.consulting',
+        mail: '',
         addr: 'CL 23 A BIS # 85 A – 25 OF 707, Bogotá'
       }
     }
