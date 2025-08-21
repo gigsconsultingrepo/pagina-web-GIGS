@@ -82,17 +82,17 @@ const items = [
 ]
 
 const servicesChildren = [
-  { id: 'software-factory', key: 'softwareFactory', path: '/services/fabrica-software' },
-  { id: 'taas', key: 'taas', path: '/services/taas' },
-  { id: 'digital-transformation', key: 'digitalTransformation', path: '/services/transformación-digital' },
-  { id: 'help-desk', key: 'helpDesk', path: '/services/mesa-ayuda' },
-  { id: 'db-management', key: 'dbManagement', path: '/services/gestion-base-datos' },
-  { id: 'app-maintenance', key: 'appMaintenance', path: '/services/mantenimiento-aplicaciones' }
+  { id: 'software-factory', key: 'softwareFactory', path: '/servicios/fabrica-software', routeName: 'fabrica-software' },
+  { id: 'taas', key: 'taas', path: '/servicios/taas', routeName: 'taas' },
+  { id: 'digital-transformation', key: 'digitalTransformation', path: '/servicios/transformación-digital', routeName: 'transformación-digital' },
+  { id: 'help-desk', key: 'helpDesk', path: '/servicios/mesa-ayuda', routeName: 'mesa-ayuda' },
+  { id: 'db-management', key: 'dbManagement', path: '/servicios/gestion-base-datos', routeName: 'gestion-base-datos' },
+  { id: 'app-maintenance', key: 'appMaintenance', path: '/servicios/mantenimiento-aplicaciones', routeName: 'mantenimiento-aplicaciones' }
 ]
 
 const isInServices = computed(() => {
   const p = route.fullPath || route.path || ''
-  return p === '/services' || p.startsWith('/services/')
+  return p === '/servicios' || p.startsWith('/servicios/')
 })
 
 const resolveActive = (r) => {
@@ -128,8 +128,6 @@ watch(mobileMenuOpen, open => {
 
 const servicesOpen = ref(false)
 const servicesExpand = ref(false)
-const openServices = () => { servicesOpen.value = true }
-const closeServices = () => { servicesOpen.value = false }
 const toggleServicesExpand = () => { servicesExpand.value = !servicesExpand.value }
 watch(activeId, () => { servicesOpen.value = false })
 </script>
@@ -149,7 +147,7 @@ watch(activeId, () => { servicesOpen.value = false })
             <span class="label">{{ t('nav.' + it.key) }}</span>
           </button>
 
-          <div v-else class="dropdown" @mouseenter="openServices" @mouseleave="closeServices">
+          <div v-else class="dropdown">
             <button class="link" :class="{ active: isInServices }" aria-haspopup="menu"
               :aria-expanded="servicesOpen ? 'true' : 'false'" 
               @keydown.enter.prevent="servicesOpen = !servicesOpen"
@@ -193,15 +191,12 @@ watch(activeId, () => { servicesOpen.value = false })
 
     <nav class="drawer-nav">
       <template v-for="it in items" :key="it.id">
-        <!-- ITEM NORMAL -->
         <button v-if="it.id !== 'services'" class="drawer-link" :class="{ active: activeId === it.id }"
           @click="navigateTo(it)">
-          <!-- Ícono sólo si la vista está activa -->
           <v-icon v-if="activeId === it.id" size="18" class="ni">{{ it.icon }}</v-icon>
           <span>{{ t('nav.' + it.key) }}</span>
         </button>
 
-        <!-- ITEM SERVICES con ACORDEÓN -->
         <div v-else class="drawer-group">
           <button class="drawer-link" :class="{ active: isInServices }" @click="toggleServicesExpand"
             aria-haspopup="true" :aria-expanded="servicesExpand ? 'true' : 'false'">
