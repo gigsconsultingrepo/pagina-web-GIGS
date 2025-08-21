@@ -15,7 +15,7 @@ const messages = {
       eyebrow: 'HOME / CLIENTS',
       subtitle: 'Our Clients',
       title: 'Companies that trust us',
-      description: "We've had the privilege of working with companies across diverse sectors, helping them achieve their digital goals and transform their operations with innovative technology solutions."
+      description: 'We’ve had the privilege of working with companies across diverse sectors, helping them achieve their digital goals and transform their operations with innovative technology solutions.'
     }
   }
 }

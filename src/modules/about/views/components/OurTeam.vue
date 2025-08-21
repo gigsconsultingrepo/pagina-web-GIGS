@@ -9,6 +9,38 @@ const messages = {
       description:
         "Un equipo comprometido, creativo y experto en tecnología, trabajando juntos para impulsar el éxito de cada proyecto.",
     },
+    members: [
+      {
+        name: "Valeria Montoya",
+        role: "Directora de Innovación",
+        bio: "Más de 8 años liderando proyectos tecnológicos que impulsan la transformación digital.",
+      },
+      {
+        name: "Andrés Cifuentes",
+        role: "Gerente de Estrategia Digital",
+        bio: "Experto en planeación estratégica y crecimiento empresarial en entornos ágiles.",
+      },
+      {
+        name: "Santiago Beltrán",
+        role: "Coordinador de TI",
+        bio: "Amplia trayectoria en desarrollo de software y gestión de equipos ágiles.",
+      },
+      {
+        name: "Mariana Duarte",
+        role: "Comunicación Corporativa",
+        bio: "Comunicación con experiencia en fortalecer marcas y relaciones empresariales.",
+      },
+      {
+        name: "Camila Torres",
+        role: "UX/UI Designer",
+        bio: "Diseñadora enfocada en experiencias digitales atractivas y funcionales.",
+      },
+      {
+        name: "Javier Rojas",
+        role: "Analista de Datos",
+        bio: "Especialista en analítica avanzada y visualización de datos para decisiones estratégicas.",
+      },
+    ],
   },
   en: {
     team: {
@@ -16,56 +48,53 @@ const messages = {
       description:
         "A committed, creative and technology-expert team, working together to drive the success of each project.",
     },
+    members: [
+      {
+        name: "Valeria Montoya",
+        role: "Innovation Director",
+        bio: "Over 8 years leading technology projects driving digital transformation.",
+      },
+      {
+        name: "Andrés Cifuentes",
+        role: "Digital Strategy Manager",
+        bio: "Expert in strategic planning and business growth in agile environments.",
+      },
+      {
+        name: "Santiago Beltrán",
+        role: "IT Coordinator",
+        bio: "Extensive experience in software development and agile team management.",
+      },
+      {
+        name: "Mariana Duarte",
+        role: "Corporate Communications",
+        bio: "Communications specialist with experience in strengthening brands and business relations.",
+      },
+      {
+        name: "Camila Torres",
+        role: "UX/UI Designer",
+        bio: "Designer focused on engaging and functional digital experiences.",
+      },
+      {
+        name: "Javier Rojas",
+        role: "Data Analyst",
+        bio: "Specialist in advanced analytics and data visualization for strategic decisions.",
+      },
+    ],
   },
 };
 
-const { t } = useI18n({ useScope: "local", inheritLocale: true, messages });
+const { t, locale } = useI18n({ useScope: "local", inheritLocale: true, messages });
 
-// miembros
-const members = [
-  {
-    name: "Valeria Montoya",
-    role: "Directora de Innovación",
-    bio: "Más de 8 años liderando proyectos tecnológicos que impulsan la transformación digital.",
+const members = computed(() =>
+  messages[locale.value]?.members.map((m) => ({
+    ...m,
     img: new URL("@/assets/img/about/box-example.jpg", import.meta.url).href,
-  },
-  {
-    name: "Andrés Cifuentes",
-    role: "Gerente de Estrategia Digital",
-    bio: "Experto en planeación estratégica y crecimiento empresarial en entornos ágiles.",
-    img: new URL("@/assets/img/about/box-example.jpg", import.meta.url).href,
-  },
-  {
-    name: "Santiago Beltrán",
-    role: "Coordinador de TI",
-    bio: "Amplia trayectoria en desarrollo de software y gestión de equipos ágiles.",
-    img: new URL("@/assets/img/about/box-example.jpg", import.meta.url).href,
-  },
-  {
-    name: "Mariana Duarte",
-    role: "Comunicación Corporativa",
-    bio: "Comunicación con experiencia en fortalecer marcas y relaciones empresariales.",
-    img: new URL("@/assets/img/about/box-example.jpg", import.meta.url).href,
-  },
-  {
-    name: "Camila Torres",
-    role: "UX/UI Designer",
-    bio: "Diseñadora enfocada en experiencias digitales atractivas y funcionales.",
-    img: new URL("@/assets/img/about/box-example.jpg", import.meta.url).href,
-  },
-  {
-    name: "Javier Rojas",
-    role: "Analista de Datos",
-    bio: "Especialista en analítica avanzada y visualización de datos para decisiones estratégicas.",
-    img: new URL("@/assets/img/about/box-example.jpg", import.meta.url).href,
-  },
-];
+  }))
+);
 
 const currentIndex = ref(0);
-const total = members.length;
-const itemsPerView = ref(4); // Desktop: 4, Mobile: 1
+const itemsPerView = ref(4);
 
-// 🔹 Detecta si es mobile (≤959px) y ajusta itemsPerView
 const updateItemsPerView = () => {
   itemsPerView.value = window.innerWidth <= 959 ? 1 : 4;
 };
@@ -79,22 +108,20 @@ onUnmounted(() => {
   window.removeEventListener("resize", updateItemsPerView);
 });
 
-// 🔹 Calcular miembros visibles
 const visibleMembers = computed(() => {
   const result = [];
   for (let i = 0; i < itemsPerView.value; i++) {
-    result.push(members[(currentIndex.value + i) % total]);
+    result.push(members.value[(currentIndex.value + i) % members.value.length]);
   }
   return result;
 });
 
-// 🔹 Navegación
 const next = () => {
-  currentIndex.value = (currentIndex.value + 1) % total;
+  currentIndex.value = (currentIndex.value + 1) % members.value.length;
 };
 
 const prev = () => {
-  currentIndex.value = (currentIndex.value - 1 + total) % total;
+  currentIndex.value = (currentIndex.value - 1 + members.value.length) % members.value.length;
 };
 </script>
 
@@ -105,12 +132,10 @@ const prev = () => {
       <p class="team-desc">{{ t("team.description") }}</p>
 
       <div class="team-carousel">
-        <!-- Flecha Izquierda -->
         <button class="arrow-btn left" @click="prev">
           <v-icon color="primary">mdi-chevron-left</v-icon>
         </button>
 
-        <!-- Miembros visibles -->
         <v-row class="team-row" no-gutters>
           <v-col
             v-for="(member, index) in visibleMembers"
@@ -138,7 +163,6 @@ const prev = () => {
           </v-col>
         </v-row>
 
-        <!-- Flecha Derecha -->
         <button class="arrow-btn right" @click="next">
           <v-icon color="primary">mdi-chevron-right</v-icon>
         </button>
@@ -152,13 +176,11 @@ const prev = () => {
   background: var(--vt-c-white);
   color: var(--vt-c-black);
 }
-
 .team-title {
   font-size: clamp(28px, 5vw, 40px);
   font-weight: 800;
   margin-bottom: 12px;
 }
-
 .team-desc {
   max-width: 75ch;
   margin: 0 auto 40px;
@@ -166,13 +188,11 @@ const prev = () => {
   line-height: 1.6;
   opacity: 0.9;
 }
-
 .team-carousel {
   position: relative;
   display: flex;
   align-items: center;
 }
-
 .arrow-btn {
   background: none;
   border: none;
@@ -189,7 +209,6 @@ const prev = () => {
 .arrow-btn.right {
   right: -100px;
 }
-
 .team-card {
   display: grid;
   grid-template-rows: auto auto 1fr auto;
@@ -210,20 +229,17 @@ const prev = () => {
   height: 120px;
   border-radius: 10px;
 }
-
 .team-name {
   font-size: 18px;
   font-weight: 700;
   margin-top: 12px;
 }
-
 .team-role {
   font-size: 16px;
   font-weight: 600;
   color: var(--vt-c-black);
   margin: 5px 0 10px;
 }
-
 .team-bio {
   font-size: 14px;
   line-height: 1.5;
@@ -231,14 +247,11 @@ const prev = () => {
   margin-bottom: 12px;
   max-width: 45ch;
 }
-
 .team-socials {
   display: flex;
   gap: 12px;
   margin-top: auto;
 }
-
-
 @media (max-width: 959px) {
   .arrow-btn.left {
     left: -20px;

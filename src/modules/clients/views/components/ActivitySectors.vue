@@ -6,73 +6,131 @@ const messages = {
   es: {
     sectors: {
       title: "Sectores de Actividad",
-      description: "Diversidad de industrias que confían en nuestras soluciones"
+      description: "Diversidad de industrias que confían en nuestras soluciones",
+      items: [
+        {
+          name: "Finanzas",
+          desc: "Soluciones seguras para el sector financiero",
+          clients: "12 Clientes"
+        },
+        {
+          name: "E-commerce",
+          desc: "Plataformas de venta online innovadoras",
+          clients: "10 Clientes"
+        },
+        {
+          name: "Sector Público",
+          desc: "Soluciones digitales para mejorar atención ciudadana",
+          clients: "8 Clientes"
+        },
+        {
+          name: "Seguros",
+          desc: "Gestión de pólizas y siniestros con chatbots",
+          clients: "4 Clientes"
+        },
+        {
+          name: "Retail",
+          desc: "Soluciones digitales para optimizar la experiencia de compra",
+          clients: "12 Clientes"
+        },
+        {
+          name: "Educación",
+          desc: "Plataformas interactivas para instituciones educativas",
+          clients: "6 Clientes"
+        },
+        {
+          name: "Salud",
+          desc: "Tecnología para mejorar la atención médica y gestión de pacientes",
+          clients: "7 Clientes"
+        },
+        {
+          name: "Logística",
+          desc: "Soluciones digitales para optimizar la cadena de suministro",
+          clients: "9 Clientes"
+        }
+      ]
     }
   },
   en: {
     sectors: {
       title: "Sectors of Activity",
-      description: "A diversity of industries that trust our solutions"
+      description: "A diversity of industries that trust our solutions",
+      items: [
+        {
+          name: "Finance",
+          desc: "Secure solutions for the financial sector",
+          clients: "12 Clients"
+        },
+        {
+          name: "E-commerce",
+          desc: "Innovative online sales platforms",
+          clients: "10 Clients"
+        },
+        {
+          name: "Public Sector",
+          desc: "Digital solutions to improve citizen service",
+          clients: "8 Clients"
+        },
+        {
+          name: "Insurance",
+          desc: "Policy and claims management with chatbots",
+          clients: "4 Clients"
+        },
+        {
+          name: "Retail",
+          desc: "Digital solutions to optimize the shopping experience",
+          clients: "12 Clients"
+        },
+        {
+          name: "Education",
+          desc: "Interactive platforms for educational institutions",
+          clients: "6 Clients"
+        },
+        {
+          name: "Healthcare",
+          desc: "Technology to improve medical care and patient management",
+          clients: "7 Clients"
+        },
+        {
+          name: "Logistics",
+          desc: "Digital solutions to optimize the supply chain",
+          clients: "9 Clients"
+        }
+      ]
     }
   }
 };
 
-const { t } = useI18n({ useScope: "local", inheritLocale: true, messages });
+const { t, locale } = useI18n({ useScope: "local", inheritLocale: true, messages });
 
-const sectors = [
-  {
-    name: "Finanzas",
-    desc: "Soluciones seguras para el sector financiero",
-    clients: "12 Clientes",
-    img: new URL("@/assets/img/clients/finanzas.avif", import.meta.url).href
-  },
-  {
-    name: "E-commerce",
-    desc: "Plataformas de venta online innovadoras",
-    clients: "10 Clientes",
-    img: new URL("@/assets/img/clients/ecommerce.webp", import.meta.url).href
-  },
-  {
-    name: "Sector Público",
-    desc: "Soluciones digitales para mejorar atención ciudadana",
-    clients: "8 Clientes",
-    img: new URL("@/assets/img/clients/sector-publico.webp", import.meta.url).href
-  },
-  {
-    name: "Seguros",
-    desc: "Gestión de pólizas y siniestros con chatbots",
-    clients: "4 Clientes",
-    img: new URL("@/assets/img/clients/seguros.avif", import.meta.url).href
-  },
-  {
-    name: "Retail",
-    desc: "Soluciones digitales para optimizar la experiencia de compra",
-    clients: "12 Clientes",
-    img: new URL("@/assets/img/clients/retail.jpeg", import.meta.url).href
-  },
-
-  {
-    name: "Educación",
-    desc: "Plataformas interactivas para instituciones educativas",
-    clients: "6 Clientes",
-    img: new URL("@/assets/img/clients/educacion.avif", import.meta.url).href
-  },
-  {
-    name: "Salud",
-    desc: "Tecnología para mejorar la atención médica y gestión de pacientes",
-    clients: "7 Clientes",
-    img: new URL("@/assets/img/clients/salud.webp", import.meta.url).href
-  },
-  {
-    name: "Logística",
-    desc: "Soluciones digitales para optimizar la cadena de suministro",
-    clients: "9 Clientes",
-    img: new URL("@/assets/img/clients/logistica.jpeg", import.meta.url).href
-  }
+// Array de imágenes (no cambia por idioma)
+const sectorImages = [
+  new URL("@/assets/img/clients/finanzas.avif", import.meta.url).href,
+  new URL("@/assets/img/clients/ecommerce.webp", import.meta.url).href,
+  new URL("@/assets/img/clients/sector-publico.webp", import.meta.url).href,
+  new URL("@/assets/img/clients/seguros.avif", import.meta.url).href,
+  new URL("@/assets/img/clients/retail.jpeg", import.meta.url).href,
+  new URL("@/assets/img/clients/educacion.avif", import.meta.url).href,
+  new URL("@/assets/img/clients/salud.webp", import.meta.url).href,
+  new URL("@/assets/img/clients/logistica.jpeg", import.meta.url).href
 ];
 
+// Combinar datos traducidos con imágenes
+const sectors = computed(() => {
+  const currentLocale = locale.value || 'es'; // Fallback a español si locale es undefined
+  console.log('Current locale:', currentLocale);
+  console.log('Messages structure:', messages[currentLocale]);
+  
+  const result = messages[currentLocale]?.sectors?.items?.map((item, index) => ({
+    ...item,
+    img: sectorImages[index]
+  })) || [];
+  
+  console.log('Sectors result:', result);
+  return result;
+});
+
 const currentIndex = ref(0);
-const total = sectors.length;
 const itemsPerView = ref(4); // Desktop: 4, Mobile: 1
 
 const updateItemsPerView = () => {
@@ -91,17 +149,17 @@ onUnmounted(() => {
 const visibleSectors = computed(() => {
   const result = [];
   for (let i = 0; i < itemsPerView.value; i++) {
-    result.push(sectors[(currentIndex.value + i) % total]);
+    result.push(sectors.value[(currentIndex.value + i) % sectors.value.length]);
   }
   return result;
 });
 
 const next = () => {
-  currentIndex.value = (currentIndex.value + 1) % total;
+  currentIndex.value = (currentIndex.value + 1) % sectors.value.length;
 };
 
 const prev = () => {
-  currentIndex.value = (currentIndex.value - 1 + total) % total;
+  currentIndex.value = (currentIndex.value - 1 + sectors.value.length) % sectors.value.length;
 };
 </script>
 

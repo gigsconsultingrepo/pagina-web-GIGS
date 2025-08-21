@@ -156,8 +156,13 @@ const { t, locale } = useI18n({
   flex-direction: column;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   color: #000;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
+.featured-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
 .avatar {
   width: 60px;
   height: 60px;
