@@ -2,6 +2,7 @@
 import Hero from './components/Hero.vue';
 import Services from './components/Services.vue';
 import Opinions from './components/Opinions.vue';
+import WhyChooseUs from './components/WhyChooseUs.vue';
 import CardFooter from '../../../components/navs/CardFooter.vue';
 
 const title = {
@@ -19,6 +20,7 @@ const text = {
     <Hero />
     <Services />
     <Opinions />
+    <WhyChooseUs />
     <CardFooter :title="title" :text="text" ctaHref="/contacto" />
   </section>
 </template>
