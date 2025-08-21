@@ -1,9 +1,11 @@
 <script setup>
-import InConstruction from '@/views/InConstruction.vue';
+import Services from './components/Services.vue'
+import PortfolioServices from './components/PortfolioServices.vue'
 </script>
 
 <template>
-  <v-container>
-    <InConstruction />
-  </v-container>
+  <section class="content-about">
+    <Services />
+    <PortfolioServices />
+  </section>
 </template>

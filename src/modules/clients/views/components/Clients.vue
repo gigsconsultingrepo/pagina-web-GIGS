@@ -23,7 +23,7 @@ const messages = {
 const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 </script>
 
-<template>h
+<template>
   <section class="clients-wrap">
     <v-container class="py-8 py-md-14">
       <v-row class="clients-row" align="center" justify="space-between" no-gutters>
