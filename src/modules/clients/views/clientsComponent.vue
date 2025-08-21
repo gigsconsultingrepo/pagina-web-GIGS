@@ -1,24 +1,9 @@
 <script setup>
-//Imports que se usan con mas frecuencia
-import { ref, watch, onMounted } from 'vue'
-
-//Variable reactiva, si queremos que no sea reactiva quitamos el 'ref'
-const nameTitle = ref('clientes')
-
-//Desde el script para manipular estas variable lo hacemos desde .value => nameTitle.value = .....
-
+import InConstruction from '@/views/InConstruction.vue';
 </script>
 
 <template>
-  <div class="about-component">
-
-    <h1>Page {{ nameTitle }}</h1>
-
-  </div>
+  <v-container>
+    <InConstruction />
+  </v-container>
 </template>
-
-<style scoped>
-.about-component {
-  background-color: green;
-}
-</style>
