@@ -2,7 +2,7 @@
 import CardFooter from '@/components/navs/CardFooter.vue'
 import IntroSection from '@/modules/services/views/components/IntroSection.vue'
 import InterestService from '@/modules/services/views/components/InterestService.vue'
-
+import ServicesSection from '@/modules/services/views/components/ServicesSection.vue'
 // Traducciones del cardFooter
 const title = {
   es: 'Impulsemos juntos tu próxima gran idea',
@@ -56,10 +56,10 @@ const testimonialAvatar = ''
   <section class="content-home">
     <IntroSection :title="introTitle" :text="introText" :image="introImage" :reverse="false" />
 
-    <InterestService :leftParagraphs="leftParagraphs" :ctaLabel="ctaLabel" :ctaHref="ctaHref"
-      :testimonialQuote="testimonialQuote" :testimonialAuthor="testimonialAuthor"
-      :testimonialAvatar="testimonialAvatar" />
+    <InterestService :leftParagraphs="leftParagraphs" :ctaLabel="ctaLabel" :ctaHref="ctaHref" :testimonialQuote="testimonialQuote" :testimonialAuthor="testimonialAuthor" :testimonialAvatar="testimonialAvatar" />
 
+    <ServicesSection />
+    
     <CardFooter :title="title" :text="text" ctaHref="/contacto" />
   </section>
 </template>
