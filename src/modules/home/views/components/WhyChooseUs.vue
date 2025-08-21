@@ -87,14 +87,47 @@ const items = computed(() => tm('items') ?? [])
 }
 
 .feature-card:hover {
-	box-shadow: 0px 0px 15px 0px #015abe52 !important;
-	transform: scale(1.05) translate(0px, -4px);
+	box-shadow: 0 0 15px 0 #015abe52 !important;
+	transform: scale(1.05) translate(0, -4px);
 }
 
-
 @media (max-width: 959px) {
+
 	.feature-card {
-		height: 260px;
+		height: auto;
+	}
+
+	.media-col {
+		height: auto;
+	}
+
+	.feature-img {
+		height: 200px;
+		width: 100%;
+		object-fit: cover;
+	}
+
+	.content-wrap {
+		padding: 16px 18px;
+	}
+
+	.feature-card:hover {
+		transform: none;
+		box-shadow: none !important;
+	}
+}
+
+@media (min-width: 960px) {
+	.feature-card {
+		height: 320px;
+	}
+
+	.media-col {
+		height: 100%;
+	}
+
+	.feature-img {
+		height: 100%;
 	}
 }
 
@@ -108,7 +141,6 @@ const items = computed(() => tm('items') ?? [])
 	object-fit: cover;
 }
 
-/* Contenido centrado */
 .content-col {
 	display: flex;
 	align-items: center;

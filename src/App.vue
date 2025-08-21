@@ -1,7 +1,7 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import TopBar from '@/components/navs/TopBar.vue'
-import Footer from './components/navs/Footer.vue';
+import Footer from '@/components/navs/Footer.vue';
 </script>
 
 <template>
@@ -15,8 +15,13 @@ import Footer from './components/navs/Footer.vue';
 </template>
 
 <style>
+:root {
+  --topbar-h: 64px;
+}
+
 .app-content {
   background: #fff;
+  padding-top: var(--topbar-h);
 }
 
 .content-all-layout {
@@ -24,8 +29,11 @@ import Footer from './components/navs/Footer.vue';
 }
 
 .loading-overlay {
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: rgba(255, 255, 255, 0.8);
-  height: 100vh; width: 100vw;
+  height: 100vh;
+  width: 100vw;
 }
 </style>

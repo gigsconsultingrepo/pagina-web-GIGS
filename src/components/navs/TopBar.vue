@@ -502,4 +502,30 @@ watch(activeId, () => { servicesOpen.value = false })
     justify-content: space-between !important;
   }
 }
+
+.topbar {
+  position: fixed;  
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 130;       
+  background: var(--vt-c-white);
+  color: var(--vt-c-text-light-1);
+  border-bottom: 1px solid var(--color-border); 
+}
+
+.topbar::after {
+  content: none; 
+}
+
+.topbar-inner {
+  max-width: 90%;
+  margin: 0 auto;
+  height: var(--topbar-h); 
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 </style>
