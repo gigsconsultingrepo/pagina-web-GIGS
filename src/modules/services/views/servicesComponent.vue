@@ -7,11 +7,11 @@ import CardFooter from "../../../components/navs/CardFooter.vue";
 
 const title = {
   es: '¿Tienes Preguntas sobre los Servicio?',
-  in: 'Do you have questions about our services?'
+  en: 'Do you have questions about our services?'
 }
 const text = {
   es: 'Nuestro equipo está listo para responder todas tus dudas y ayudarte a elegir la mejor opción',
-  in: 'Our team is ready to answer all your questions and help you choose the best option.'
+  en: 'Our team is ready to answer all your questions and help you choose the best option.'
 }
 
 </script>

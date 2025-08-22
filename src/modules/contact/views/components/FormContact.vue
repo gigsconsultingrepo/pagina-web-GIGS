@@ -5,37 +5,37 @@ import Forms from '../../../../components/navs/Forms.vue'
 
 const title = {
 	es: 'Envíanos un Mensaje',
-	in: 'Send Us a Message'
+	en: 'Send Us a Message'
 }
 const subtitle = {
 	es: 'Cuéntanos sobre tu proyecto y te contactaremos pronto',
-	in: 'Tell us about your project and we will contact you soon'
+	en: 'Tell us about your project and we will contact you soon'
 }
-const textButton = { es: 'Enviar Mensaje', in: 'Send Message' }
+const textButton = { es: 'Enviar Mensaje', en: 'Send Message' }
 
 const { locale } = useI18n()
 const pick = (v: string | Record<string, string>) =>
 	typeof v === 'string' ? v : v?.[locale.value] ?? v?.es ?? Object.values(v ?? {})[0] ?? ''
 
 const L = {
-	fullName: { es: 'Nombre Completo *', in: 'Full Name *' },
-	company: { es: 'Empresa', in: 'Company' },
-	email: { es: 'Correo Electrónico *', in: 'Email *' },
-	phone: { es: 'Teléfono *', in: 'Phone *' },
-	subject: { es: 'Asunto *', in: 'Subject *' },
-	message: { es: 'Mensaje *', in: 'Message *' },
+	fullName: { es: 'Nombre Completo *', en: 'Full Name *' },
+	company: { es: 'Empresa', en: 'Company' },
+	email: { es: 'Correo Electrónico *', en: 'Email *' },
+	phone: { es: 'Teléfono *', en: 'Phone *' },
+	subject: { es: 'Asunto *', en: 'Subject *' },
+	message: { es: 'Mensaje *', en: 'Message *' },
 	messageHint: {
 		es: 'Describe tu proyecto, objetivos, funcionalidades deseadas, etc.',
-		in: 'Describe your project, objectives, desired features, etc.'
+		en: 'Describe your project, objectives, desired features, etc.'
 	}
 }
 
 const subjectOptions = [
-	{ es: 'Selecciona una opción', in: 'Select an option', value: '' },
-	{ es: 'Consultoría Tecnológica', in: 'Tech Consulting', value: 'consulting' },
-	{ es: 'Desarrollo de Software', in: 'Software Development', value: 'development' },
-	{ es: 'Soporte Técnico', in: 'Technical Support', value: 'support' },
-	{ es: 'Otro', in: 'Other', value: 'other' }
+	{ es: 'Selecciona una opción', en: 'Select an option', value: '' },
+	{ es: 'Consultoría Tecnológica', en: 'Tech Consulting', value: 'consulting' },
+	{ es: 'Desarrollo de Software', en: 'Software Development', value: 'development' },
+	{ es: 'Soporte Técnico', en: 'Technical Support', value: 'support' },
+	{ es: 'Otro', en: 'Other', value: 'other' }
 ]
 
 const loading = ref(false)
@@ -47,11 +47,11 @@ const phone = ref('')
 const subject = ref('')
 const message = ref('')
 
-const req = (m = { es: 'Campo requerido', in: 'Required field' }) => (v: any) => !!v || pick(m)
+const req = (m = { es: 'Campo requerido', en: 'Required field' }) => (v: any) => !!v || pick(m)
 const emailRule = (v: string) =>
-	(!v && true) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || pick({ es: 'Correo inválido', in: 'Invalid email' })
+	(!v && true) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || pick({ es: 'Correo inválido', en: 'Invalid email' })
 const phoneRule = (v: string) =>
-	(!v && true) || /^[\d\-\+\s()]{6,}$/.test(v) || pick({ es: 'Teléfono inválido', in: 'Invalid phone' })
+	(!v && true) || /^[\d\-\+\s()]{6,}$/.test(v) || pick({ es: 'Teléfono inválido', en: 'Invalid phone' })
 
 const onSave = async () => {
 	const form = formRef.value as any

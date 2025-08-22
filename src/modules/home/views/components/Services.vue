@@ -283,6 +283,7 @@ const goAll = () => router.push('/services')
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  margin-bottom: 3em;
 }
 
 .info-content {

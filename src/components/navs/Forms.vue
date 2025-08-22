@@ -2,7 +2,7 @@
 import { computed, isRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-type LangPair = { es: string; in: string }
+type LangPair = { es: string; en: string }
 
 const props = withDefaults(defineProps<{
   title: LangPair
@@ -28,14 +28,14 @@ try {
     : (i18n as any).global?.locale ?? (i18n as any).locale
 } catch { /* i18n no disponible en este árbol */ }
 
-function normalize(code: string): 'es' | 'in' {
+function normalize(code: string): 'es' | 'en' {
   const c = (code || '').toLowerCase()
   if (c.startsWith('es')) return 'es'
-  if (c === 'in' || c.startsWith('en')) return 'in'
+  if (c === 'en' || c === 'in' || c.startsWith('en')) return 'en'
   return 'es'
 }
 
-const lang = computed<'es' | 'in'>(() => {
+const lang = computed<'es' | 'en'>(() => {
   const fromI18n = localeSource
     ? (isRef(localeSource) ? localeSource.value : String(localeSource))
     : ''

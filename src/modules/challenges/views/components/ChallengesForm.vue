@@ -5,13 +5,13 @@ import Forms from '../../../../components/navs/Forms.vue'
 
 const title = {
   es: 'Compartimos el riesgo y compartimos el éxito!',
-  in: 'We share the risk and the success!'
+  en: 'We share the risk and the success!'
 }
 const subtitle = {
   es: 'No importa qué tan grande o pequeño sea tu reto, tenemos la experiencia y la creatividad para resolverlo.',
-  in: 'No matter how big or small your challenge is, we have the experience and creativity to solve it.'
+  en: 'No matter how big or small your challenge is, we have the experience and creativity to solve it.'
 }
-const textButton = { es: 'Enviar Reto', in: 'Submit Challenge' }
+const textButton = { es: 'Enviar Reto', en: 'Submit Challenge' }
 
 const { locale } = useI18n()
 
@@ -19,33 +19,33 @@ const pick = (v: string | Record<string, string>) =>
   typeof v === 'string' ? v : v?.[locale.value] ?? v?.es ?? Object.values(v ?? {})[0] ?? ''
 
 const L = {
-  fullName: { es: 'Nombre Completo *', in: 'Full Name *' },
-  company: { es: 'Empresa', in: 'Company' },
-  email: { es: 'Correo Electrónico *', in: 'Email *' },
-  phone: { es: 'Teléfono', in: 'Phone' },
-  title: { es: 'Título del Reto *', in: 'Challenge Title *' },
-  desc: { es: 'Descripción Detallada *', in: 'Detailed Description *' },
+  fullName: { es: 'Nombre Completo *', en: 'Full Name *' },
+  company: { es: 'Empresa', en: 'Company' },
+  email: { es: 'Correo Electrónico *', en: 'Email *' },
+  phone: { es: 'Teléfono', en: 'Phone' },
+  title: { es: 'Título del Reto *', en: 'Challenge Title *' },
+  desc: { es: 'Descripción Detallada *', en: 'Detailed Description *' },
   descHint: {
     es: 'Ej. Sistema de gestión de inventario inteligente',
-    in: 'e.g., Intelligent inventory management system'
+    en: 'e.g., Intelligent inventory management system'
   },
-  budget: { es: 'Presupuesto Estimado', in: 'Estimated Budget' },
-  timeline: { es: 'Timeline Deseado', in: 'Desired Timeline' }
+  budget: { es: 'Presupuesto Estimado', en: 'Estimated Budget' },
+  timeline: { es: 'Timeline Deseado', en: 'Desired Timeline' }
 }
 
 const budgetOptions = [
-  { es: 'Selecciona una opción', in: 'Select an option', value: '' },
-  { es: 'USD 5k – 10k', in: 'USD 5k – 10k', value: '5-10' },
-  { es: 'USD 10k – 25k', in: 'USD 10k – 25k', value: '10-25' },
-  { es: 'USD 25k – 50k', in: 'USD 25k – 50k', value: '25-50' },
-  { es: 'USD 50k+', in: 'USD 50k+', value: '50+' }
+  { es: 'Selecciona una opción', en: 'Select an option', value: '' },
+  { es: 'USD 5k – 10k', en: 'USD 5k – 10k', value: '5-10' },
+  { es: 'USD 10k – 25k', en: 'USD 10k – 25k', value: '10-25' },
+  { es: 'USD 25k – 50k', en: 'USD 25k – 50k', value: '25-50' },
+  { es: 'USD 50k+', en: 'USD 50k+', value: '50+' }
 ]
 const timelineOptions = [
-  { es: 'Selecciona una opción', in: 'Select an option', value: '' },
-  { es: '1–2 meses', in: '1–2 months', value: '1-2' },
-  { es: '3–4 meses', in: '3–4 months', value: '3-4' },
-  { es: '5–6 meses', in: '5–6 months', value: '5-6' },
-  { es: '6+ meses', in: '6+ months', value: '6+' }
+  { es: 'Selecciona una opción', en: 'Select an option', value: '' },
+  { es: '1–2 meses', en: '1–2 months', value: '1-2' },
+  { es: '3–4 meses', en: '3–4 months', value: '3-4' },
+  { es: '5–6 meses', en: '5–6 months', value: '5-6' },
+  { es: '6+ meses', en: '6+ months', value: '6+' }
 ]
 
 const loading = ref(false)
@@ -59,11 +59,11 @@ const description = ref('')
 const budget = ref('')
 const timeline = ref('')
 
-const req = (m = { es: 'Campo requerido', in: 'Required field' }) => (v: any) => !!v || pick(m)
+const req = (m = { es: 'Campo requerido', en: 'Required field' }) => (v: any) => !!v || pick(m)
 const emailRule = (v: string) =>
-  (!v && true) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || pick({ es: 'Correo inválido', in: 'Invalid email' })
+  (!v && true) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || pick({ es: 'Correo inválido', en: 'Invalid email' })
 const phoneRule = (v: string) =>
-  (!v && true) || /^[\d\-\+\s()]{6,}$/.test(v) || pick({ es: 'Teléfono inválido', in: 'Invalid phone' })
+  (!v && true) || /^[\d\-\+\s()]{6,}$/.test(v) || pick({ es: 'Teléfono inválido', en: 'Invalid phone' })
 
 const onSave = async () => {
   const form = formRef.value as any

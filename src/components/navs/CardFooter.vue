@@ -2,7 +2,7 @@
 import { computed, isRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-type LangPair = { es: string; in: string }
+type LangPair = { es: string; en: string }
 
 const props = defineProps<{
   title: LangPair

@@ -5,13 +5,13 @@ import Forms from '../../../../components/navs/Forms.vue'
 
 const title = {
   es: 'Solicita tu Cotización Personalizada',
-  in: 'Get Your Custom Quote'
+  en: 'Get Your Custom Quote'
 }
 const subtitle = {
   es: 'Cuéntanos sobre tu proyecto y te enviaremos una propuesta detallada.',
-  in: 'Tell us about your project and we\'ll send you a detailed proposal.'
+  en: 'Tell us about your project and we\'ll send you a detailed proposal.'
 }
-const textButton = { es: 'Solicitar Cotización', in: 'Request Quote' }
+const textButton = { es: 'Solicitar Cotización', en: 'Request Quote' }
 
 const { locale } = useI18n()
 
@@ -19,45 +19,45 @@ const pick = (v: string | Record<string, string>) =>
   typeof v === 'string' ? v : v?.[locale.value] ?? v?.es ?? Object.values(v ?? {})[0] ?? ''
 
 const L = {
-  fullName: { es: 'Nombre Completo *', in: 'Full Name *' },
-  company: { es: 'Empresa', in: 'Company' },
-  email: { es: 'Correo Electrónico *', in: 'Email *' },
-  phone: { es: 'Teléfono *', in: 'Phone *' },
-  projectType: { es: 'Tipo de Proyecto', in: 'Project Type' },
-  projectDesc: { es: 'Descripción del Proyecto *', in: 'Project Description *' },
+  fullName: { es: 'Nombre Completo *', en: 'Full Name *' },
+  company: { es: 'Empresa', en: 'Company' },
+  email: { es: 'Correo Electrónico *', en: 'Email *' },
+  phone: { es: 'Teléfono *', en: 'Phone *' },
+  projectType: { es: 'Tipo de Proyecto', en: 'Project Type' },
+  projectDesc: { es: 'Descripción del Proyecto *', en: 'Project Description *' },
   projectDescHint: {
     es: 'Describe tu proyecto, objetivos, funcionalidades deseadas, etc.',
-    in: 'Describe your project, objectives, desired functionalities, etc.'
+    en: 'Describe your project, objectives, desired functionalities, etc.'
   },
-  budget: { es: 'Presupuesto Estimado', in: 'Estimated Budget' },
-  timeline: { es: 'Timeline Deseado', in: 'Desired Timeline' }
+  budget: { es: 'Presupuesto Estimado', en: 'Estimated Budget' },
+  timeline: { es: 'Timeline Deseado', en: 'Desired Timeline' }
 }
 
 const projectTypeOptions = [
-  { es: 'Selecciona una opción', in: 'Select an option', value: '' },
-  { es: 'Fábrica de Software', in: 'Software Factory', value: 'fabrica-software' },
-  { es: 'TaaS (Talent as a Service)', in: 'TaaS (Talent as a Service)', value: 'taas' },
-  { es: 'Transformación Digital', in: 'Digital Transformation', value: 'transformacion-digital' },
-  { es: 'Mesa de Ayuda/Servicio', in: 'Help Desk/Service', value: 'mesa-ayuda' },
-  { es: 'Gestión de Bases de Datos', in: 'Database Management', value: 'gestion-bd' },
-  { es: 'Mantenimiento y Soporte', in: 'Maintenance and Support', value: 'mantenimiento' },
-  { es: 'Otro', in: 'Other', value: 'otro' }
+  { es: 'Selecciona una opción', en: 'Select an option', value: '' },
+  { es: 'Fábrica de Software', en: 'Software Factory', value: 'fabrica-software' },
+  { es: 'TaaS (Talent as a Service)', en: 'TaaS (Talent as a Service)', value: 'taas' },
+  { es: 'Transformación Digital', en: 'Digital Transformation', value: 'transformacion-digital' },
+  { es: 'Mesa de Ayuda/Servicio', en: 'Help Desk/Service', value: 'mesa-ayuda' },
+  { es: 'Gestión de Bases de Datos', en: 'Database Management', value: 'gestion-bd' },
+  { es: 'Mantenimiento y Soporte', en: 'Maintenance and Support', value: 'mantenimiento' },
+  { es: 'Otro', en: 'Other', value: 'otro' }
 ]
 
 const budgetOptions = [
-  { es: 'Selecciona una opción', in: 'Select an option', value: '' },
-  { es: 'USD 5k – 10k', in: 'USD 5k – 10k', value: '5-10' },
-  { es: 'USD 10k – 25k', in: 'USD 10k – 25k', value: '10-25' },
-  { es: 'USD 25k – 50k', in: 'USD 25k – 50k', value: '25-50' },
-  { es: 'USD 50k+', in: 'USD 50k+', value: '50+' }
+  { es: 'Selecciona una opción', en: 'Select an option', value: '' },
+  { es: 'USD 5k – 10k', en: 'USD 5k – 10k', value: '5-10' },
+  { es: 'USD 10k – 25k', en: 'USD 10k – 25k', value: '10-25' },
+  { es: 'USD 25k – 50k', en: 'USD 25k – 50k', value: '25-50' },
+  { es: 'USD 50k+', en: 'USD 50k+', value: '50+' }
 ]
 
 const timelineOptions = [
-  { es: 'Selecciona una opción', in: 'Select an option', value: '' },
-  { es: '1–2 meses', in: '1–2 months', value: '1-2' },
-  { es: '3–4 meses', in: '3–4 months', value: '3-4' },
-  { es: '5–6 meses', in: '5–6 months', value: '5-6' },
-  { es: '6+ meses', in: '6+ months', value: '6+' }
+  { es: 'Selecciona una opción', en: 'Select an option', value: '' },
+  { es: '1–2 meses', en: '1–2 months', value: '1-2' },
+  { es: '3–4 meses', en: '3–4 months', value: '3-4' },
+  { es: '5–6 meses', en: '5–6 months', value: '5-6' },
+  { es: '6+ meses', en: '6+ months', value: '6+' }
 ]
 
 const loading = ref(false)
@@ -71,11 +71,11 @@ const projectDesc = ref('')
 const budget = ref('')
 const timeline = ref('')
 
-const req = (m = { es: 'Campo requerido', in: 'Required field' }) => (v: any) => !!v || pick(m)
+const req = (m = { es: 'Campo requerido', en: 'Required field' }) => (v: any) => !!v || pick(m)
 const emailRule = (v: string) =>
-  (!v && true) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || pick({ es: 'Correo inválido', in: 'Invalid email' })
+  (!v && true) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || pick({ es: 'Correo inválido', en: 'Invalid email' })
 const phoneRule = (v: string) =>
-  (!v && true) || /^[\d\-\+\s()]{6,}$/.test(v) || pick({ es: 'Teléfono inválido', in: 'Invalid phone' })
+  (!v && true) || /^[\d\-\+\s()]{6,}$/.test(v) || pick({ es: 'Teléfono inválido', en: 'Invalid phone' })
 
 const onSave = async () => {
   const form = formRef.value as any
