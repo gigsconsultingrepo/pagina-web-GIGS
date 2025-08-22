@@ -67,7 +67,7 @@ const { t, tm } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 
 <style scoped>
 .process-section {
-  background: #D9D9D9;
+  background: #F0F0F0;
   color: var(--color-text);
 }
 
@@ -100,7 +100,7 @@ const { t, tm } = useI18n({ useScope: 'local', inheritLocale: true, messages })
   left: 50%;
   width: 2px;
   transform: translateX(-50%);
-  background: linear-gradient(180deg, var(--color-border), transparent 18%, var(--color-border) 50%, transparent 82%, var(--color-border));
+  background: linear-gradient(180deg, var(--hero-gradient-start),var(--hero-gradient-end));
   opacity: .9;
   border-radius: 2px;
 }
