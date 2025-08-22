@@ -1,7 +1,8 @@
 <script setup>
 import CardFooter from '../../../components/navs/CardFooter.vue';
 import ChallengesForm from './components/ChallengesForm.vue';
-
+import IntroChallenges from './components/IntroChallenges.vue';
+import ProcessEvaluate from './components/ProcessEvaluate.vue';
 
 const title = {
   es: 'Impulsemos juntos tu próxima gran idea', in: 'Let’s boost your next big idea',
@@ -15,6 +16,8 @@ const text = {
 
 <template>
   <section class="content-home">
+    <IntroChallenges />
+    <ProcessEvaluate />
     <ChallengesForm />
     <CardFooter :title="title" :text="text" ctaHref="/contacto" />
   </section>
