@@ -3,7 +3,12 @@ import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
-import fabrica from '@/assets/img/services/softwareFactory.jpg'
+import fabricaSoftware from '@/assets/img/services/fabrica-software.png'
+import gestionBaseDatos from '@/assets/img/services/gestion-bd.png'
+import mantenimiento from '@/assets/img/services/mantenimiento.png'
+import mesaAyuda from '@/assets/img/services/mesa-ayuda.png'
+import taas from '@/assets/img/services/taas.png'
+import transformacionDigital from '@/assets/img/services/transformacion-digital.png'
 
 const messages = {
   es: {
@@ -48,7 +53,7 @@ const goCard = (baseIndex) => {
 }
 const goAll = () => router.push('/servicios')
 
-const showcaseImgs = [fabrica, fabrica, fabrica, fabrica, fabrica]
+const showcaseImgs = [taas, transformacionDigital, mesaAyuda, gestionBaseDatos, mantenimiento, fabricaSoftware]
 
 const viewport = ref(null)
 const track = ref(null)

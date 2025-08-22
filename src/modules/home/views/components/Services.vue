@@ -7,7 +7,10 @@ import chatbots from '@/assets/img/chatbots.png'
 import nube from '@/assets/img/nube.png'
 import portafolio from '@/assets/img/portafolio.png'
 
-import fabrica from '@/assets/img/services/softwareFactory.jpg'
+import fabricaSoftware from '@/assets/img/services/fabrica-software.png'
+import transformacionDigital from '@/assets/img/services/transformacion-digital.png'
+import taas from '@/assets/img/services/taas.png'
+
 const messages = {
   es: {
     head: { top: '4', category: 'SERVICIOS', today: 'GIGS CONSULTING' },
@@ -59,7 +62,7 @@ const { t, tm } = useI18n({
 
 const icons = [empresa, chatbots, nube, portafolio]
 
-const showcaseImgs = [fabrica, fabrica, fabrica]
+const showcaseImgs = [fabricaSoftware, transformacionDigital, taas]
 
 const router = useRouter()
 const goCard = (i) => {
