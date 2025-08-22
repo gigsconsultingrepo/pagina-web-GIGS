@@ -30,7 +30,7 @@ const orderTxt = computed(() => props.reverse ? 2 : 1)
 
 <template>
   <section class="service-intro">
-    <v-container class="py-6 py-md-8">
+    <v-container class="mb-0 pb-0">
       <v-card class="intro-card" elevation="0">
         <v-row no-gutters align="stretch" class="fill-height">
           <v-col cols="12" md="7" :order-md="orderTxt" class="intro-text-col">
@@ -54,11 +54,10 @@ const orderTxt = computed(() => props.reverse ? 2 : 1)
 .service-intro {
   background: var(--color-background);
   color: var(--color-text);
+  margin-bottom: 0;
 }
 
 .intro-card {
-  border: 1px solid var(--color-border);
-  background: linear-gradient(180deg, var(--color-background-soft), var(--color-background-mute));
   border-radius: 16px;
   overflow: hidden;
 }

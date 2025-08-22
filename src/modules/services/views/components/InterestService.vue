@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
-  leftParagraphs: { type: Array, required: true }, 
+  leftParagraphs: { type: Array, required: true },
   ctaLabel: { type: [String, Object], default: '' },
   ctaHref: { type: String, default: '#' },
 
@@ -29,7 +29,7 @@ const author = computed(() => pick(props.testimonialAuthor))
 </script>
 
 <template>
-  <section class="feature-testimonial">
+  <section class="feature-testimonial pt-8 pb-8">
     <v-container class="py-6 py-md-8">
       <v-card class="ft-card" elevation="0">
         <v-row no-gutters>
@@ -66,13 +66,13 @@ const author = computed(() => pick(props.testimonialAuthor))
 
 <style scoped>
 .feature-testimonial {
-  background: var(--color-background);
+  background: linear-gradient(180deg, var(--color-background-soft), var(--color-background-mute));
   color: var(--color-text);
+  margin-top: 0;
 }
 
 .ft-card {
-  border: 1px solid var(--color-border);
-  background: var(--vt-c-white);
+  background: none;
   border-radius: 16px;
   overflow: hidden;
 }
@@ -80,7 +80,7 @@ const author = computed(() => pick(props.testimonialAuthor))
 .ft-left {
   display: grid;
   align-items: center;
-  background: var(--vt-c-white);
+  background: none;
 }
 
 .ft-left-wrap {
@@ -106,7 +106,6 @@ const author = computed(() => pick(props.testimonialAuthor))
 }
 
 .ft-right {
-  background: linear-gradient(180deg, var(--color-background-soft), var(--color-background-mute));
   border-left: 1px solid var(--color-border);
   display: grid;
   align-items: center;

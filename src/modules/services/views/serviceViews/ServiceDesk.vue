@@ -3,6 +3,8 @@ import CardFooter from '@/components/navs/CardFooter.vue'
 import IntroSection from '@/modules/services/views/components/IntroSection.vue'
 import InterestService from '@/modules/services/views/components/InterestService.vue'
 import ServicesSection from '@/modules/services/views/components/ServicesSection.vue'
+import mesaAyuda from '@/assets/img/services/mesa-ayuda.png'
+
 // Traducciones del cardFooter
 const title = {
   es: '¿Tienes Preguntas sobre el Servicio?',
@@ -51,12 +53,13 @@ const testimonialAuthor = {
   es: '– ANDRÉS GÓMEZ, GERENTE DE SISTEMAS EN INFODCIP S.A.',
   en: '– ANDRÉS GÓMEZ, IT MANAGER AT INFODCIP S.A.',
 }
+
 const testimonialAvatar = ''
 </script>
 
 <template>
   <section class="content-home">
-    <IntroSection :title="introTitle" :text="introText" :image="introImage" :reverse="false" />
+    <IntroSection :title="introTitle" :text="introText" :image="mesaAyuda" :reverse="false" />
 
     <InterestService :leftParagraphs="leftParagraphs" :ctaLabel="ctaLabel" :ctaHref="ctaHref"
       :testimonialQuote="testimonialQuote" :testimonialAuthor="testimonialAuthor"

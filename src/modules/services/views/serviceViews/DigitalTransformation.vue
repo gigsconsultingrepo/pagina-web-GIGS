@@ -3,6 +3,8 @@ import CardFooter from '@/components/navs/CardFooter.vue'
 import IntroSection from '@/modules/services/views/components/IntroSection.vue'
 import InterestService from '@/modules/services/views/components/InterestService.vue'
 import ServicesSection from '@/modules/services/views/components/ServicesSection.vue'
+
+import transformacionDigital from '@/assets/img/services/transformacion-digital.png'
 // Traducciones del cardFooter
 const title = {
   es: '¿Tienes Preguntas sobre el Servicio?',
@@ -57,7 +59,7 @@ const testimonialAvatar = ''
 
 <template>
   <section class="content-home">
-    <IntroSection :title="introTitle" :text="introText" :image="introImage" :reverse="false" />
+    <IntroSection :title="introTitle" :text="introText" :image="transformacionDigital" :reverse="false" />
 
     <InterestService :leftParagraphs="leftParagraphs" :ctaLabel="ctaLabel" :ctaHref="ctaHref"
       :testimonialQuote="testimonialQuote" :testimonialAuthor="testimonialAuthor"

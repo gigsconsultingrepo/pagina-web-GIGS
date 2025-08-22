@@ -26,9 +26,9 @@ const messages = {
         'En GIGS unimos innovación y tecnología para ofrecer soluciones que transforman la manera en que las empresas trabajan, comunican y crecen'
     },
     showcaseItems: [
-      { title: 'Fábrica de Software', to: '/services/software-factory' },
-      { title: 'Transformación Digital', to: '/services/digital-transformation' },
-      { title: 'TaaS (Talent as a Service)', to: '/services/taas' }
+      { title: 'Fábrica de Software', to: 'servicios/fabrica-software' },
+      { title: 'Transformación Digital', to: 'servicios/transformacion-digital' },
+      { title: 'TaaS (Talent as a Service)', to: 'servicios/taas' }
     ],
     cta: { more: 'Ver Más', all: 'Ver Todos' }
   },
