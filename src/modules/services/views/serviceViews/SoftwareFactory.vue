@@ -3,14 +3,16 @@ import CardFooter from '@/components/navs/CardFooter.vue'
 import IntroSection from '@/modules/services/views/components/IntroSection.vue'
 import InterestService from '@/modules/services/views/components/InterestService.vue'
 import ServicesSection from '@/modules/services/views/components/ServicesSection.vue'
+
 // Traducciones del cardFooter
 const title = {
-  es: 'Impulsemos juntos tu próxima gran idea',
-  en: 'Let’s boost your next big idea',
+  es: '¿Tienes Preguntas sobre el Servicio?',
+  en: 'Do you have questions about the Service?',
 }
+
 const text = {
-  es: 'Cada gran proyecto empieza con una acción. Comparte tu idea con nosotros y comencemos hoy a convertirla en realidad.',
-  en: 'Every great project starts with one action. Share your idea with us and let’s start making it real today.'
+  es: 'Nuestro equipo está listo para responder todas tus dudas y ayudarte a elegir la mejor opción.',
+  en: 'Our team is ready to answer all your questions and help you choose the best option.',
 }
 
 // Traducciones y datos del IntroSection
@@ -56,10 +58,12 @@ const testimonialAvatar = ''
   <section class="content-home">
     <IntroSection :title="introTitle" :text="introText" :image="introImage" :reverse="false" />
 
-    <InterestService :leftParagraphs="leftParagraphs" :ctaLabel="ctaLabel" :ctaHref="ctaHref" :testimonialQuote="testimonialQuote" :testimonialAuthor="testimonialAuthor" :testimonialAvatar="testimonialAvatar" />
+    <InterestService :leftParagraphs="leftParagraphs" :ctaLabel="ctaLabel" :ctaHref="ctaHref"
+      :testimonialQuote="testimonialQuote" :testimonialAuthor="testimonialAuthor"
+      :testimonialAvatar="testimonialAvatar" />
 
     <ServicesSection />
-    
+
     <CardFooter :title="title" :text="text" ctaHref="/contacto" />
   </section>
 </template>
