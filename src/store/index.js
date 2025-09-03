@@ -1,3 +1,5 @@
+import news from '@/modules/news';
+import login from '@/modules/login';
 import contact from '@/modules/contact';
 import clients from '@/modules/clients';
 import blog from '@/modules/blog';
@@ -13,6 +15,8 @@ const API_URL = "/api";
 
 export default createStore({
   modules: { 
+    news: news.store, 
+    login: login.store, 
     clients: clients.store, 
     blog: blog.store, 
     challenges: challenges.store,

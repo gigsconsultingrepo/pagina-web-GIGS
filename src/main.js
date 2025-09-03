@@ -1,3 +1,5 @@
+import newsModule from '@/modules/news';
+import loginModule from '@/modules/login';
 import contactModule from '@/modules/contact';
 import clientsModule from '@/modules/clients';
 import blogModule from '@/modules/blog';
@@ -6,6 +8,7 @@ import aboutModule from '@/modules/about';
 import servicesModule from '@/modules/services';
 import homeModule from '@/modules/home';
 import { i18n } from './i18n'
+import './firebase';
 
 
 import "./assets/main.css";
@@ -40,8 +43,10 @@ app.use(store);
 app.use(router);
 app.use(i18n);
 app.use(vuetify);
-registerModules({  
+registerModules({
+  news: newsModule,
   //Dev
+  login: loginModule,  
   home: homeModule,
   about: aboutModule, 
   clients: clientsModule,  
