@@ -9,6 +9,7 @@ import clientsRouter from '@/modules/clients/views/clientsComponent.vue';
 import servicesRouter from '@/modules/services/views/servicesComponent.vue';
 import challengesRouter from '@/modules/challenges/views/challengesComponent.vue';
 import blogRouter from '@/modules/blog/views/blogComponent.vue';
+import blogDetail from '@/modules/blog/views/blogDetail.vue';
 import contactRouter from '@/modules/contact/views/contactComponent.vue';
 import ApplicationMaintenance from '@/modules/services/views/serviceViews/ApplicationMaintenance.vue';
 import DatabaseManagement from '@/modules/services/views/serviceViews/DatabaseManagement.vue';
@@ -37,6 +38,7 @@ const router = createRouter({
     { path: '/retos', name: 'challenges', component: challengesRouter },
     { path: '/servicios', name: 'services', component: servicesRouter },
     { path: '/blog', name: 'blog', component: blogRouter },
+    { path: '/blog/:slug', name: 'blog-detail', component: blogDetail, props: true },
     { path: '/contacto', name: 'contact', component: contactRouter },
 
     // Servicios

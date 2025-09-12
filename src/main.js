@@ -41,19 +41,21 @@ const app = createApp(App).use(i18n);
 
 app.use(store);
 app.use(router);
-app.use(i18n);
 app.use(vuetify);
-registerModules({
-  news: newsModule,
-  //Dev
-  login: loginModule,  
-  home: homeModule,
-  about: aboutModule, 
-  clients: clientsModule,  
-  challenges: challengesModule,
-  services: servicesModule,
-  blog: blogModule,
-  contact: contactModule,  
-});
+
+registerModules(
+  {
+    news: newsModule,
+    login: loginModule,
+    home: homeModule,
+    about: aboutModule,
+    clients: clientsModule,
+    challenges: challengesModule,
+    services: servicesModule,
+    blog: blogModule,
+    contact: contactModule,
+  },
+  { app, router, store }
+);
 
 app.mount("#app");
