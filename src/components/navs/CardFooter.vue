@@ -7,7 +7,6 @@ type LangPair = { es: string; en: string }
 const props = defineProps<{
   title: LangPair
   text: LangPair
-  ctaHref?: string
 }>()
 
 let localeSource: any = null
@@ -58,11 +57,15 @@ const leftText = computed(() => props.text[currentLang.value] ?? props.text.es)
 
       <div class="callout-right">
         <p class="right-kicker">{{ rightKicker }}</p>
-        <a class="cta-btn" :href="ctaHref || '#'" :aria-label="rightCta">{{ rightCta }}</a>
+        <!-- 👇 ahora apunta al form -->
+        <a class="cta-btn" href="/contacto#form-contacto" :aria-label="rightCta">
+          {{ rightCta }}
+        </a>
       </div>
     </div>
   </section>
 </template>
+
 
 <style scoped>
 .card-footer-container {

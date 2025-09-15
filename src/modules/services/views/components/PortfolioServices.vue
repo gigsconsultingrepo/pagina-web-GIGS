@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const messages = {
   es: {
@@ -107,7 +110,7 @@ const toggleFlip = (idx) => {
 }
 
 const goToService = (route) => {
-  console.log('Navegando a:', route)
+  router.push(route)
 }
 </script>
 
@@ -243,7 +246,7 @@ const goToService = (route) => {
 
 .flip-face.back {
   transform: rotateY(180deg);
-  background: var(  --color-primary);
+  background: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -251,7 +254,7 @@ const goToService = (route) => {
 
 .back-content {
   padding: 16px;
-  color: #fff; /* texto blanco sobre azul */
+  color: #fff;
   text-align: center;
   line-height: 1.45;
 }
@@ -308,7 +311,6 @@ const goToService = (route) => {
   background: var(--color-primary-dark);
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .services-grid {
     grid-template-columns: 1fr;

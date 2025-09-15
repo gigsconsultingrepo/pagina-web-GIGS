@@ -26,9 +26,9 @@ const messages = {
         'En GIGS unimos innovación y tecnología para ofrecer soluciones que transforman la manera en que las empresas trabajan, comunican y crecen'
     },
     showcaseItems: [
-      { title: 'Fábrica de Software', to: 'servicios/fabrica-software' },
-      { title: 'Transformación Digital', to: 'servicios/transformacion-digital' },
-      { title: 'TaaS (Talent as a Service)', to: 'servicios/taas' }
+      { title: 'Fábrica de Software', to: '/servicios/fabrica-software' },
+      { title: 'Transformación Digital', to: '/servicios/transformación-digital' },
+      { title: 'TaaS (Talent as a Service)', to: '/servicios/taas' }
     ],
     cta: { more: 'Ver Más', all: 'Ver Todos' }
   },
@@ -67,9 +67,9 @@ const showcaseImgs = [fabricaSoftware, transformacionDigital, taas]
 const router = useRouter()
 const goCard = (i) => {
   const list = tm('showcaseItems')
-  router.push(list?.[i]?.to || '/services')
+  router.push(list?.[i]?.to || '/servicios')
 }
-const goAll = () => router.push('/services')
+const goAll = () => router.push('/servicios')
 </script>
 
 <template>

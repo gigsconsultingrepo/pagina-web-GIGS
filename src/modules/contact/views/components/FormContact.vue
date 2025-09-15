@@ -78,7 +78,9 @@ const subjectsI18n = computed(() => subjectOptions.map(o => ({ title: pick(o), v
 </script>
 
 <template>
-	<Forms :title="title" :subtitle="subtitle" :textButton="textButton" :loading="loading" @save="onSave">
+	<Forms 
+	 id="form-contacto"
+	 :title="title" :subtitle="subtitle" :textButton="textButton" :loading="loading" @save="onSave">
 		<v-form ref="formRef" class="grid" @submit.prevent="onSave">
 			<v-text-field v-model="fullName" :label="pick(L.fullName)" :rules="[req()]" variant="outlined"
 				density="comfortable" :disabled="loading" />
