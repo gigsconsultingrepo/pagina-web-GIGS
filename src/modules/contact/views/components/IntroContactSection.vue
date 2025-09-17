@@ -5,7 +5,6 @@ import contactUsImage from '@/assets/img/contact/contactUss.png'
 const messages = {
 	es: {
 		contact: {
-			breadcrumb: 'Contacto',
 			title: '¿Necesitas asesoría tecnológica?',
 			subtitle:
 				'Estamos aquí para ayudarte. Contáctanos y conversemos sobre cómo podemos transformar tu negocio con soluciones tecnológicas innovadoras.'
@@ -13,7 +12,6 @@ const messages = {
 	},
 	en: {
 		contact: {
-			breadcrumb: 'Contact',
 			title: 'Do you need technology consulting?',
 			subtitle:
 				'We are here to help. Contact us and let’s talk about how we can transform your business with innovative technology solutions.'
@@ -39,7 +37,6 @@ const props = defineProps({
 			<v-card class="hero-card" elevation="0">
 				<v-row no-gutters align="center">
 					<v-col cols="12" md="7" class="px-5 px-md-8 py-6">
-						<div class="crumb">{{ t('contact.breadcrumb') }}</div>
 						<h1 class="hero-title">{{ t('contact.title') }}</h1>
 						<p class="hero-subtitle">{{ t('contact.subtitle') }}</p>
 					</v-col>

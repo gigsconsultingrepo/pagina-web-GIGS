@@ -5,6 +5,8 @@ import OurClients from "./components/OurClients.vue";
 import FeaturedClients from "./components/FeaturedClients.vue";
 import Testimonials from "./components/Testimonials.vue";
 import CardFooter from "../../../components/navs/CardFooter.vue";
+import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
+import BackToTop from "@/components/navs/BackToTop.vue"
 
 const title = {
   es: 'Impulsemos juntos tu próxima gran idea', en: 'Let’s boost your next big idea',
@@ -18,11 +20,13 @@ const text = {
 
 <template>
   <section class="content-about">
+    <Breadcrumbs />
     <Clients />
     <ActivitySectors />
     <OurClients />
     <FeaturedClients />
     <Testimonials />
+    <BackToTop />
     <CardFooter :title="title" :text="text" ctaHref="/contacto" />
   </section>
 </template>

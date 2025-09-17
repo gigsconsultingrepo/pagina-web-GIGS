@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n'
 const messages = {
   es: {
     hero: {
-      eyebrow: 'INICIO',
       title: 'Asesoría para el éxito empresarial',
       description:
         'Ofrecemos soluciones y servicios integrales basados en las últimas tecnologías, orientados a transformar digitalmente las organizaciones, generando valor a través del descubrimiento de oportunidades mediante innovación con Tecnología y Procesos.',
@@ -14,7 +13,6 @@ const messages = {
   },
   en: {
     hero: {
-      eyebrow: 'HOME',
       title: 'Business Success Consulting',
       description:
         'We offer comprehensive solutions and services based on the latest technologies, aimed at digitally transforming organizations and generating value through the discovery of opportunities via innovation with Technology and Processes.',
@@ -33,7 +31,6 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
       <v-row class="hero-row" align="center" justify="space-between" no-gutters>
         <v-col cols="12" md="7" lg="6" class="order-2 order-md-1 text-center text-md-start px-4">
 
-          <div class="eyebrow">{{ t('hero.eyebrow') }}</div>
           <h1 class="hero-title">{{ t('hero.title') }}</h1>
           <p class="hero-desc mx-auto mx-md-0">{{ t('hero.description') }}</p>
 
@@ -70,13 +67,6 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
       var(--g3, #0ea5e9) 100%);
 }
 
-.eyebrow {
-  letter-spacing: .1em;
-  font-size: 12px;
-  text-transform: uppercase;
-  opacity: .9;
-  margin-bottom: 8px;
-}
 
 .hero-title {
   margin: 0 0 14px;

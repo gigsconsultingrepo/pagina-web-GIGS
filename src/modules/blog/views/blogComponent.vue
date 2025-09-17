@@ -1,5 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
+import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
+import BackToTop from "@/components/navs/BackToTop.vue"
 import { db } from '@/firebase';
 import {
   collection, getDocs, orderBy, query, where, limit, startAfter
@@ -112,8 +114,9 @@ const filtered = computed(() => {
 </script>
 
 <template>
+    <Breadcrumbs />
+    <BackToTop />
   <v-container class="py-8">
-    <div class="text-caption mb-1" style="color: var(--vt-c-text-light-2);">INICIO / BLOG</div>
     <h1 class="text-h5 mb-2" style="color: var(--color-heading);">Blog Gigs: Ideas que Impulsan Negocios</h1>
     <p class="mb-6" style="max-width:720px; color: var(--vt-c-text-light-2);">
       Descubre noticias, consejos y tendencias sobre tecnología, ventas y estrategias digitales.

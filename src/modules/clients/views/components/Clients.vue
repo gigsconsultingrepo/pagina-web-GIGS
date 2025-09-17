@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n'
 const messages = {
   es: {
     clients: {
-      eyebrow: 'INICIO / CLIENTES',
       subtitle: 'Nuestros Clientes',
       title: 'Empresas que confían en nosotros',
       description: 'Hemos tenido el privilegio de trabajar con empresas de diversos sectores, ayudándolas a alcanzar sus objetivos digitales y transformar sus operaciones con soluciones tecnológicas innovadoras.'
@@ -12,10 +11,9 @@ const messages = {
   },
   en: {
     clients: {
-      eyebrow: 'HOME / CLIENTS',
       subtitle: 'Our Clients',
       title: 'Companies that trust us',
-      description: 'We’ve had the privilege of working with companies across diverse sectors, helping them achieve their digital goals and transform their operations with innovative technology solutions.'
+      description: 'We have had the privilege of working with companies across diverse sectors, helping them achieve their digital goals and transform their operations with innovative technology solutions.'
     }
   }
 }
@@ -28,7 +26,6 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
     <v-container class="py-8 py-md-14">
       <v-row class="clients-row" align="center" justify="space-between" no-gutters>
         <v-col cols="12" md="7" lg="6" class="order-2 order-md-1 text-center text-md-start px-4">
-          <div class="eyebrow">{{ t('clients.eyebrow') }}</div>
           <div class="subtitle">{{ t('clients.subtitle') }}</div>
           <h1 class="clients-title">{{ t('clients.title') }}</h1>
           <p class="clients-desc mx-auto mx-md-0">{{ t('clients.description') }}</p>
@@ -57,14 +54,6 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
   background: var(--color-background-soft);
 }
 
-.eyebrow {
-  letter-spacing: .1em;
-  font-size: 12px;
-  text-transform: uppercase;
-  opacity: .7;
-  margin-bottom: 8px;
-  color: var(--vt-c-text-light-2);
-}
 
 .subtitle {
   font-size: 18px;

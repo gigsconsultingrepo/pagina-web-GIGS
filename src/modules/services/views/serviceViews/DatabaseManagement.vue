@@ -3,7 +3,9 @@ import CardFooter from '@/components/navs/CardFooter.vue'
 import IntroSection from '@/modules/services/views/components/IntroSection.vue'
 import InterestService from '@/modules/services/views/components/InterestService.vue'
 import ServicesSection from '@/modules/services/views/components/ServicesSection.vue'
+import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
 import gestionBaseDatos from '@/assets/img/services/gestion-bd.png'
+import BackToTop from "@/components/navs/BackToTop.vue"
 
 // Traducciones del cardFooter
 const title = {
@@ -58,6 +60,8 @@ const testimonialAvatar = ''
 
 <template>
   <section class="content-home">
+    <Breadcrumbs />
+    <BackToTop />
     <IntroSection :title="introTitle" :text="introText" :image="gestionBaseDatos" :reverse="false" />
 
     <InterestService :leftParagraphs="leftParagraphs" :ctaLabel="ctaLabel" :ctaHref="ctaHref"

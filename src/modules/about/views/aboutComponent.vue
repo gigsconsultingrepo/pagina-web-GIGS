@@ -4,6 +4,8 @@ import OurHistory from "./components/OurHistory.vue";
 import Values from "./components/Values.vue";
 import OurTeam from "./components/OurTeam.vue";
 import CardFooter from "../../../components/navs/CardFooter.vue";
+import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
+import BackToTop from "@/components/navs/BackToTop.vue"
 
 const title = {
   es: ' ', en: ' ',
@@ -19,10 +21,12 @@ const text = {
 
 <template>
   <section class="content-about">
+    <Breadcrumbs />
     <AboutUs />
     <OurHistory />
     <Values />
     <OurTeam />
+    <BackToTop />
     <CardFooter :title="title" :text="text" ctaHref="/contacto" />
   </section>
 </template>

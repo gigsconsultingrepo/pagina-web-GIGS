@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n'
 const messages = {
   es: {
     about: {
-      eyebrow: 'INICIO / ACERCA DE GIGS',
       subtitle: 'Sobre Nosotros',
       title: 'Transformamos ideas en soluciones digitales',
       description: 'Somos una empresa de consultoría tecnológica comprometida con la excelencia, la innovación y el éxito de nuestros clientes. Nuestra misión es impulsar la transformación digital de las organizaciones.'
@@ -12,7 +11,6 @@ const messages = {
   },
   en: {
     about: {
-      eyebrow: 'HOME / ABOUT GIGS',
       subtitle: 'About Us',
       title: 'We transform ideas into digital solutions',
       description: 'We are a technology consulting company committed to excellence, innovation, and the success of our clients. Our mission is to drive the digital transformation of organizations.'
@@ -28,7 +26,6 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
     <v-container class="py-8 py-md-14">
       <v-row class="about-row" align="center" justify="space-between" no-gutters>
         <v-col cols="12" md="7" lg="6" class="order-2 order-md-1 text-center text-md-start px-4">
-          <div class="eyebrow">{{ t('about.eyebrow') }}</div>
           <div class="subtitle">{{ t('about.subtitle') }}</div>
           <h1 class="about-title">{{ t('about.title') }}</h1>
           <p class="about-desc mx-auto mx-md-0">{{ t('about.description') }}</p>
@@ -57,14 +54,6 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
   background: var(--color-background-soft);
 }
 
-.eyebrow {
-  letter-spacing: .1em;
-  font-size: 12px;
-  text-transform: uppercase;
-  opacity: .7;
-  margin-bottom: 8px;
-  color: var(--vt-c-text-light-2);
-}
 
 .subtitle {
   font-size: 18px;

@@ -3,6 +3,8 @@ import CardFooter from '../../../components/navs/CardFooter.vue';
 import ChallengesForm from './components/ChallengesForm.vue';
 import IntroChallenges from './components/IntroChallenges.vue';
 import ProcessEvaluate from './components/ProcessEvaluate.vue';
+import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
+import BackToTop from "@/components/navs/BackToTop.vue"
 
 const title = {
   es: 'Impulsemos juntos tu próxima gran idea', en: 'Let’s boost your next big idea',
@@ -16,9 +18,11 @@ const text = {
 
 <template>
   <section class="content-home">
+    <Breadcrumbs />
     <IntroChallenges />
     <ProcessEvaluate />
     <ChallengesForm />
+    <BackToTop />
     <CardFooter :title="title" :text="text" ctaHref="/contacto" />
   </section>
 </template>
