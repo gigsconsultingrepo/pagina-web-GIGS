@@ -4,6 +4,9 @@ import DOMPurify from 'dompurify';
 import { useRoute } from 'vue-router';
 import { db } from '@/firebase';
 import he from 'he'
+import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
+import BackToTop from "@/components/navs/BackToTop.vue"
+
 
 import {
   collection, getDocs, limit, query, where, doc, getDoc
@@ -103,10 +106,8 @@ const fmtDateTime = (ts) => {
 </script>
 
 <template>
+  <Breadcrumbs />
   <v-container class="py-8">
-    <div class="text-caption mb-1" style="color: var(--vt-c-text-light-2);">
-      INICIO / BLOG
-    </div>
 
     <v-skeleton-loader v-if="loading" type="image, article, article" />
 
@@ -143,6 +144,7 @@ const fmtDateTime = (ts) => {
       </v-card-actions>
     </v-card>
   </v-container>
+  <BackToTop />
 </template>
 
 <style scoped>

@@ -67,7 +67,7 @@ const labelFromName = (name) => {
     case 'challenges': return t('breadcrumbs.challenges')
     case 'services': return t('breadcrumbs.services')
     case 'blog': return t('breadcrumbs.blog')
-    case 'blog-detail': return t('breadcrumbs.newsDetail')
+    case 'blog-detail': return null // se maneja aparte abajo
     case 'contact': return t('breadcrumbs.contact')
     case 'news-list': return t('breadcrumbs.newsList')
     case 'news-detail': return t('breadcrumbs.newsDetail')
@@ -84,16 +84,6 @@ const labelFromName = (name) => {
   }
 }
 
-const buildToFromRecord = (record) => {
-  let to = record.path
-  if (!to || to === route.path) return null
-  to = to.replace(/:([A-Za-z0-9_]+)/g, (_, p) => {
-    const v = route.params?.[p]
-    return v ? String(v) : _
-  })
-  return to
-}
-
 const crumbs = computed(() => {
   const currentName = route.name
   const currentPath = route.path
@@ -103,11 +93,23 @@ const crumbs = computed(() => {
   }
   
   const items = [{ label: t('breadcrumbs.home'), to: '/' }]
+  
+  // Caso especial: blog detail
+  if (currentName === 'blog-detail') {
+    items.push({ label: t('breadcrumbs.blog'), to: '/blog' })
+
+    const articleTitle = route.params.slug || t('breadcrumbs.newsDetail')
+    items.push({ label: String(articleTitle), to: null })
+    return items
+  }
+
+  // Caso normal
   const currentLabel = labelFromName(currentName)
   if (currentLabel) {
     items.push({ label: currentLabel, to: null })
   }
-  
+
+  // Corrección para servicios anidados
   if (currentPath && currentPath.startsWith('/servicios/')) {
     items.splice(1, 0, { label: t('breadcrumbs.services'), to: '/servicios' })
   }
@@ -189,9 +191,7 @@ const navigate = async (to) => {
 }
 </style>
 
-<!-- estilos personalizados para temas, sin scoped -->
 <style>
-
 .breadcrumbs-dark .current {
   color: #f9f9f9;
 }
