@@ -4,7 +4,6 @@ import PortfolioServices from './components/PortfolioServices.vue'
 import WorkProcess from './components/WorkProcess.vue'
 import ServicesForm from './components/ServicesForm.vue'
 import CardFooter from "../../../components/navs/CardFooter.vue";
-import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
 import BackToTop from "@/components/navs/BackToTop.vue"
 
 const title = {
@@ -21,7 +20,6 @@ const text = {
 
 <template>
   <section class="content-about">
-    <Breadcrumbs />
     <Services />
     <PortfolioServices />
     <WorkProcess />

@@ -3,6 +3,13 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
+const props = defineProps({
+  customClass: {
+    type: String,
+    default: ''
+  }
+})
+
 const messages = {
   es: {
     breadcrumbs: {
@@ -17,7 +24,6 @@ const messages = {
       newsDetail: 'Detalle',
       adminNews: 'Admin Noticias',
       notFound: 'No encontrado',
-      // Servicios hijos
       mantenimiento: 'Mantenimiento de Aplicaciones',
       gestionbd: 'Gestión Base de Datos',
       transformacion: 'Transformación Digital',
@@ -79,7 +85,6 @@ const labelFromName = (name) => {
 }
 
 const buildToFromRecord = (record) => {
-  // Usa record.path y sustituye :params
   let to = record.path
   if (!to || to === route.path) return null
   to = to.replace(/:([A-Za-z0-9_]+)/g, (_, p) => {
@@ -93,23 +98,17 @@ const crumbs = computed(() => {
   const currentName = route.name
   const currentPath = route.path
   
-  // Si estamos en home, solo mostramos Home
   if (currentName === 'home') {
     return [{ label: t('breadcrumbs.home'), to: null }]
   }
   
-  // Para otras páginas, siempre empezamos con Home
   const items = [{ label: t('breadcrumbs.home'), to: '/' }]
-  
-  // Agregamos la página actual
   const currentLabel = labelFromName(currentName)
   if (currentLabel) {
     items.push({ label: currentLabel, to: null })
   }
   
-  // Si estamos en un servicio hijo, agregamos "Servicios" antes
   if (currentPath && currentPath.startsWith('/servicios/')) {
-    // Insertamos "Servicios" después de Home
     items.splice(1, 0, { label: t('breadcrumbs.services'), to: '/servicios' })
   }
   
@@ -123,7 +122,7 @@ const navigate = async (to) => {
 </script>
 
 <template>
-  <div class="breadcrumbs-wrap">
+  <div class="breadcrumbs-wrap" :class="customClass">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
       <ol>
         <li v-for="(c, idx) in crumbs" :key="idx" class="item">
@@ -186,8 +185,25 @@ const navigate = async (to) => {
 .current {
   padding: 2px 4px;
   font-weight: 700;
-  color: #212529;
+  color: #292821ff;
 }
 </style>
 
+<!-- estilos personalizados para temas, sin scoped -->
+<style>
 
+.breadcrumbs-dark .current {
+  color: #f9f9f9;
+}
+.breadcrumbs-link .link {
+  color: #f9f9f9;
+}
+
+.breadcrumbs-link .link:hover {
+  color: #dfd9d9ff;
+}
+
+.breadcrumbs-link .item::after {
+  color: #dfd9d9ff;
+}
+</style>

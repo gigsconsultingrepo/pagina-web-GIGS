@@ -1,5 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
+import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
 
 const messages = {
   es: {
@@ -23,6 +24,7 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 
 <template>
   <section class="clients-wrap">
+  <Breadcrumbs />
     <v-container class="py-8 py-md-14">
       <v-row class="clients-row" align="center" justify="space-between" no-gutters>
         <v-col cols="12" md="7" lg="6" class="order-2 order-md-1 text-center text-md-start px-4">

@@ -3,7 +3,6 @@ import CardFooter from '../../../components/navs/CardFooter.vue';
 import ChallengesForm from './components/ChallengesForm.vue';
 import IntroChallenges from './components/IntroChallenges.vue';
 import ProcessEvaluate from './components/ProcessEvaluate.vue';
-import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
 import BackToTop from "@/components/navs/BackToTop.vue"
 
 const title = {
@@ -18,7 +17,6 @@ const text = {
 
 <template>
   <section class="content-home">
-    <Breadcrumbs />
     <IntroChallenges />
     <ProcessEvaluate />
     <ChallengesForm />

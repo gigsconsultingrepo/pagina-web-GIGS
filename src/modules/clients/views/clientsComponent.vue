@@ -5,7 +5,6 @@ import OurClients from "./components/OurClients.vue";
 import FeaturedClients from "./components/FeaturedClients.vue";
 import Testimonials from "./components/Testimonials.vue";
 import CardFooter from "../../../components/navs/CardFooter.vue";
-import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
 import BackToTop from "@/components/navs/BackToTop.vue"
 
 const title = {
@@ -20,7 +19,6 @@ const text = {
 
 <template>
   <section class="content-about">
-    <Breadcrumbs />
     <Clients />
     <ActivitySectors />
     <OurClients />

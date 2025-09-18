@@ -2,7 +2,6 @@
 import IntroContactSection from './components/IntroContactSection.vue';
 import OptionsContactSection from './components/OptionsContactSection.vue';
 import FormContact from './components/FormContact.vue';
-import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
 import BackToTop from "@/components/navs/BackToTop.vue"
 
 const title = {
@@ -17,7 +16,6 @@ const text = {
 
 <template>
   <section class="content-home">
-    <Breadcrumbs />
     <IntroContactSection />
     <OptionsContactSection />
     <FormContact />

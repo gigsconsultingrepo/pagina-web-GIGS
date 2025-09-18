@@ -1,6 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { VContainer, VRow, VCol, VIcon } from 'vuetify/components'
+import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
 
 // Traducciones locales
 const messages = {
@@ -39,6 +40,7 @@ const { t, tm } = useI18n({
 
 <template>
   <section class="intro-challenges">
+    <Breadcrumbs />
     <v-container class="py-12 text-center">
       <h2 class="intro-title">{{ t('challenges.title') }}</h2>
       <p class="intro-subtitle mb-10">{{ t('challenges.subtitle') }}</p>
