@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed, onBeforeUnmount } from 'vue';
-import { auth, db, storage } from '@/firebase';
+import { auth, db } from '@/firebase';
 import { signOut } from 'firebase/auth';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { getDownloadURL, ref as sRef, uploadBytes } from 'firebase/storage';
+import axios from 'axios';
 
 /* ---------- TIPTAP ---------- */
 import { useEditor, EditorContent } from '@tiptap/vue-3';
@@ -23,9 +23,9 @@ const tags = ref('');
 const status = ref('published'); // 'published' | 'draft'
 
 // portada (img_one)
-const imgOneFile = ref(null);       
+const imgOneFile = ref(null);
 // apoyo (img_two)
-const imgTwoFile = ref(null);       
+const imgTwoFile = ref(null);
 const imgOnePreview = ref('');
 const imgTwoPreview = ref('');
 
@@ -66,12 +66,48 @@ const onImgTwo = (files) => {
 	imgTwoFile.value = f || null;
 	fileToPreview(imgTwoFile.value, imgTwoPreview);
 };
-const uploadAndGetUrl = async (file, prefix) => {
-	if (!file) return '';
-	const path = `${prefix}/${Date.now()}-${file.name}`;
-	const rf = sRef(storage, path);
-	await uploadBytes(rf, file);
-	return await getDownloadURL(rf);
+
+/* ---------- Cloudinary (SIGNED uploads) ---------- */
+// Carpeta por noticia: news/<slug-normalizado>
+const clFolder = () => {
+	const base = (slug.value || title.value || 'draft')
+		.toLowerCase()
+		.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/(^-|-$)/g, '');
+	return `noticias/${base}`;
+};
+
+// 1) Pide firma al backend
+const signUpload = async ({ folder, publicId }) => {
+	const { data } = await axios.post('/api/media/sign', {
+		folder,
+		public_id: publicId
+	});
+	return data; 
+};
+
+// 2) Sube el archivo a Cloudinary con la firma
+const uploadToCloudinarySigned = async (file, publicId) => {
+	if (!file) return { url: '', id: '' };
+	const folder = clFolder();
+	const sign = await signUpload({ folder, publicId });
+
+	const form = new FormData();
+	form.append('file', file);
+	form.append('api_key', sign.apiKey);
+	form.append('timestamp', sign.timestamp);
+	form.append('signature', sign.signature);
+	form.append('folder', sign.folder);
+	form.append('upload_preset', sign.uploadPreset);
+	if (sign.public_id) form.append('public_id', sign.public_id);
+
+	const endpoint = `https://api.cloudinary.com/v1_1/${sign.cloudName}/auto/upload`;
+	const { data } = await axios.post(endpoint, form, {
+		headers: { 'Content-Type': 'multipart/form-data' },
+	});
+
+	return { url: data.secure_url, id: data.public_id };
 };
 
 /* ---------- Editor Tiptap ---------- */
@@ -130,8 +166,9 @@ const insertInlineImage = async () => {
 	input.onchange = async () => {
 		const file = input.files?.[0];
 		if (!file) return;
-		const url = await uploadAndGetUrl(file, 'news_inline');
-		editor.value?.chain().focus().setImage({ src: url, alt: '' }).run();
+		const { url } = await uploadToCloudinarySigned(file, `inline-${Date.now()}`);
+		const tUrl = url.replace('/upload/', '/upload/f_auto,q_auto,w_1200/');
+		editor.value?.chain().focus().setImage({ src: tUrl, alt: '' }).run();
 	};
 	input.click();
 };
@@ -158,21 +195,30 @@ const savePost = async (forceStatus = null) => {
 
 		const html = editor.value?.getHTML() || '';
 
-		const imgOneUrl = await uploadAndGetUrl(imgOneFile.value, 'news_portada'); // portada
-		const imgTwoUrl = await uploadAndGetUrl(imgTwoFile.value, 'news_apoyo');   // apoyo
+		// Subidas firmadas a Cloudinary
+		let portada = { url: '', id: '' };
+		let apoyo = { url: '', id: '' };
+		if (imgOneFile.value) portada = await uploadToCloudinarySigned(imgOneFile.value, 'portada');
+		if (imgTwoFile.value) apoyo = await uploadToCloudinarySigned(imgTwoFile.value, 'apoyo');
 
 		await addDoc(collection(db, 'news'), {
 			title: title.value,
 			slug: slug.value.trim(),
 			excerpt: excerpt.value,
-			content: html, // 🔴 HTML
+			content: html, // HTML del editor
 			tags: tags.value.split(',').map(t => t.trim()).filter(Boolean),
 			status: forceStatus ?? status.value,
 			publishedAt: serverTimestamp(),
 			author: auth.currentUser?.email || 'admin',
-			img_one: imgOneUrl,
-			img_two: imgTwoUrl,
-			coverUrl: imgOneUrl || '',
+
+			// URLs Cloudinary que consumen tus vistas
+			img_one: portada.url,          
+			img_two: apoyo.url,           
+			coverUrl: portada.url || '',
+
+			// Guarda public_id por si luego quieres borrar/reemplazar
+			img_one_id: portada.id,
+			img_two_id: apoyo.id,
 		});
 
 		messageType.value = 'success';
@@ -399,7 +445,6 @@ const savePost = async (forceStatus = null) => {
 .editor-surface :deep(p, li) {
 	color: var(--color-text);
 	line-height: 1.75;
-	/* height: 40vh; */
 }
 
 .editor-surface :deep(a) {

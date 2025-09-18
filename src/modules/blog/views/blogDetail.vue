@@ -15,10 +15,14 @@ const error = ref('');
 const norm = (s) =>
   String(s || '')
     .toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // quita acentos
-    .replace(/\s+/g, '-')                             // espacios -> guion
-    .replace(/-+/g, '-')                              // colapsa guiones
-    .replace(/(^-|-$)/g, '');                         // trim guiones
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+function clUrl(url, w = 1200) {
+  return (url || '').replace('/upload/', `/upload/f_auto,q_auto,w_${w}/`);
+}
 
 onMounted(async () => {
   const param = String(route.params.slug || '');
@@ -29,7 +33,7 @@ onMounted(async () => {
     loading.value = true;
     error.value = '';
 
-    // 1) Doc por ID (por si el id === slug)
+    // 1) Doc por ID
     try {
       const byId = await getDoc(doc(db, 'news', paramDecoded));
       if (byId.exists()) {
@@ -40,7 +44,7 @@ onMounted(async () => {
       }
     } catch { }
 
-    // 2) Query simple por slug (no requiere índice compuesto)
+    // 2) Query por slug
     try {
       const q = query(
         collection(db, 'news'),
@@ -68,7 +72,6 @@ onMounted(async () => {
       }
     } catch { }
 
-    // Si nada funcionó:
     error.value = 'No se encontró la entrada.';
   } catch (e) {
     console.error(e);
@@ -104,7 +107,7 @@ const fmtDateTime = (ts) => {
     <v-alert v-else-if="error" type="error" variant="tonal">{{ error }}</v-alert>
 
     <v-card v-else elevation="1" style="background: var(--vt-c-white); border:1px solid var(--color-border);">
-      <v-img v-if="post.img_one || post.coverUrl" :src="post.img_one || post.coverUrl" height="260" cover
+      <v-img v-if="post.img_one || post.coverUrl" :src="clUrl(post.img_one || post.coverUrl, 1400)" height="260" cover
         class="rounded-t" style="background: var(--color-background-mute);" />
 
       <v-card-item class="pb-0">
@@ -122,7 +125,7 @@ const fmtDateTime = (ts) => {
       <v-card-text class="pt-2">
         <div class="prose" v-html="safeHtml"></div>
 
-        <v-img v-if="post.img_two" :src="post.img_two" class="my-6 rounded" height="260" cover
+        <v-img v-if="post.img_two" :src="clUrl(post.img_two, 1200)" class="my-6 rounded" height="260" cover
           style="border:1px solid var(--color-border); background: var(--color-background-mute);" />
       </v-card-text>
 

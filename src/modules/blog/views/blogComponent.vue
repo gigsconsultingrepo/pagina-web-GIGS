@@ -1,7 +1,5 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
-import BackToTop from "@/components/navs/BackToTop.vue"
 import { db } from '@/firebase';
 import {
   collection, getDocs, orderBy, query, where, limit, startAfter
@@ -10,7 +8,7 @@ import {
 const loading = ref(true);
 const items = ref([]);
 const error = ref('');
-const missingIndexUrl = ref('');   
+const missingIndexUrl = ref('');
 const search = ref('');
 const activeChip = ref('Todos');
 const chips = ['Todos', 'Tecnología', 'Seguridad', 'Desarrollo', 'Aprendizaje', 'Negocios'];
@@ -37,7 +35,6 @@ const loadPosts = async (next = false) => {
     error.value = '';
     missingIndexUrl.value = '';
 
-    // Ejecuta la consulta que de resultado correcto
     const q = next && lastDoc.value
       ? baseQuery({ startAfter: lastDoc.value })
       : baseQuery();
@@ -45,11 +42,9 @@ const loadPosts = async (next = false) => {
     const snap = await getDocs(q);
     const docs = snap.docs.map(d => ({ id: d.id, _snap: d, ...d.data() }));
 
-    // Calcula si hay más y define página
     hasMore.value = docs.length > perPage;
     const page = hasMore.value ? docs.slice(0, perPage) : docs;
 
-    // Aplica resultados y cursor (último de la página, NO del snapshot completo)
     if (next) items.value = [...items.value, ...page];
     else items.value = page;
 
@@ -58,7 +53,6 @@ const loadPosts = async (next = false) => {
   } catch (e) {
     console.error('Firestore error:', e);
 
-    // Si falta el índice compuesto, Firestore pone el link en e.message
     if (e?.code === 'failed-precondition' && typeof e.message === 'string') {
       const match = e.message.match(/https?:\/\/[^\s)]+/);
       if (match) missingIndexUrl.value = match[0];
@@ -66,11 +60,9 @@ const loadPosts = async (next = false) => {
       return;
     }
 
-    // Fallback temporal: al menos listar sin orden/where para depurar
     try {
       const snapFallback = await getDocs(collection(db, 'news'));
       items.value = snapFallback.docs.map(d => ({ id: d.id, _snap: d, ...d.data() }))
-        // muestra solo publicados y con publishedAt si quieres mantener la idea
         .filter(p => p.status === 'published')
         .sort((a, b) => (b.publishedAt?.seconds || 0) - (a.publishedAt?.seconds || 0))
         .slice(0, perPage);
@@ -95,6 +87,10 @@ const fmtDate = ts => {
   } catch { return ''; }
 };
 
+function clUrl(url, w = 800) {
+  return (url || '').replace('/upload/', `/upload/f_auto,q_auto,w_${w}/`);
+}
+
 const filtered = computed(() => {
   const q = (search.value || '').toLowerCase();
   const cat = activeChip.value.toLowerCase();
@@ -114,9 +110,8 @@ const filtered = computed(() => {
 </script>
 
 <template>
-    <Breadcrumbs />
-    <BackToTop />
   <v-container class="py-8">
+    <div class="text-caption mb-1" style="color: var(--vt-c-text-light-2);">INICIO / BLOG</div>
     <h1 class="text-h5 mb-2" style="color: var(--color-heading);">Blog Gigs: Ideas que Impulsan Negocios</h1>
     <p class="mb-6" style="max-width:720px; color: var(--vt-c-text-light-2);">
       Descubre noticias, consejos y tendencias sobre tecnología, ventas y estrategias digitales.
@@ -135,7 +130,6 @@ const filtered = computed(() => {
       </div>
     </div>
 
-    <!-- Indicador de índice faltante -->
     <v-alert v-if="missingIndexUrl" type="warning" variant="tonal" class="mb-4">
       Falta el índice compuesto para <code>status</code> + <code>publishedAt</code>.
       Ábrelo y créalo aquí:
@@ -158,7 +152,7 @@ const filtered = computed(() => {
         <v-col v-for="post in filtered" :key="post.slug || post.id" cols="12" sm="6" md="4">
           <v-card class="h-100" elevation="1"
             style="border:1px solid var(--color-border); background: var(--vt-c-white);">
-            <v-img :src="post.img_one || post.coverUrl" height="160" cover alt="" class="rounded-t"
+            <v-img :src="clUrl(post.img_one || post.coverUrl, 800)" height="160" cover alt="" class="rounded-t"
               style="background: var(--color-background-mute);" />
             <v-card-item class="pb-1">
               <div class="text-caption mb-1" style="color: var(--vt-c-text-light-2);">
@@ -207,6 +201,7 @@ const filtered = computed(() => {
 .text-truncate-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -214,6 +209,7 @@ const filtered = computed(() => {
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
