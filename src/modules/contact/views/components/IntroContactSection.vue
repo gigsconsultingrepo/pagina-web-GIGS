@@ -1,6 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import contactUsImage from '@/assets/img/contact/contactUss.png'
+import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
 
 const messages = {
 	es: {
@@ -33,6 +34,7 @@ const props = defineProps({
 
 <template>
 	<section class="contact-hero">
+	    <Breadcrumbs />
 		<v-container class="py-10 py-md-10 container">
 			<v-card class="hero-card" elevation="0">
 				<v-row no-gutters align="center">

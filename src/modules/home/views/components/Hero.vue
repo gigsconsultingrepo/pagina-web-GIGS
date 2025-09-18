@@ -1,5 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
+import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
 
 const messages = {
   es: {
@@ -26,7 +27,10 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 </script>
 
 <template>
+
   <section class="hero-wrap">
+<Breadcrumbs customClass="breadcrumbs-dark" />
+
     <v-container class="py-8 py-md-14">
       <v-row class="hero-row" align="center" justify="space-between" no-gutters>
         <v-col cols="12" md="7" lg="6" class="order-2 order-md-1 text-center text-md-start px-4">
@@ -66,7 +70,6 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
       var(--g2, #0f48c9) 50%,
       var(--g3, #0ea5e9) 100%);
 }
-
 
 .hero-title {
   margin: 0 0 14px;
