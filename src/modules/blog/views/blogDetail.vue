@@ -3,6 +3,8 @@ import { ref, onMounted, computed } from 'vue';
 import DOMPurify from 'dompurify';
 import { useRoute } from 'vue-router';
 import { db } from '@/firebase';
+import he from 'he'
+
 import {
   collection, getDocs, limit, query, where, doc, getDoc
 } from 'firebase/firestore';
@@ -82,11 +84,15 @@ onMounted(async () => {
 });
 
 // Sanitiza pero preserva HTML común del editor
-const safeHtml = computed(() =>
-  DOMPurify.sanitize(post.value?.content || '', {
-    USE_PROFILES: { html: true }
-  })
-);
+const safeHtml = computed(() => {
+  const raw = post.value?.content || '';
+  const decoded = he.decode(raw);
+  return DOMPurify.sanitize(decoded, {
+    USE_PROFILES: { html: true },
+    ADD_TAGS: ['header', 'main', 'article', 'section', 'figure', 'figcaption'],
+    ADD_ATTR: ['class', 'style', 'loading', 'width', 'height']
+  });
+});
 
 const fmtDateTime = (ts) => {
   try {

@@ -18,6 +18,7 @@ import TaaS from "@/modules/services/views/serviceViews/TaaS.vue";
 import ServiceDesk from "@/modules/services/views/serviceViews/ServiceDesk.vue";
 import SoftwareFactory from "@/modules/services/views/serviceViews/SoftwareFactory.vue";
 import NotFound from '@/views/View404.vue';
+import AdminNewsList from '@/modules/news/views/newsList.vue';
 
 // NUEVO: Vistas de Noticias (ajusta estas rutas a tu estructura)
 import NewsList from '@/modules/news/views/newsList.vue';
@@ -55,6 +56,8 @@ const router = createRouter({
 
     // NUEVO: Admin de noticias (protegido)
     { path: '/admin/noticias', name: 'admin-news', component: AdminNews, meta: { requiresAuth: true } },
+    { path: '/admin/noticias-lista', name: 'admin-news-list', component: AdminNewsList, meta: { requiresAuth: true } },
+
 
     // 404
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }

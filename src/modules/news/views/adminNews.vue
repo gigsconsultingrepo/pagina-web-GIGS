@@ -4,6 +4,7 @@ import { auth, db } from '@/firebase';
 import { signOut } from 'firebase/auth';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import axios from 'axios';
+import { useRoute, useRouter } from 'vue-router'
 
 /* ---------- TIPTAP ---------- */
 import { useEditor, EditorContent } from '@tiptap/vue-3';
@@ -34,6 +35,8 @@ const message = ref('');
 const messageType = ref('success');
 const valid = ref(false);
 const formRef = ref(null);
+const router = useRouter()
+const route = useRoute()
 
 const rules = {
 	required: v => (!!v && String(v).trim().length > 0) || 'Este campo es obligatorio',
@@ -223,6 +226,7 @@ const savePost = async (forceStatus = null) => {
 
 		messageType.value = 'success';
 		message.value = 'Noticia guardada 🎉';
+		router.push('/admin/noticias-lista');
 
 		// Reset
 		title.value = slug.value = excerpt.value = tags.value = '';
