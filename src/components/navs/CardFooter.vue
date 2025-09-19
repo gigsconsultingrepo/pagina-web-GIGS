@@ -105,9 +105,7 @@ const leftText = computed(() => props.text[currentLang.value] ?? props.text.es)
   opacity: .9;
   color: #FFF;
   text-align: justify;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
 }
 
 .callout-right {
@@ -135,13 +133,25 @@ const leftText = computed(() => props.text[currentLang.value] ?? props.text.es)
   font-size: var(--text-sm, 13px);
 }
 
-@media (max-width:560px) {
+@media (max-width: 959px) {
   .promo-callout {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 90%;
+    padding: 24px;
+    gap: 20px;
+  }
+
+  .callout-left {
+    text-align: center;
   }
 
   .callout-right {
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
+    width: 100%;
   }
 }
 </style>
