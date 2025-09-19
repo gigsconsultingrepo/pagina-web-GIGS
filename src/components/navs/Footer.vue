@@ -97,7 +97,7 @@ const { t } = useI18n({
               </a>
             </li>
             <li>
-              <a class="footer-link" :href="'mailto:' + t('footer.contactCol.mail')">
+              <a class="footer-link" :href="t('footer.contactCol.mail')">
                 {{ t('footer.contactCol.mail') }}
               </a>
             </li>
