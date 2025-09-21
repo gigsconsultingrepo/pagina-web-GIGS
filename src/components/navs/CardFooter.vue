@@ -1,50 +1,50 @@
 <script setup lang="ts">
 import { computed, isRef } from 'vue'
 import { useI18n } from 'vue-i18n'
+import type { PropType } from 'vue'
 
 type LangPair = { es: string; en: string }
 
 const props = defineProps<{
-  title: LangPair
-  text: LangPair
+  title: LangPair | string
+  text: LangPair | string
 }>()
 
 let localeSource: any = null
 try {
   const i18n = useI18n({ useScope: 'global' })
-  localeSource = isRef((i18n as any).locale)
-    ? (i18n as any).locale
-    : (i18n as any).global?.locale ?? (i18n as any).locale
+  localeSource = (i18n as any).locale ?? (i18n as any).global?.locale ?? null
 } catch {
   localeSource = null
 }
 
-function normalize(code: string): 'es' | 'in' {
-  const c = (code || '').toLowerCase()
-  if (c.startsWith('es')) return 'es'
-  if (c === 'in' || c.startsWith('en')) return 'in'
+const getRawLocale = () => {
+  if (localeSource) return isRef(localeSource) ? localeSource.value : String(localeSource)
+  if (typeof document !== 'undefined') {
+    const d = document.documentElement.getAttribute('lang')
+    if (d) return d
+  }
+  if (typeof navigator !== 'undefined' && (navigator as any).language) return (navigator as any).language
   return 'es'
 }
 
-const currentLang = computed<'es' | 'in'>(() => {
-  const fromI18n = localeSource
-    ? (isRef(localeSource) ? localeSource.value : String(localeSource))
-    : ''
-  const fromDom = typeof document !== 'undefined'
-    ? (document.documentElement.getAttribute('lang') || '')
-    : ''
-  return normalize(String(fromI18n || fromDom || 'es'))
+const currentLang = computed(() => String(getRawLocale()).split('-')[0].toLowerCase())
+const normalizedLang = computed(() => currentLang.value.startsWith('es') ? 'es' : 'en')
+
+const leftTitle = computed(() => {
+  if (!props.title) return ''
+  if (typeof props.title === 'string') return props.title
+  return (props.title as LangPair)[normalizedLang.value] ?? (props.title as LangPair).es ?? ''
 })
 
-const rightKicker = computed(() =>
-  currentLang.value === 'es' ? 'Únete a GIGS!' : 'Join GIGS!'
-)
-const rightCta = computed(() =>
-  currentLang.value === 'es' ? 'Contáctanos' : 'Contact us'
-)
+const leftText = computed(() => {
+  if (!props.text) return ''
+  if (typeof props.text === 'string') return props.text
+  return (props.text as LangPair)[normalizedLang.value] ?? (props.text as LangPair).es ?? ''
+})
 
-const leftTitle = computed(() => props.title[currentLang.value] ?? props.title.es)
-const leftText = computed(() => props.text[currentLang.value] ?? props.text.es)
+const rightKicker = computed(() => normalizedLang.value === 'es' ? 'Únete a GIGS!' : 'Join GIGS!')
+const rightCta = computed(() => normalizedLang.value === 'es' ? 'Contáctanos' : 'Contact us')
 </script>
 
 <template>
@@ -57,7 +57,6 @@ const leftText = computed(() => props.text[currentLang.value] ?? props.text.es)
 
       <div class="callout-right">
         <p class="right-kicker">{{ rightKicker }}</p>
-        <!-- 👇 ahora apunta al form -->
         <a class="cta-btn" href="/contacto#form-contacto" :aria-label="rightCta">
           {{ rightCta }}
         </a>
@@ -65,7 +64,6 @@ const leftText = computed(() => props.text[currentLang.value] ?? props.text.es)
     </div>
   </section>
 </template>
-
 
 <style scoped>
 .card-footer-container {
