@@ -1,7 +1,8 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import TopBar from '@/components/navs/TopBar.vue'
-import Footer from '@/components/navs/Footer.vue';
+import Footer from '@/components/navs/Footer.vue'
+import AccessibilityBar from '@/components/navs/AccessibilityBar.vue'
 </script>
 
 <template>
@@ -11,6 +12,8 @@ import Footer from '@/components/navs/Footer.vue';
       <RouterView />
     </main>
     <Footer />
+    <!-- Barra de accesibilidad -->
+    <AccessibilityBar />
   </v-app>
 </template>
 
