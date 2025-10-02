@@ -75,7 +75,7 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
   margin: 0 0 14px;
   line-height: 1.05;
   font-weight: 800;
-  font-size: clamp(28px, 6vw, 56px);
+  font-size: clamp(1.75rem, 6vw, 3.5rem);
 }
 
 .hero-desc {

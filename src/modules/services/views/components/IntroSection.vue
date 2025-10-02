@@ -90,7 +90,7 @@ const orderTxt = computed(() => props.reverse ? 2 : 1)
 .intro-text {
   margin: 0;
   color: var(--vt-c-text-light-2);
-  font-size: 1rem;
+  font-size: var(--text-base);
   line-height: 1.7;
 }
 

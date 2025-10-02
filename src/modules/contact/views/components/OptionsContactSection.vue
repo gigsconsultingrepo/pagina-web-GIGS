@@ -33,7 +33,7 @@ const { tm } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 					<a :href="it.href" target="_blank" rel="noopener" class="card-link">
 						<v-card class="c-card" elevation="0">
 							<div class="c-body">
-								<v-icon :icon="it.icon" size="56" class="c-icon" />
+								<v-icon :icon="it.icon" class="c-icon" />
 								<h3 class="c-title">{{ it.title }}</h3>
 								<p class="c-value">{{ it.value }}</p>
 							</div>
@@ -98,12 +98,12 @@ const { tm } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 	margin: 0;
 	font-weight: 800;
 	color: var(--color-primary);
-	font-size: 20px;
+	font-size: 1.25rem;
 }
 
 .c-value {
 	margin: 0;
-	font-size: 18px;
+	font-size: 1.125rem;
 	color: var(--vt-c-text-light-1);
 	opacity: .9;
 }

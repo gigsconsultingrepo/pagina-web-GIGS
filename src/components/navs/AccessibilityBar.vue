@@ -41,13 +41,13 @@ function applySettings() {
 }
 
 function increaseFont() {
-  if (fontSize.value < 24) fontSize.value += 2
+  if (fontSize.value < 20) fontSize.value += 1
   applySettings()
   announce('Aumentado tamaño de letra')
 }
 
 function decreaseFont() {
-  if (fontSize.value > 12) fontSize.value -= 2
+  if (fontSize.value > 14) fontSize.value -= 1
   applySettings()
   announce('Disminuido tamaño de letra')
 }

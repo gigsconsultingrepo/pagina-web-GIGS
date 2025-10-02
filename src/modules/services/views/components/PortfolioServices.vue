@@ -175,15 +175,15 @@ const goToService = (route) => {
 }
 
 .portfolio-title {
-  font-size: clamp(32px, 5vw, 48px);
+  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 900;
   color: var(--color-heading);
-  margin: 0 0 16px;
+  margin: 0 0 1rem;
   line-height: 1.2;
 }
 
 .portfolio-subtitle {
-  font-size: 18px;
+  font-size: 1.125rem;
   color: var(--color-text);
   margin: 0;
   opacity: 0.9;
@@ -192,8 +192,8 @@ const goToService = (route) => {
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -203,11 +203,12 @@ const goToService = (route) => {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 24px;
-  border-radius: 16px;
+  padding: 1.5rem;
+  border-radius: 1rem;
   background: var(--color-background);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 500px;
 }
 
 .service-card:hover {
@@ -253,10 +254,11 @@ const goToService = (route) => {
 }
 
 .back-content {
-  padding: 16px;
+  padding: 1rem;
   color: #fff;
   text-align: center;
   line-height: 1.45;
+  font-size: 0.875rem;
 }
 
 .service-image {
@@ -284,12 +286,12 @@ const goToService = (route) => {
 }
 
 .service-title {
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--color-heading);
-  margin: 0 0 20px;
+  margin: 0 0 1.25rem;
   line-height: 1.3;
-  min-height: 52px;
+  min-height: 3.25rem;
   display: flex;
   align-items: center;
 }
@@ -298,13 +300,13 @@ const goToService = (route) => {
   background: var(--color-primary);
   color: var(--vt-c-white);
   border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 16px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  min-width: 120px;
+  min-width: 7.5rem;
 }
 
 .service-button:hover {
@@ -314,30 +316,31 @@ const goToService = (route) => {
 @media (max-width: 768px) {
   .services-grid {
     grid-template-columns: 1fr;
-    gap: 24px;
-    padding: 0 16px;
+    gap: 1.5rem;
+    padding: 0 1rem;
   }
   
   .service-card {
-    padding: 20px;
+    padding: 1.25rem;
+    min-height: 450px;
   }
   
   .portfolio-header {
-    padding: 0 16px;
+    padding: 0 1rem;
   }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    gap: 1.5rem;
   }
 }
 
 @media (min-width: 1025px) {
   .services-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    gap: 2rem;
   }
 }
 </style>

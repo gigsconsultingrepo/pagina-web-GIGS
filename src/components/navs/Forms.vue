@@ -96,19 +96,19 @@ const onSave = () => { if (!props.loading && !props.disabled) emit('save') }
 
 .form-head {
   text-align: center;
-  margin-bottom: 14px;
+  margin-bottom: 0.875rem;
 }
 
 .title {
-  margin: 0 0 6px 0;
-  font-size: clamp(18px, 2.4vw, 24px);
+  margin: 0 0 0.375rem 0;
+  font-size: 1.5rem;
   font-weight: 800;
   color: var(--vt-c-text-light-1);
 }
 
 .subtitle {
   margin: 0;
-  font-size: 13px;
+  font-size: 0.875rem;
   opacity: .8;
   max-width: 60ch;
   margin-inline: auto;
@@ -116,27 +116,28 @@ const onSave = () => { if (!props.loading && !props.disabled) emit('save') }
 
 .form-body {
   display: grid;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .form-actions {
   display: flex;
   justify-content: center;
-  margin-top: 14px;
+  margin-top: 0.875rem;
 }
 
 .primary-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 10px 18px;
+  gap: 0.5rem;
+  padding: 0.625rem 1.125rem;
   border-radius: 999px;
   border: none;
   cursor: pointer;
   background: var(--vt-c-indigo);
   color: var(--vt-c-white);
   font-weight: 700;
+  font-size: 1rem;
   transition: transform .12s ease, box-shadow .12s ease, opacity .12s;
 }
 
@@ -150,8 +151,8 @@ const onSave = () => { if (!props.loading && !props.disabled) emit('save') }
 }
 
 .spinner {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, .55);
   border-top-color: var(--vt-c-white);
@@ -166,8 +167,8 @@ const onSave = () => { if (!props.loading && !props.disabled) emit('save') }
 
 @media (min-width: 720px) {
   .form-card {
-    padding: 28px;
-    border-radius: 18px;
+    padding: 1.75rem;
+    border-radius: 1.125rem;
   }
 }
 </style>

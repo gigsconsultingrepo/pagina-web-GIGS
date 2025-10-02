@@ -77,10 +77,10 @@ const props = defineProps({
 }
 
 .hero-title {
-	margin: 0 0 8px 0;
+	margin: 0 0 0.5rem 0;
 	font-weight: 900;
 	color: var(--color-heading);
-	font-size: clamp(22px, 3.8vw, 34px);
+	font-size: clamp(1.375rem, 3.8vw, 2.125rem);
 }
 
 .hero-subtitle {
@@ -88,7 +88,7 @@ const props = defineProps({
 	opacity: .9;
 	line-height: 1.55;
 	max-width: 60ch;
-	font-size: 16px;
+	font-size: 1rem;
 }
 
 .img-col {

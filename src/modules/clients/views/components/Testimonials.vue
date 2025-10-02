@@ -102,13 +102,13 @@ const { t, locale } = useI18n({
 }
 
 .testimonials-title {
-  font-size: clamp(26px, 5vw, 34px);
+  font-size: clamp(1.625rem, 5vw, 2.125rem);
   font-weight: 700;
   margin-bottom: 6px;
 }
 
 .testimonials-subtitle {
-  font-size: 15px;
+  font-size: 0.9375rem;
   opacity: 0.8;
 }
 
@@ -130,7 +130,7 @@ const { t, locale } = useI18n({
 }
 
 .testimonial-text {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: italic;
   line-height: 1.6;
   margin-bottom: 12px;
@@ -143,7 +143,7 @@ const { t, locale } = useI18n({
 }
 
 .testimonial-author {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   margin-top: auto; 
 }

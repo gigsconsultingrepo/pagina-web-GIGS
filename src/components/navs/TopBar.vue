@@ -274,7 +274,7 @@ watch(activeId, () => { servicesOpen.value = false })
   padding: 8px 12px;
   border-radius: 999px;
   letter-spacing: .4px;
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 700;
   color: var(--vt-c-text-light-1);
   cursor: pointer;
@@ -330,6 +330,7 @@ watch(activeId, () => { servicesOpen.value = false })
   border: 0;
   cursor: pointer;
   font-weight: 600;
+  font-size: var(--text-sm);
 }
 
 .menu-item:hover {
@@ -354,6 +355,7 @@ watch(activeId, () => { servicesOpen.value = false })
   font-weight: 800;
   letter-spacing: .4px;
   cursor: pointer;
+  font-size: var(--text-sm);
 }
 
 .hamburger {
@@ -441,6 +443,7 @@ watch(activeId, () => { servicesOpen.value = false })
   align-items: center;
   gap: 10px;
   width: 100%;
+  font-size: var(--text-base);
 }
 
 .drawer-link:hover {
@@ -475,6 +478,7 @@ watch(activeId, () => { servicesOpen.value = false })
   background: transparent;
   border-radius: 10px;
   font-weight: 600;
+  font-size: var(--text-sm);
 }
 
 .drawer-sublink:hover {

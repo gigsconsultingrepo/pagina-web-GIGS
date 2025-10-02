@@ -127,7 +127,7 @@ const { t } = useI18n({
 
 .col-title {
   margin: 0 0 12px;
-  font-size: 14px;
+  font-size: var(--text-sm);
   font-weight: 800;
   letter-spacing: .04em;
   text-transform: uppercase;

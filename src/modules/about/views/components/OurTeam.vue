@@ -177,14 +177,14 @@ const prev = () => {
   color: var(--vt-c-black);
 }
 .team-title {
-  font-size: clamp(28px, 5vw, 40px);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
   font-weight: 800;
-  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
 }
 .team-desc {
   max-width: 75ch;
-  margin: 0 auto 40px;
-  font-size: 16px;
+  margin: 0 auto 2.5rem;
+  font-size: 1rem;
   line-height: 1.6;
   opacity: 0.9;
 }
@@ -197,7 +197,7 @@ const prev = () => {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 28px;
+  font-size: 1.75rem;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -214,8 +214,8 @@ const prev = () => {
   grid-template-rows: auto auto 1fr auto;
   justify-items: center;
   text-align: center;
-  padding: 20px;
-  border-radius: 16px;
+  padding: 1.25rem;
+  border-radius: 1rem;
   background: #fff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s;
@@ -230,34 +230,34 @@ const prev = () => {
   border-radius: 10px;
 }
 .team-name {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
-  margin-top: 12px;
+  margin-top: 0.75rem;
 }
 .team-role {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--vt-c-black);
-  margin: 5px 0 10px;
+  margin: 0.3125rem 0 0.625rem;
 }
 .team-bio {
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.5;
   opacity: 0.85;
-  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
   max-width: 45ch;
 }
 .team-socials {
   display: flex;
-  gap: 12px;
+  gap: 0.75rem;
   margin-top: auto;
 }
 @media (max-width: 959px) {
   .arrow-btn.left {
-    left: -20px;
+    left: -1.25rem;
   }
   .arrow-btn.right {
-    right: -20px;
+    right: -1.25rem;
   }
 }
 </style>

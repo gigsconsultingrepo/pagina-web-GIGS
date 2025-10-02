@@ -83,15 +83,15 @@ const filteredClients = computed(() => {
 }
 
 .clients-title {
-  font-size: clamp(28px, 5vw, 40px);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
   font-weight: 800;
-  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
 }
 
 .clients-desc {
   max-width: 75ch;
-  margin: 0 auto 40px;
-  font-size: 16px;
+  margin: 0 auto 2.5rem;
+  font-size: 1rem;
   line-height: 1.6;
   opacity: 0.9;
 }
@@ -99,18 +99,18 @@ const filteredClients = computed(() => {
 .clients-filters {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 40px;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
   flex-wrap: wrap;
 }
 
 .filter-btn {
-  padding: 6px 14px;
-  border-radius: 20px;
+  padding: 0.375rem 0.875rem;
+  border-radius: 1.25rem;
   border: 1px solid #ddd;
   background: #fff;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 0.875rem;
   transition: all 0.3s;
 }
 
@@ -126,12 +126,12 @@ const filteredClients = computed(() => {
 
 
 .clients-grid {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 
 .client-card {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
 }
 
 .client-avatar {
@@ -143,7 +143,7 @@ const filteredClients = computed(() => {
 }
 
 .client-name {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 </style>

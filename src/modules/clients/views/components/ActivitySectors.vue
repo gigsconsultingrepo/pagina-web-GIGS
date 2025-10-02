@@ -210,15 +210,15 @@ const prev = () => {
 }
 
 .sectors-title {
-  font-size: clamp(28px, 5vw, 40px);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
   font-weight: 800;
-  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
 }
 
 .sectors-desc {
   max-width: 75ch;
-  margin: 0 auto 40px;
-  font-size: 16px;
+  margin: 0 auto 2.5rem;
+  font-size: 1rem;
   line-height: 1.6;
   opacity: 0.9;
 }
@@ -233,7 +233,7 @@ const prev = () => {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 28px;
+  font-size: 1.75rem;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -277,39 +277,39 @@ const prev = () => {
   z-index: 2; /* Se pone arriba del overlay oscuro */
   color: #fff;
   text-align: center;
-  padding: 20px;
+  padding: 1.25rem;
   width: 100%;
 }
 
 .sector-name {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 0.375rem;
 }
 
 .sector-desc {
-  font-size: 14px;
-  margin-bottom: 6px;
+  font-size: 0.875rem;
+  margin-bottom: 0.375rem;
 }
 
 .sector-clients {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: #f5f5f5;
 }
 
 @media (max-width: 959px) {
   .arrow-btn.left {
-    left: -10px;
+    left: -0.625rem;
   }
   .arrow-btn.right {
-    right: -10px;
+    right: -0.625rem;
   }
   .sector-card {
     width: 70%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-}
+  }
 }
 </style>

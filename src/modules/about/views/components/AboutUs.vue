@@ -58,7 +58,7 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 
 
 .subtitle {
-  font-size: 18px;
+  font-size: var(--text-lg);
   font-weight: 700;
   color: var(--color-primary-dark);
   margin-bottom: 16px;
@@ -78,7 +78,7 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
   margin: 0;
   max-width: 60ch;
   opacity: .9;
-  font-size: 16px;
+  font-size: var(--text-base);
   line-height: 1.6;
 }
 

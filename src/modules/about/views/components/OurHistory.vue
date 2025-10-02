@@ -65,7 +65,7 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
   margin: 0;
   max-width: 60ch;
   opacity: .95;
-  font-size: 16px;
+  font-size: var(--text-base);
   line-height: 1.6;
 }
 

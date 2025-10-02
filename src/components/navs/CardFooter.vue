@@ -93,13 +93,13 @@ const rightCta = computed(() => normalizedLang.value === 'es' ? 'Contáctanos' :
 .callout-title {
   margin: 0 0 8px;
   font-weight: 700;
-  font-size: 25px;
+  font-size: var(--text-3xl);
 }
 
 .callout-text {
   margin: 0;
   line-height: 1.35;
-  font-size: 18px;
+  font-size: var(--text-lg);
   opacity: .9;
   color: #FFF;
   text-align: justify;
@@ -112,7 +112,7 @@ const rightCta = computed(() => normalizedLang.value === 'es' ? 'Contáctanos' :
   align-items: center;
   gap: 8px;
   white-space: nowrap;
-  font-size: 25px;
+  font-size: var(--text-3xl);
 }
 
 .right-kicker {
@@ -128,7 +128,7 @@ const rightCta = computed(() => normalizedLang.value === 'es' ? 'Contáctanos' :
   color: #0c2b7a;
   text-decoration: none;
   font-weight: 600;
-  font-size: var(--text-sm, 13px);
+  font-size: var(--text-sm);
 }
 
 @media (max-width: 959px) {

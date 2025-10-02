@@ -59,12 +59,12 @@ const { t, tm } = useI18n({
 <style scoped>
 .intro-title {
   font-weight: 900;
-  font-size: clamp(24px, 4vw, 32px);
+  font-size: clamp(1.5rem, 4vw, 2rem);
   margin-bottom: 12px;
 }
 
 .intro-subtitle {
-  font-size: 16px;
+  font-size: 1rem;
   max-width: 75ch;
   margin: 0 auto;
   opacity: 0.85;
@@ -73,7 +73,7 @@ const { t, tm } = useI18n({
 
 .challenge-text {
   font-weight: 700;
-  font-size: 16px;
+  font-size: 1rem;
   margin: 0;
   text-align: center;
 }

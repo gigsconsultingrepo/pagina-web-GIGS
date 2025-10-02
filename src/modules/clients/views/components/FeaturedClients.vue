@@ -178,14 +178,14 @@ const { t, locale } = useI18n({
 }
 
 .client-sector {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #1976d2;
   font-weight: 500;
   margin-bottom: 12px;
 }
 
 .client-desc {
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.5;
   margin-bottom: 20px;
   flex-grow: 1;
@@ -204,12 +204,12 @@ const { t, locale } = useI18n({
 
 .metric-label {
   display: block;
-  font-size: 13px;
+  font-size: 0.8125rem;
   opacity: 0.8;
 }
 
 .metric-value {
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: 800;
   color: #1976d2;
 }

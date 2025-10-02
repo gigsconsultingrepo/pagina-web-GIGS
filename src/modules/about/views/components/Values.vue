@@ -98,18 +98,18 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 }
 
 .values-title {
-  font-size: clamp(28px, 5vw, 40px);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
   font-weight: 800;
-  margin-bottom: 16px;
-  color: var (--vt-c-black);
+  margin-bottom: 1rem;
+  color: var(--vt-c-black);
 }
 
 .values-desc {
   max-width: 75ch;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.6;
   opacity: 0.9;
-  color: var (--vt-c-black);
+  color: var(--vt-c-black);
 }
 
 .value-card {
@@ -126,17 +126,17 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 }
 
 .value-title {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
-  margin-bottom: 12px;
-  color:  var (--vt-c-black);
+  margin-bottom: 0.75rem;
+  color: var(--vt-c-black);
 }
 
 .value-text {
-  font-size: 15px;
+  font-size: 0.9375rem;
   line-height: 1.5;
   opacity: 0.85;
   max-width: 50ch;
-  color: var (--vt-c-black);
+  color: var(--vt-c-black);
 }
 </style>

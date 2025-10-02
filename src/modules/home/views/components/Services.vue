@@ -143,7 +143,7 @@ const goAll = () => router.push('/servicios')
   font-weight: 900;
   letter-spacing: .02em;
   line-height: .85;
-  font-size: clamp(48px, 12vw, 150px);
+  font-size: clamp(3rem, 12vw, 9.375rem);
   color: var(--vt-c-text-light-1);
 }
 
@@ -155,7 +155,7 @@ const goAll = () => router.push('/servicios')
 .t-today {
   font-weight: 800;
   letter-spacing: .35em;
-  font-size: clamp(12px, 1.8vw, 20px);
+  font-size: clamp(0.75rem, 1.8vw, 1.25rem);
   opacity: .8;
 }
 
@@ -173,7 +173,7 @@ const goAll = () => router.push('/servicios')
   z-index: 0;
   font-weight: 900;
   line-height: .8;
-  font-size: clamp(110px, 16vw, 220px);
+  font-size: clamp(6.875rem, 16vw, 13.75rem);
   color: transparent;
   text-stroke: 6px var(--vt-c-indigo);
   text-shadow: 0 0 10px rgba(15, 72, 201, .25), 0 0 22px rgba(15, 72, 201, .25), 0 6px 18px rgba(0, 0, 0, .15);
@@ -219,14 +219,14 @@ const goAll = () => router.push('/servicios')
 .svc-title {
   margin: 0 0 6px;
   font-weight: 800;
-  font-size: clamp(16px, 2.2vw, 18px);
+  font-size: clamp(1rem, 2.2vw, 1.125rem);
   color: var(--vt-c-text-light-1);
 }
 
 .svc-desc {
   margin: 0;
   opacity: .85;
-  font-size: 13px;
+  font-size: var(--text-sm);
   line-height: 1.35;
   min-height: 2.7em;
 }
@@ -262,13 +262,13 @@ const goAll = () => router.push('/servicios')
 .info-title {
   margin: 0 0 10px;
   font-weight: 900;
-  font-size: clamp(28px, 4.5vw, 40px);
+  font-size: clamp(1.75rem, 4.5vw, 2.5rem);
 }
 
 .info-sub {
   margin: 0 auto;
   max-width: 70ch;
-  font-size: 16px;
+  font-size: var(--text-base);
   opacity: .9;
   line-height: 1.45;
 }
@@ -298,14 +298,14 @@ const goAll = () => router.push('/servicios')
   margin: .5em;
   font-weight: 700;
   text-align: center;
-  font-size: 18px;
+  font-size: var(--text-lg);
 }
 
 .info-pill {
   border-radius: 50px;
   background: var(--vt-c-indigo);
   color: var(--vt-c-white);
-  font-size: 13px;
+  font-size: var(--text-sm);
   cursor: pointer;
 }
 
@@ -322,7 +322,7 @@ const goAll = () => router.push('/servicios')
   background: var(--vt-c-indigo);
   color: var(--vt-c-white);
   font-weight: 800;
-  font-size: 18px;
+  font-size: var(--text-lg);
   box-shadow: 0 6px 18px rgba(0, 0, 0, .15);
 }
 </style>
