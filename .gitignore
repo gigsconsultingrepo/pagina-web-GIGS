@@ -12,12 +12,16 @@ dist
 dist-ssr
 *.local
 
-.firebaserc
+# Environment variables
+.env
+.env.local
+.env.*.local
+
 *.yaml
 .github/workflows/*
-firebase.json
 .github
 
+# Firebase Hosting (ya no se usa)
 .firebase
 
 # Editor directories and files

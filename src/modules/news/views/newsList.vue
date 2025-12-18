@@ -6,9 +6,10 @@
  */
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
-import { db } from '@/firebase';
+import { db, auth } from '@/firebase';
+import { getApiUrl } from '@/services/api-service';
 import {
-  collection, getDocs, doc, deleteDoc, updateDoc, serverTimestamp
+  collection, getDocs, doc, deleteDoc, updateDoc, getDoc, serverTimestamp
 } from 'firebase/firestore';
 
 /* ------------ State ------------ */
@@ -34,8 +35,10 @@ const editValid = ref(false);
 /* ------------ Utils ------------ */
 const fmtDate = (ts) => {
   try {
+    if (!ts) return '—';
     const d = ts?.toDate?.() || (ts?.seconds ? new Date(ts.seconds * 1000) : new Date(ts));
-    return d ? d.toLocaleString(undefined, { year: 'numeric', month: 'short', day: '2-digit' }) : '—';
+    if (!d || isNaN(d.getTime())) return '—';
+    return d.toLocaleString(undefined, { year: 'numeric', month: 'short', day: '2-digit' });
   } catch { return '—'; }
 };
 const clUrl = (url, w = 240) => (url || '').replace('/upload/', `/upload/f_auto,q_auto,w_${w}/`);
@@ -77,7 +80,12 @@ onMounted(loadAll);
 const filtered = computed(() => {
   const q = search.value.trim().toLowerCase();
   const st = statusFilter.value;
+  const currentUserEmail = auth.currentUser?.email;
+  
   return items.value.filter(n => {
+    // Filtrar solo noticias del usuario actual
+    if (currentUserEmail && n.author !== currentUserEmail) return false;
+    
     if (st !== 'all' && n.status !== st) return false;
     if (!q) return true;
     const text = [
@@ -88,7 +96,19 @@ const filtered = computed(() => {
 });
 
 /* ------------ Acciones ------------ */
+const isOwner = (n) => {
+  const currentUserEmail = auth.currentUser?.email;
+  return currentUserEmail && n.author === currentUserEmail;
+};
+
 const openEdit = (n) => {
+  // Verificar que el usuario sea el autor
+  if (!isOwner(n)) {
+    error.value = 'No tienes permiso para editar esta noticia.';
+    setTimeout(() => { error.value = ''; }, 5000);
+    return;
+  }
+  
   editForm.value = {
     id: n.id,
     title: n.title || '',
@@ -102,6 +122,23 @@ const openEdit = (n) => {
 
 const saveEdit = async () => {
   if (!editForm.value.id) return;
+  
+  // Verificar que el usuario sea el autor
+  const docSnap = await getDoc(doc(db, 'news', editForm.value.id));
+  if (!docSnap.exists()) {
+    error.value = 'La noticia no existe.';
+    setTimeout(() => { error.value = ''; }, 5000);
+    return;
+  }
+  
+  const newsData = docSnap.data();
+  if (!isOwner({ author: newsData.author })) {
+    error.value = 'No tienes permiso para editar esta noticia.';
+    editDialog.value = false;
+    setTimeout(() => { error.value = ''; }, 5000);
+    return;
+  }
+  
   try {
     saving.value = true;
     const ref = doc(db, 'news', editForm.value.id);
@@ -116,10 +153,23 @@ const saveEdit = async () => {
       status: editForm.value.status,
       updatedAt: serverTimestamp(),
     };
+    
+    // Si se cambia a 'published' y no tiene publishedAt, agregarlo
+    if (editForm.value.status === 'published') {
+      if (!newsData.publishedAt) {
+        payload.publishedAt = serverTimestamp();
+      }
+    }
+    
     await updateDoc(ref, payload);
    
     const idx = items.value.findIndex(x => x.id === editForm.value.id);
-    if (idx >= 0) items.value[idx] = { ...items.value[idx], ...payload };
+    if (idx >= 0) {
+      items.value[idx] = { ...items.value[idx], ...payload };
+      if (payload.publishedAt) {
+        items.value[idx].publishedAt = payload.publishedAt;
+      }
+    }
     editDialog.value = false;
   } catch (e) {
     console.error(e);
@@ -129,12 +179,39 @@ const saveEdit = async () => {
 };
 
 const toggleStatus = async (n) => {
+  // Verificar que el usuario sea el autor
+  if (!isOwner(n)) {
+    error.value = 'No tienes permiso para cambiar el estado de esta noticia.';
+    setTimeout(() => { error.value = ''; }, 5000);
+    return;
+  }
+  
   try {
     const next = n.status === 'published' ? 'draft' : 'published';
-    await updateDoc(doc(db, 'news', n.id), { status: next, updatedAt: serverTimestamp() });
+    const updateData = { 
+      status: next, 
+      updatedAt: serverTimestamp() 
+    };
+    
+    // Si cambia a 'published' y no tiene publishedAt, agregarlo
+    if (next === 'published') {
+      // Verificar en la BD si realmente no tiene publishedAt (por si acaso)
+      const docSnap = await getDoc(doc(db, 'news', n.id));
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (!data.publishedAt) {
+          updateData.publishedAt = serverTimestamp();
+        }
+      }
+    }
+    
+    await updateDoc(doc(db, 'news', n.id), updateData);
     n.status = next;
+    if (updateData.publishedAt) {
+      n.publishedAt = updateData.publishedAt;
+    }
   } catch (e) {
-    console.error(e);
+    console.error('Error cambiando estado:', e);
   }
 };
 
@@ -144,7 +221,7 @@ const confirm = (msg) => window.confirm(msg);
 const deleteInCloudinary = async (public_id) => {
   if (!public_id) return;
   try {
-    await axios.delete('/api/media', { params: { public_id } });
+    await axios.delete(getApiUrl('/api/media'), { params: { public_id } });
   } catch (e) {
     // solo loguea
     console.warn('Cloudinary delete failed for', public_id, e?.response?.data || e.message);
@@ -153,7 +230,15 @@ const deleteInCloudinary = async (public_id) => {
 
 const removeNews = async (n) => {
   if (!n?.id) return;
-  const ok = confirm(`¿Eliminar la noticia “${n.title || n.slug}”?\nEsto también intentará borrar sus imágenes en Cloudinary.`);
+  
+  // Verificar que el usuario sea el autor
+  if (!isOwner(n)) {
+    error.value = 'No tienes permiso para eliminar esta noticia.';
+    setTimeout(() => { error.value = ''; }, 5000);
+    return;
+  }
+  
+  const ok = confirm(`¿Eliminar la noticia "${n.title || n.slug}"?\nEsto también intentará borrar sus imágenes en Cloudinary.`);
   if (!ok) return;
 
   try {
@@ -178,7 +263,11 @@ const removeNews = async (n) => {
     items.value = items.value.filter(x => x.id !== n.id);
   } catch (e) {
     console.error(e);
-    alert('No fue posible eliminar la noticia.');
+    error.value = 'No fue posible eliminar la noticia.';
+    // Ocultar el mensaje después de 5 segundos
+    setTimeout(() => {
+      error.value = '';
+    }, 5000);
   } finally {
     deleting.value = false;
   }
@@ -227,7 +316,7 @@ const removeNews = async (n) => {
           <v-list-item v-for="n in filtered" :key="n.id">
             <!-- Icono estado -->
             <template #prepend>
-              <v-tooltip text="Cambiar estado">
+              <v-tooltip v-if="isOwner(n)" text="Cambiar estado">
                 <template #activator="{ props }">
                   <v-btn v-bind="props" icon variant="text" :color="n.status === 'published' ? 'success' : 'warning'"
                     @click.stop="toggleStatus(n)">
@@ -235,6 +324,9 @@ const removeNews = async (n) => {
                   </v-btn>
                 </template>
               </v-tooltip>
+              <v-icon v-else :color="n.status === 'published' ? 'success' : 'warning'" class="ml-2">
+                {{ n.status === 'published' ? 'mdi-eye' : 'mdi-eye-off' }}
+              </v-icon>
             </template>
 
             <!-- Contenido -->
@@ -261,7 +353,7 @@ const removeNews = async (n) => {
                   <v-img :src="clUrl(n.img_one || n.coverUrl)" alt="" />
                 </v-avatar>
 
-                <v-tooltip text="Editar">
+                <v-tooltip v-if="isOwner(n)" text="Editar">
                   <template #activator="{ props }">
                     <v-btn v-bind="props" icon variant="text" @click.stop="openEdit(n)">
                       <v-icon>mdi-pencil</v-icon>
@@ -269,7 +361,7 @@ const removeNews = async (n) => {
                   </template>
                 </v-tooltip>
 
-                <v-tooltip text="Eliminar">
+                <v-tooltip v-if="isOwner(n)" text="Eliminar">
                   <template #activator="{ props }">
                     <v-btn v-bind="props" icon variant="text" color="error" :loading="deleting"
                       @click.stop="removeNews(n)">

@@ -1,50 +1,16 @@
 <script setup lang="ts">
-import { computed, isRef } from 'vue'
-import { useI18n } from 'vue-i18n'
-import type { PropType } from 'vue'
-
-type LangPair = { es: string; en: string }
-
-const props = defineProps<{
-  title: LangPair | string
-  text: LangPair | string
-}>()
-
-let localeSource: any = null
-try {
-  const i18n = useI18n({ useScope: 'global' })
-  localeSource = (i18n as any).locale ?? (i18n as any).global?.locale ?? null
-} catch {
-  localeSource = null
-}
-
-const getRawLocale = () => {
-  if (localeSource) return isRef(localeSource) ? localeSource.value : String(localeSource)
-  if (typeof document !== 'undefined') {
-    const d = document.documentElement.getAttribute('lang')
-    if (d) return d
-  }
-  if (typeof navigator !== 'undefined' && (navigator as any).language) return (navigator as any).language
-  return 'es'
-}
-
-const currentLang = computed(() => String(getRawLocale()).split('-')[0].toLowerCase())
-const normalizedLang = computed(() => currentLang.value.startsWith('es') ? 'es' : 'en')
-
-const leftTitle = computed(() => {
-  if (!props.title) return ''
-  if (typeof props.title === 'string') return props.title
-  return (props.title as LangPair)[normalizedLang.value] ?? (props.title as LangPair).es ?? ''
+const props = withDefaults(defineProps<{
+  title: string
+  text: string
+  ctaHref?: string
+}>(), {
+  ctaHref: '/contacto#form-contacto'
 })
 
-const leftText = computed(() => {
-  if (!props.text) return ''
-  if (typeof props.text === 'string') return props.text
-  return (props.text as LangPair)[normalizedLang.value] ?? (props.text as LangPair).es ?? ''
-})
-
-const rightKicker = computed(() => normalizedLang.value === 'es' ? 'Únete a GIGS!' : 'Join GIGS!')
-const rightCta = computed(() => normalizedLang.value === 'es' ? 'Contáctanos' : 'Contact us')
+const leftTitle = props.title
+const leftText = props.text
+const rightKicker = 'Únete a GIGS!'
+const rightCta = 'Contáctanos'
 </script>
 
 <template>
@@ -57,7 +23,7 @@ const rightCta = computed(() => normalizedLang.value === 'es' ? 'Contáctanos' :
 
       <div class="callout-right">
         <p class="right-kicker">{{ rightKicker }}</p>
-        <a class="cta-btn" href="/contacto#form-contacto" :aria-label="rightCta">
+        <a class="cta-btn" :href="ctaHref" :aria-label="rightCta">
           {{ rightCta }}
         </a>
       </div>

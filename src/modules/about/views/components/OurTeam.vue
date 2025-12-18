@@ -1,92 +1,45 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
-import { useI18n } from "vue-i18n";
 
-const messages = {
-  es: {
-    team: {
-      title: "Nuestro Equipo",
-      description:
-        "Un equipo comprometido, creativo y experto en tecnología, trabajando juntos para impulsar el éxito de cada proyecto.",
+const teamData = {
+  title: "Nuestro Equipo",
+  description: "Un equipo comprometido, creativo y experto en tecnología, trabajando juntos para impulsar el éxito de cada proyecto.",
+  members: [
+    {
+      name: "Valeria Montoya",
+      role: "Directora de Innovación",
+      bio: "Más de 8 años liderando proyectos tecnológicos que impulsan la transformación digital.",
     },
-    members: [
-      {
-        name: "Valeria Montoya",
-        role: "Directora de Innovación",
-        bio: "Más de 8 años liderando proyectos tecnológicos que impulsan la transformación digital.",
-      },
-      {
-        name: "Andrés Cifuentes",
-        role: "Gerente de Estrategia Digital",
-        bio: "Experto en planeación estratégica y crecimiento empresarial en entornos ágiles.",
-      },
-      {
-        name: "Santiago Beltrán",
-        role: "Coordinador de TI",
-        bio: "Amplia trayectoria en desarrollo de software y gestión de equipos ágiles.",
-      },
-      {
-        name: "Mariana Duarte",
-        role: "Comunicación Corporativa",
-        bio: "Comunicación con experiencia en fortalecer marcas y relaciones empresariales.",
-      },
-      {
-        name: "Camila Torres",
-        role: "UX/UI Designer",
-        bio: "Diseñadora enfocada en experiencias digitales atractivas y funcionales.",
-      },
-      {
-        name: "Javier Rojas",
-        role: "Analista de Datos",
-        bio: "Especialista en analítica avanzada y visualización de datos para decisiones estratégicas.",
-      },
-    ],
-  },
-  en: {
-    team: {
-      title: "Our Team",
-      description:
-        "A committed, creative and technology-expert team, working together to drive the success of each project.",
+    {
+      name: "Andrés Cifuentes",
+      role: "Gerente de Estrategia Digital",
+      bio: "Experto en planeación estratégica y crecimiento empresarial en entornos ágiles.",
     },
-    members: [
-      {
-        name: "Valeria Montoya",
-        role: "Innovation Director",
-        bio: "Over 8 years leading technology projects driving digital transformation.",
-      },
-      {
-        name: "Andrés Cifuentes",
-        role: "Digital Strategy Manager",
-        bio: "Expert in strategic planning and business growth in agile environments.",
-      },
-      {
-        name: "Santiago Beltrán",
-        role: "IT Coordinator",
-        bio: "Extensive experience in software development and agile team management.",
-      },
-      {
-        name: "Mariana Duarte",
-        role: "Corporate Communications",
-        bio: "Communications specialist with experience in strengthening brands and business relations.",
-      },
-      {
-        name: "Camila Torres",
-        role: "UX/UI Designer",
-        bio: "Designer focused on engaging and functional digital experiences.",
-      },
-      {
-        name: "Javier Rojas",
-        role: "Data Analyst",
-        bio: "Specialist in advanced analytics and data visualization for strategic decisions.",
-      },
-    ],
-  },
+    {
+      name: "Santiago Beltrán",
+      role: "Coordinador de TI",
+      bio: "Amplia trayectoria en desarrollo de software y gestión de equipos ágiles.",
+    },
+    {
+      name: "Mariana Duarte",
+      role: "Comunicación Corporativa",
+      bio: "Comunicación con experiencia en fortalecer marcas y relaciones empresariales.",
+    },
+    {
+      name: "Camila Torres",
+      role: "UX/UI Designer",
+      bio: "Diseñadora enfocada en experiencias digitales atractivas y funcionales.",
+    },
+    {
+      name: "Javier Rojas",
+      role: "Analista de Datos",
+      bio: "Especialista en analítica avanzada y visualización de datos para decisiones estratégicas.",
+    },
+  ],
 };
 
-const { t, locale } = useI18n({ useScope: "local", inheritLocale: true, messages });
-
 const members = computed(() =>
-  messages[locale.value]?.members.map((m) => ({
+  teamData.members.map((m) => ({
     ...m,
     img: new URL("@/assets/img/about/box-example.jpg", import.meta.url).href,
   }))
@@ -128,8 +81,8 @@ const prev = () => {
 <template>
   <section class="team-section">
     <v-container class="py-12 text-center">
-      <h2 class="team-title">{{ t("team.title") }}</h2>
-      <p class="team-desc">{{ t("team.description") }}</p>
+      <h2 class="team-title">{{ teamData.title }}</h2>
+      <p class="team-desc">{{ teamData.description }}</p>
 
       <div class="team-carousel">
         <button class="arrow-btn left" @click="prev">

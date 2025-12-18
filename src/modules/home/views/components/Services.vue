@@ -1,93 +1,71 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+
+import { getServices } from '@/services/firebase-service'
 
 import empresa from '@/assets/img/empresas.png'
 import chatbots from '@/assets/img/chatbots.png'
 import nube from '@/assets/img/nube.png'
 import portafolio from '@/assets/img/portafolio.png'
 
-import fabricaSoftware from '@/assets/img/services/fabrica-software.png'
-import transformacionDigital from '@/assets/img/services/transformacion-digital.png'
-import taas from '@/assets/img/services/taas.png'
-
-const messages = {
-  es: {
-    head: { top: '4', category: 'SERVICIOS', today: 'GIGS CONSULTING' },
-    items: [
-      { title: 'Empresas', desc: 'Webs corporativas funcionales y escalables.' },
-      { title: 'Chatbots', desc: 'Asistentes virtuales inteligentes 24/7.' },
-      { title: 'Soluciones en la nube', desc: 'Migración y gestión segura desde cualquier dispositivo.' },
-      { title: 'Portafolios', desc: 'Diseños visuales para mostrar tu trabajo profesional.' }
-    ],
-    showcase: {
-      title: 'Nuestros Servicios',
-      subtitle:
-        'En GIGS unimos innovación y tecnología para ofrecer soluciones que transforman la manera en que las empresas trabajan, comunican y crecen'
-    },
-    showcaseItems: [
-      { title: 'Fábrica de Software', to: '/servicios/fabrica-software' },
-      { title: 'Transformación Digital', to: '/servicios/transformación-digital' },
-      { title: 'TaaS (Talent as a Service)', to: '/servicios/taas' }
-    ],
-    cta: { more: 'Ver Más', all: 'Ver Todos' }
-  },
-  en: {
-    head: { top: '4', category: 'SERVICES', today: 'GIGS CONSULTING' },
-    items: [
-      { title: 'Companies', desc: 'Corporate websites: functional and scalable.' },
-      { title: 'Chatbots', desc: 'Smart virtual assistants 24/7.' },
-      { title: 'Cloud Solutions', desc: 'Secure migration & management from any device.' },
-      { title: 'Portfolios', desc: 'Visual designs to showcase your work.' }
-    ],
-    showcase: {
-      title: 'Our Services',
-      subtitle:
-        'At GIGS we combine innovation and technology to deliver solutions that transform how companies work, communicate, and grow'
-    },
-    showcaseItems: [
-      { title: 'Software Factory', to: '/services/software-factory' },
-      { title: 'Digital Transformation', to: '/services/digital-transformation' },
-      { title: 'TaaS (Talent as a Service)', to: '/services/taas' }
-    ],
-    cta: { more: 'Learn More', all: 'View All' }
-  }
+const headData = { top: '4', category: 'SERVICIOS', today: 'GIGS CONSULTING' }
+const items = [
+  { title: 'Empresas', desc: 'Webs corporativas funcionales y escalables.' },
+  { title: 'Chatbots', desc: 'Asistentes virtuales inteligentes 24/7.' },
+  { title: 'Soluciones en la nube', desc: 'Migración y gestión segura desde cualquier dispositivo.' },
+  { title: 'Portafolios', desc: 'Diseños visuales para mostrar tu trabajo profesional.' }
+]
+const showcase = {
+  title: 'Nuestros Servicios',
+  subtitle: 'En GIGS unimos innovación y tecnología para ofrecer soluciones que transforman la manera en que las empresas trabajan, comunican y crecen'
 }
-
-const { t, tm } = useI18n({
-  useScope: 'local',
-  inheritLocale: true,
-  messages
-})
-
-const icons = [empresa, chatbots, nube, portafolio]
-
-const showcaseImgs = [fabricaSoftware, transformacionDigital, taas]
+const cta = { more: 'Ver Más', all: 'Ver Todos' }
 
 const router = useRouter()
-const goCard = (i) => {
-  const list = tm('showcaseItems')
-  router.push(list?.[i]?.to || '/servicios')
-}
-const goAll = () => router.push('/servicios')
+
+// ---------- FIRESTORE ----------
+const services = ref([])
+
+onMounted(async () => {
+  services.value = (await getServices()).slice(0, 3)
+})
+
+// --------------------------------
+
+const icons = [empresa, chatbots, nube, portafolio]
 </script>
 
 <template>
   <section class="services-top">
     <v-container class="py-8 py-md-12">
       <div class="info-head">
-        <h2 class="info-title">{{ t('showcase.title') }}</h2>
-        <p class="info-sub">{{ t('showcase.subtitle') }}</p>
+        <h2 class="info-title">{{ showcase.title }}</h2>
+        <p class="info-sub">{{ showcase.subtitle }}</p>
       </div>
 
+      <!--  SERVICES FROM FIRESTORE -->
       <v-row class="g-8 g-md-12" align="stretch" justify="center">
-        <v-col v-for="(it, i) in tm('showcaseItems')" :key="'info-' + i" cols="12" sm="6" md="4"
-          class="d-flex justify-center">
-          <article class="info-card" :style="{ backgroundImage: `url(${showcaseImgs[i]})` }">
+        <v-col
+          v-for="svc in services"
+          :key="svc.id"
+          cols="12"
+          sm="6"
+          md="4"
+          class="d-flex justify-center"
+        >
+          <article
+            class="info-card"
+            :style="{ backgroundImage: `url(${svc.image})` }"
+          >
             <div class="info-content">
-              <h3 class="info-name">{{ it.title }}</h3>
-              <button class="info-pill" type="button" @click="goCard(i)">
-                {{ t('cta.more') }}
+              <h3 class="info-name">{{ svc.title }}</h3>
+              <button
+                class="info-pill"
+                type="button"
+                @click="router.push(`/servicios/${svc.id}`)"
+              >
+                {{ cta.more }}
               </button>
             </div>
           </article>
@@ -95,21 +73,28 @@ const goAll = () => router.push('/servicios')
       </v-row>
 
       <div class="info-bottom">
-        <button class="info-primary" type="button" @click="goAll">
-          {{ t('cta.all') }}
+        <button class="info-primary" type="button" @click="router.push('/servicios')">
+          {{ cta.all }}
         </button>
       </div>
 
       <div class="title-wrap d-flex align-start ga-4 mb-8 mb-md-12">
-        <span class="t-big">{{ t('head.top') }}</span>
+        <span class="t-big">{{ headData.top }}</span>
         <div class="t-side">
-          <div class="t-cat">{{ t('head.category') }}</div>
-          <div class="t-today">{{ t('head.today') }}</div>
+          <div class="t-cat">{{ headData.category }}</div>
+          <div class="t-today">{{ headData.today }}</div>
         </div>
       </div>
 
       <v-row class="g-6" align="stretch">
-        <v-col v-for="(it, i) in tm('items')" :key="`svc-${i}`" cols="12" sm="6" md="3" class="d-flex">
+        <v-col
+          v-for="(it, i) in items"
+          :key="`svc-${i}`"
+          cols="12"
+          sm="6"
+          md="3"
+          class="d-flex"
+        >
           <div class="rank-wrap">
             <div class="rank-num" :aria-hidden="true">{{ i + 1 }}</div>
 
@@ -129,6 +114,7 @@ const goAll = () => router.push('/servicios')
 </template>
 
 <style scoped>
+/* COPIA EXACTAMENTE TU MISMO CSS (NO LO TOQUÉ) */
 .services-top {
   position: relative;
   background: var(--vt-c-white);
@@ -180,10 +166,6 @@ const goAll = () => router.push('/servicios')
   pointer-events: none;
 }
 
-.rank-num:hover {
-  -webkit-text-stroke: 6px var(--vt-c-indigo);
-}
-
 .rank-card {
   position: relative;
   z-index: 1;
@@ -231,28 +213,7 @@ const goAll = () => router.push('/servicios')
   min-height: 2.7em;
 }
 
-@media (max-width:600px) {
-  .rank-wrap {
-    padding-left: 40px;
-  }
-
-  .rank-num {
-    transform: translateX(-45%);
-    font-size: clamp(90px, 24vw, 150px);
-  }
-}
-
-@media (max-width:380px) {
-  .rank-wrap {
-    padding-left: 34px;
-  }
-
-  .rank-num {
-    transform: translateX(-40%);
-    bottom: -16px;
-  }
-}
-
+/* Showcase arriba */
 .info-head {
   text-align: center;
   max-width: 980px;

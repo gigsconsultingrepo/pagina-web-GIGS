@@ -1,44 +1,23 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-
-const messages = {
-  es: {
-    process: {
-      title: 'Nuestro Proceso de Trabajo',
-      subtitle: 'Metodología probada para entregar resultados excepcionales',
-      steps: [
-        { title: 'Descubrimiento y Análisis', desc: 'Entendemos tus necesidades, analizamos el contexto y definimos los objetivos del proyecto.' },
-        { title: 'Planificación y Diseño', desc: 'Desarrollamos la arquitectura técnica, diseñamos la experiencia de usuario y creamos prototipos.' },
-        { title: 'Desarrollo e Implementación', desc: 'Construimos la solución usando las mejores tecnologías y metodologías ágiles.' },
-        { title: 'Testing y Calidad', desc: 'Realizamos pruebas exhaustivas para asegurar la calidad y el rendimiento óptimo.' },
-        { title: 'Despliegue y Soporte', desc: 'Realizamos pruebas exhaustivas para asegurar la calidad y el rendimiento óptimo.' }
-      ]
-    }
-  },
-  en: {
-    process: {
-      title: 'Our Work Process',
-      subtitle: 'Proven methodology to deliver exceptional results.',
-      steps: [
-        { title: 'Discovery and Analysis', desc: 'We understand your needs, analyze the context, and define the project objectives.' },
-        { title: 'Planning and Design', desc: 'We develop the technical architecture, design the user experience, and create prototypes.' },
-        { title: 'Development and Implementation', desc: 'We build the solution using the best technologies and agile methodologies.' },
-        { title: 'Testing and Quality', desc: 'We conduct thorough testing to ensure quality and optimal performance.' },
-        { title: 'Deployment and Support', desc: 'We perform thorough testing to ensure quality and optimal performance.' }
-      ]
-    }
-  }
+const processData = {
+  title: 'Nuestro Proceso de Trabajo',
+  subtitle: 'Metodología probada para entregar resultados excepcionales',
+  steps: [
+    { title: 'Descubrimiento y Análisis', desc: 'Entendemos tus necesidades, analizamos el contexto y definimos los objetivos del proyecto.' },
+    { title: 'Planificación y Diseño', desc: 'Desarrollamos la arquitectura técnica, diseñamos la experiencia de usuario y creamos prototipos.' },
+    { title: 'Desarrollo e Implementación', desc: 'Construimos la solución usando las mejores tecnologías y metodologías ágiles.' },
+    { title: 'Testing y Calidad', desc: 'Realizamos pruebas exhaustivas para asegurar la calidad y el rendimiento óptimo.' },
+    { title: 'Despliegue y Soporte', desc: 'Realizamos pruebas exhaustivas para asegurar la calidad y el rendimiento óptimo.' }
+  ]
 }
-
-const { t, tm } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 </script>
 
 <template>
   <section class="process-section">
     <v-container class="py-12 py-md-14">
       <header class="text-center mb-8 mb-md-10">
-        <h2 class="title">{{ t('process.title') }}</h2>
-        <p class="subtitle">{{ t('process.subtitle') }}</p>
+        <h2 class="title">{{ processData.title }}</h2>
+        <p class="subtitle">{{ processData.subtitle }}</p>
       </header>
 
       <div class="timeline">
@@ -47,7 +26,7 @@ const { t, tm } = useI18n({ useScope: 'local', inheritLocale: true, messages })
         </div>
 
         <v-row class="gy-8" justify="center">
-          <v-col v-for="(step, i) in tm('process.steps')" :key="i" cols="12" md="10" class="step-col">
+          <v-col v-for="(step, i) in processData.steps" :key="i" cols="12" md="10" class="step-col">
             <div class="step" :class="{ right: i % 2 === 1 }">
               <div class="badge"><span>{{ i + 1 }}</span></div>
 

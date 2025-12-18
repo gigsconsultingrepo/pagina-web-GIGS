@@ -42,7 +42,6 @@ export default createStore({
       if (!state.modulesList.find((m) => m === module)) {
         commit("SET_MODULES", [...state.modulesList, module]);
       } else {
-        console.log("Module already exists");
       }
     },
   },

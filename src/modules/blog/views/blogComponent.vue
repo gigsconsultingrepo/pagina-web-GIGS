@@ -63,14 +63,29 @@ const loadPosts = async (next = false) => {
     }
 
     try {
+      // Fallback: cargar todas y filtrar en cliente
       const snapFallback = await getDocs(collection(db, 'news'));
-      items.value = snapFallback.docs.map(d => ({ id: d.id, _snap: d, ...d.data() }))
-        .filter(p => p.status === 'published')
-        .sort((a, b) => (b.publishedAt?.seconds || 0) - (a.publishedAt?.seconds || 0))
-        .slice(0, perPage);
-      hasMore.value = false;
+      const allDocs = snapFallback.docs.map(d => ({ id: d.id, _snap: d, ...d.data() }));
+      
+      // Filtrar solo publicadas
+      const published = allDocs.filter(p => p.status === 'published');
+      
+      // Ordenar por publishedAt (o createdAt si no tiene publishedAt)
+      published.sort((a, b) => {
+        const aDate = a.publishedAt || a.createdAt || a.updatedAt;
+        const bDate = b.publishedAt || b.createdAt || b.updatedAt;
+        const aSeconds = aDate?.seconds || aDate?.toMillis?.() / 1000 || 0;
+        const bSeconds = bDate?.seconds || bDate?.toMillis?.() / 1000 || 0;
+        return bSeconds - aSeconds;
+      });
+      
+      items.value = published.slice(0, perPage);
+      hasMore.value = published.length > perPage;
       lastDoc.value = null;
-      error.value = 'Usando fallback sin índice (crea el índice para habilitar paginación y orden).';
+      
+      if (e?.code === 'failed-precondition') {
+        error.value = 'Usando fallback sin índice (crea el índice para habilitar paginación y orden).';
+      }
     } catch (e2) {
       console.error('Fallback error:', e2);
       error.value = 'No fue posible cargar el blog.';
@@ -84,7 +99,9 @@ onMounted(() => loadPosts());
 
 const fmtDate = ts => {
   try {
+    if (!ts) return '';
     const d = ts?.toDate?.() || (ts?.seconds ? new Date(ts.seconds * 1000) : new Date(ts));
+    if (isNaN(d.getTime())) return '';
     return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' });
   } catch { return ''; }
 };

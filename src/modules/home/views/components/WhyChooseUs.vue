@@ -1,63 +1,29 @@
 <script setup>
-import { computed } from "vue"
-import { useI18n } from "vue-i18n"
-
-const MESSAGES = {
-  es: {
-    sectionTitle: "Por qué elegirnos",
-    items: [
-      {
-        title: "Innovación práctica",
-        desc: "Aplicamos tecnología de forma estratégica y sencilla, asegurando que cada solución sea fácil de implementar y genere valor real desde el primer día.",
-        img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1120&auto=format&fit=crop",
-      },
-      {
-        title: "Enfoque en eficiencia",
-        desc: "Optimizamos procesos para que tu negocio ahorre tiempo, reduzca costos y aumente su capacidad de respuesta sin sacrificar calidad.",
-        img: "https://images.unsplash.com/photo-1557800636-894a64c1696f?q=80&w=1120&auto=format&fit=crop",
-      },
-      {
-        title: "Compromiso a largo plazo",
-        desc: "Acompañamos el crecimiento de tu empresa y evolucionamos contigo, asegurando mejoras continuas y resultados sostenibles.",
-        img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1120&auto=format&fit=crop",
-      },
-    ],
+const sectionTitle = "Por qué elegirnos"
+const items = [
+  {
+    title: "Innovación práctica",
+    desc: "Aplicamos tecnología de forma estratégica y sencilla, asegurando que cada solución sea fácil de implementar y genere valor real desde el primer día.",
+    img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1120&auto=format&fit=crop",
   },
-  en: {
-    sectionTitle: "Why choose us",
-    items: [
-      {
-        title: "Practical innovation",
-        desc: "We apply technology strategically and simply, ensuring each solution is easy to implement and generates real value from day one.",
-        img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1120&auto=format&fit=crop",
-      },
-      {
-        title: "Focus on efficiency",
-        desc: "We optimize processes so your business saves time, reduces costs, and increases responsiveness without sacrificing quality.",
-        img: "https://images.unsplash.com/photo-1557800636-894a64c1696f?q=80&w=1120&auto=format&fit=crop",
-      },
-      {
-        title: "Long-term commitment",
-        desc: "We support your company’s growth and evolve with you, ensuring continuous improvements and sustainable results.",
-        img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1120&auto=format&fit=crop",
-      },
-    ],
+  {
+    title: "Enfoque en eficiencia",
+    desc: "Optimizamos procesos para que tu negocio ahorre tiempo, reduzca costos y aumente su capacidad de respuesta sin sacrificar calidad.",
+    img: "https://images.unsplash.com/photo-1557800636-894a64c1696f?q=80&w=1120&auto=format&fit=crop",
   },
-}
-
-const { t, tm, mergeLocaleMessage } = useI18n({ useScope: "local" })
-
-mergeLocaleMessage("es", MESSAGES.es)
-mergeLocaleMessage("en", MESSAGES.en)
-
-const items = computed(() => tm("items") ?? [])
+  {
+    title: "Compromiso a largo plazo",
+    desc: "Acompañamos el crecimiento de tu empresa y evolucionamos contigo, asegurando mejoras continuas y resultados sostenibles.",
+    img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1120&auto=format&fit=crop",
+  },
+]
 </script>
 
 <template>
   <section class="why-section mt-5 mb-5">
     <v-container class="py-10 py-md-14">
       <header class="text-center mb-8 mb-md-10">
-        <h2 class="why-title">{{ t("sectionTitle") }}</h2>
+        <h2 class="why-title">{{ sectionTitle }}</h2>
       </header>
 
       <v-row dense class="gy-8">

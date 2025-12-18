@@ -1,25 +1,11 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
 import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
 
-const messages = {
-  es: {
-    clients: {
-      subtitle: 'Nuestros Clientes',
-      title: 'Empresas que confían en nosotros',
-      description: 'Hemos tenido el privilegio de trabajar con empresas de diversos sectores, ayudándolas a alcanzar sus objetivos digitales y transformar sus operaciones con soluciones tecnológicas innovadoras.'
-    }
-  },
-  en: {
-    clients: {
-      subtitle: 'Our Clients',
-      title: 'Companies that trust us',
-      description: 'We have had the privilege of working with companies across diverse sectors, helping them achieve their digital goals and transform their operations with innovative technology solutions.'
-    }
-  }
+const clientsData = {
+  subtitle: 'Nuestros Clientes',
+  title: 'Empresas que confían en nosotros',
+  description: 'Hemos tenido el privilegio de trabajar con empresas de diversos sectores, ayudándolas a alcanzar sus objetivos digitales y transformar sus operaciones con soluciones tecnológicas innovadoras.'
 }
-
-const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 </script>
 
 <template>
@@ -28,9 +14,9 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
     <v-container class="py-8 py-md-14">
       <v-row class="clients-row" align="center" justify="space-between" no-gutters>
         <v-col cols="12" md="7" lg="6" class="order-2 order-md-1 text-center text-md-start px-4">
-          <div class="subtitle">{{ t('clients.subtitle') }}</div>
-          <h1 class="clients-title">{{ t('clients.title') }}</h1>
-          <p class="clients-desc mx-auto mx-md-0">{{ t('clients.description') }}</p>
+          <div class="subtitle">{{ clientsData.subtitle }}</div>
+          <h1 class="clients-title">{{ clientsData.title }}</h1>
+          <p class="clients-desc mx-auto mx-md-0">{{ clientsData.description }}</p>
         </v-col>
 
         <v-col cols="12" md="5" lg="5" class="order-1 order-md-2 d-flex justify-center px-4 mb-6 mb-md-0">

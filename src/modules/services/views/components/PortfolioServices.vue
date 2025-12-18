@@ -1,104 +1,18 @@
 <script setup>
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { db } from '@/firebase'
+import { collection, getDocs } from 'firebase/firestore'
 
 const router = useRouter()
 
-const messages = {
-  es: {
-    portfolio: {
-      title: 'Portafolio de Servicios',
-      subtitle: 'Soluciones especializadas para cada necesidad tecnológica'
-    },
-    services: [
-      {
-        title: 'Fabrica de Software',
-        image: '/src/assets/img/services/fabrica-software.png',
-        route: '/servicios/fabrica-software',
-        desc: 'Ofrecemos desarrollo a la medida con tecnología, talento y buenas prácticas, para lograr objetivos estratégicos con la mayor calidad y eficiencia posible.'
-      },
-      {
-        title: 'TaaS (Talent as a Service)',
-        image: '/src/assets/img/services/taas.png',
-        route: '/servicios/taas',
-        desc: 'Con nuestro servicio TaaS accedes a talento TI calificado bajo demanda, reduciendo costos y tiempos de contratación de manera eficiente y segura.'
-      },
-      {
-        title: 'Transformación Digital',
-        image: '/src/assets/img/services/transformacion-digital.png',
-        route: '/servicios/transformacion-digital',
-        desc: 'Diseñamos sitios web modernos, seguros y rápidos, optimizados para posicionar tu marca y convertir más visitantes en clientes de forma efectiva.'
-      },
-      {
-        title: 'Mesa de Ayuda/Servicio',
-        image: '/src/assets/img/services/mesa-ayuda.png',
-        route: '/servicios/mesa-ayuda',
-        desc: 'Ofrecemos soporte técnico ágil y especializado para resolver incidencias y requerimientos, mejorando la continuidad operativa y la experiencia del usuario final.'
-      },
-      {
-        title: 'Gestión de Bases de Datos',
-        image: '/src/assets/img/services/gestion-bd.png',
-        route: '/servicios/gestion-base-datos',
-        desc: 'Administramos y optimizamos tus bases de datos para asegurar disponibilidad, rendimiento y seguridad, facilitando decisiones basadas en información confiable.'
-      },
-      {
-        title: 'Mantenimiento y Soporte a Aplicaciones',
-        image: '/src/assets/img/services/mantenimiento.png',
-        route: '/servicios/mantenimiento-aplicaciones',
-        desc: 'Mantenemos tus aplicaciones actualizadas, estables y alineadas con las necesidades del negocio, corrigiendo errores y mejorando funcionalidades de forma continua.'
-      }
-    ],
-    cta: 'Ver Más'
-  },
-  en: {
-    portfolio: {
-      title: 'Portfolio of Services',
-      subtitle: 'Specialized solutions for every technological need'
-    },
-    services: [
-      {
-        title: 'Software Factory',
-        image: '/src/assets/img/services/fabrica-software.png',
-        route: '/servicios/fabrica-software',
-        desc: 'We offer custom development with technology, talent, and best practices to achieve strategic objectives with the highest possible quality and efficiency.'
-      },
-      {
-        title: 'TaaS (Talent as a Service)',
-        image: '/src/assets/img/services/taas.png',
-        route: '/servicios/taas',
-        desc: 'With our TaaS service, you gain access to qualified IT talent on demand, reducing hiring costs and time efficiently and securely.'
-      },
-      {
-        title: 'Digital Transformation',
-        image: '/src/assets/img/services/transformacion-digital.png',
-        route: '/servicios/transformacion-digital',
-        desc: 'We design modern, secure, and fast websites, optimized to position your brand and effectively convert more visitors into customers.'
-      },
-      {
-        title: 'Help Desk/Service',
-        image: '/src/assets/img/services/mesa-ayuda.png',
-        route: '/servicios/mesa-ayuda',
-        desc: 'We provide agile and specialized technical support to resolve incidents and requests, enhancing operational continuity and the end-user experience.'
-      },
-      {
-        title: 'Database Management',
-        image: '/src/assets/img/services/gestion-bd.png',
-        route: '/servicios/gestion-base-datos',
-        desc: 'We manage and optimize your databases to ensure availability, performance, and security, enabling decisions based on reliable information.'
-      },
-      {
-        title: 'Application Maintenance and Support',
-        image: '/src/assets/img/services/mantenimiento.png',
-        route: '/servicios/mantenimiento-aplicaciones',
-        desc: 'We keep your applications updated, stable, and aligned with business needs, continuously fixing bugs and improving functionalities.'
-      }
-    ],
-    cta: 'See More'
-  }
+const portfolioData = {
+  title: 'Portafolio de Servicios',
+  subtitle: 'Soluciones especializadas para cada necesidad tecnológica',
+  cta: 'Ver Más'
 }
 
-const { t, tm, locale } = useI18n({ useScope: 'local', inheritLocale: true, messages })
+const services = ref([])
 
 const flippedSet = ref(new Set())
 const isFlipped = (idx) => flippedSet.value.has(idx)
@@ -109,24 +23,31 @@ const toggleFlip = (idx) => {
   flippedSet.value = next
 }
 
-const goToService = (route) => {
-  router.push(route)
+// Función para ir al detalle según el ID del documento
+const goToService = (service) => {
+  router.push(`/servicios/${service.id}`)
 }
+
+onMounted(async () => {
+  const querySnapshot = await getDocs(collection(db, 'services'))
+  services.value = querySnapshot.docs.map(doc => ({
+    id: doc.id, // <-- guardamos el ID del documento
+    ...doc.data()
+  }))
+})
 </script>
 
 <template>
   <section class="portfolio-services">
     <v-container class="py-8 py-md-14">
-      <!-- Header Section -->
       <div class="portfolio-header text-center mb-8">
-        <h1 class="portfolio-title">{{ t('portfolio.title') }}</h1>
-        <p class="portfolio-subtitle">{{ t('portfolio.subtitle') }}</p>
+        <h1 class="portfolio-title">{{ portfolioData.title }}</h1>
+        <p class="portfolio-subtitle">{{ portfolioData.subtitle }}</p>
       </div>
 
-      <!-- Services Grid -->
       <div class="services-grid">
         <div 
-          v-for="(service, index) in tm('services')" 
+          v-for="(service, index) in services" 
           :key="index"
           class="service-card"
         >
@@ -141,11 +62,10 @@ const goToService = (route) => {
               </div>
               <div class="flip-face back">
                 <div class="back-content">
-                  <p>{{ service.desc }}</p>
+                  <p>{{ service.summary }}</p>
                 </div>
               </div>
             </div>
-            <!-- Ícono flotante fijo en la derecha -->
             <div class="refresh-icon" @click.stop="toggleFlip(index)">
               <v-icon>mdi-rotate-3d-variant</v-icon>
             </div>
@@ -153,9 +73,9 @@ const goToService = (route) => {
           <h3 class="service-title">{{ service.title }}</h3>
           <button 
             class="service-button"
-            @click="goToService(service.route)"
+            @click="goToService(service)"
           >
-            {{ t('cta') }}
+            {{ portfolioData.cta }}
           </button>
         </div>
       </div>

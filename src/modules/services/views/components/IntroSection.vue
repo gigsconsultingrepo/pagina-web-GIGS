@@ -1,6 +1,5 @@
 <script setup>
 import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   title: { type: [String, Object], required: true },
@@ -10,14 +9,8 @@ const props = defineProps({
   reverse: { type: Boolean, default: false }
 })
 
-const { locale } = useI18n()
-
 const pick = (val) => {
   if (typeof val === 'string') return val
-  if (val && typeof val === 'object') {
-    const lang = locale.value
-    return val[lang] ?? val.es ?? Object.values(val)[0] ?? ''
-  }
   return ''
 }
 

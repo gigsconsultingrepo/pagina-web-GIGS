@@ -7,7 +7,6 @@ import challengesModule from '@/modules/challenges';
 import aboutModule from '@/modules/about';
 import servicesModule from '@/modules/services';
 import homeModule from '@/modules/home';
-import { i18n } from './i18n'
 import './firebase';
 
 
@@ -37,7 +36,7 @@ const vuetify = createVuetify({
   },
 });
 
-const app = createApp(App).use(i18n);
+const app = createApp(App);
 
 app.use(store);
 app.use(router);

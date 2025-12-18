@@ -1,53 +1,21 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 
-const MESSAGES = {
-	es: {
-		title: 'Lo Que Opinan Nuestros Clientes',
-		testimonials: [
-			{
-				quote:
-					'Con Gigs automatizamos nuestra atención al cliente en WhatsApp. El proceso fue ágil y vimos resultados desde el primer mes.',
-				author: '– Laura Méndez, Directora de Operaciones en AgroSoluciones'
-			},
-			{
-				quote:
-					'Rediseñaron nuestro sitio web con un enfoque moderno, rápido y adaptable. Tuvimos una excelente experiencia.',
-				author: '– Andrés Vargas, CEO de LegalTech Bogotá'
-			},
-			{
-				quote:
-					'Nos crearon un sistema de gestión personalizado que optimizó procesos y mejoró el rendimiento del equipo.',
-				author: '– Mariana Restrepo, Coordinadora de TI en EduPro Colombia'
-			}
-		]
+const title = 'Lo Que Opinan Nuestros Clientes'
+const testimonials = [
+	{
+		quote: 'Con Gigs automatizamos nuestra atención al cliente en WhatsApp. El proceso fue ágil y vimos resultados desde el primer mes.',
+		author: '– Laura Méndez, Directora de Operaciones en AgroSoluciones'
 	},
-	en: {
-		title: 'What Our Clients Say',
-		testimonials: [
-			{
-				quote:
-					'With Gigs we automated our WhatsApp customer service. Results from month one.',
-				author: '– Laura Méndez, Operations Director at AgroSoluciones'
-			},
-			{
-				quote:
-					'They redesigned our website with a modern, fast, adaptable approach.',
-				author: '– Andrés Vargas, CEO at LegalTech Bogotá'
-			},
-			{
-				quote:
-					'A tailored management system that optimized processes and boosted performance.',
-				author: '– Mariana Restrepo, IT Coordinator at EduPro Colombia'
-			}
-		]
+	{
+		quote: 'Rediseñaron nuestro sitio web con un enfoque moderno, rápido y adaptable. Tuvimos una excelente experiencia.',
+		author: '– Andrés Vargas, CEO de LegalTech Bogotá'
+	},
+	{
+		quote: 'Nos crearon un sistema de gestión personalizado que optimizó procesos y mejoró el rendimiento del equipo.',
+		author: '– Mariana Restrepo, Coordinadora de TI en EduPro Colombia'
 	}
-}
-
-const { t, tm, locale, mergeLocaleMessage } = useI18n({ useScope: 'local' })
-mergeLocaleMessage('es', MESSAGES.es)
-mergeLocaleMessage('en', MESSAGES.en)
+]
 
 const autoplay = true
 const intervalMs = 4500
@@ -63,7 +31,7 @@ const calcPerView = () => {
 	perView.value = w < 640 ? 1 : w < 1024 ? 2 : 3
 }
 
-const baseItems = computed(() => (tm('testimonials') ?? []))
+const baseItems = computed(() => testimonials)
 const extendedItems = computed(() => {
 	const n = Math.min(perView.value, baseItems.value.length || 1)
 	if (!baseItems.value.length) return []
@@ -116,7 +84,7 @@ const onResize = () => {
 	startAutoplay()
 }
 
-watch([() => locale.value, baseItems], () => {
+watch(baseItems, () => {
 	transitioning.value = false
 	resetToRealStart()
 	startAutoplay()
@@ -137,7 +105,7 @@ onBeforeUnmount(() => {
 <template>
 	<section class="opinions-section" @mouseenter="isHover = true" @mouseleave="isHover = false">
 		<div class="opinions-container">
-			<h2 class="opinions-title">{{ t('title') }}</h2>
+			<h2 class="opinions-title">{{ title }}</h2>
 
 			<div class="carousel">
 				<div class="viewport">

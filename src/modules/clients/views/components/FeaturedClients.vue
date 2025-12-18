@@ -1,104 +1,50 @@
 <script setup>
-import { useI18n } from "vue-i18n";
-
-const messages = {
-  es: {
-    featured: {
-      title: "Clientes Destacados",
-      description: "Algunas de las empresas líderes que confían en nosotros",
-      items: [
-        {
-          name: "Banco Central",
-          sector: "Financiero",
-          description:
-            "Transformación digital completa de su plataforma bancaria online, mejorando la experiencia del usuario y la seguridad.",
-          metrics: [
-            { label: "Mejora en UX", value: "+45%" },
-            { label: "Tiempo de Carga", value: "-60%" }
-          ]
-        },
-        {
-          name: "MediTech",
-          sector: "Salud",
-          description:
-            "Sistema de gestión hospitalaria integral con IA para optimizar recursos y mejorar la atención al paciente.",
-          metrics: [
-            { label: "Eficiencia", value: "+35%" },
-            { label: "Tiempo de Espera", value: "-40%" }
-          ]
-        },
-        {
-          name: "ShopMax",
-          sector: "E-Commerce",
-          description:
-            "Plataforma de comercio electrónico con integración de pagos, inventario y análisis avanzado de datos.",
-          metrics: [
-            { label: "Ventas Online", value: "+120%" },
-            { label: "Conversión", value: "+25%" }
-          ]
-        }
+const featuredData = {
+  title: "Clientes Destacados",
+  description: "Algunas de las empresas líderes que confían en nosotros",
+  items: [
+    {
+      name: "Banco Central",
+      sector: "Financiero",
+      description: "Transformación digital completa de su plataforma bancaria online, mejorando la experiencia del usuario y la seguridad.",
+      metrics: [
+        { label: "Mejora en UX", value: "+45%" },
+        { label: "Tiempo de Carga", value: "-60%" }
+      ]
+    },
+    {
+      name: "MediTech",
+      sector: "Salud",
+      description: "Sistema de gestión hospitalaria integral con IA para optimizar recursos y mejorar la atención al paciente.",
+      metrics: [
+        { label: "Eficiencia", value: "+35%" },
+        { label: "Tiempo de Espera", value: "-40%" }
+      ]
+    },
+    {
+      name: "ShopMax",
+      sector: "E-Commerce",
+      description: "Plataforma de comercio electrónico con integración de pagos, inventario y análisis avanzado de datos.",
+      metrics: [
+        { label: "Ventas Online", value: "+120%" },
+        { label: "Conversión", value: "+25%" }
       ]
     }
-  },
-  en: {
-    featured: {
-      title: "Featured Clients",
-      description: "Some of the leading companies that trust us",
-      items: [
-        {
-          name: "Banco Central",
-          sector: "Finance",
-          description:
-            "Complete digital transformation of its online banking platform, improving user experience and security.",
-          metrics: [
-            { label: "UX Improvement", value: "+45%" },
-            { label: "Load Time", value: "-60%" }
-          ]
-        },
-        {
-          name: "MediTech",
-          sector: "Healthcare",
-          description:
-            "Comprehensive hospital management system with AI to optimize resources and improve patient care.",
-          metrics: [
-            { label: "Efficiency", value: "+35%" },
-            { label: "Waiting Time", value: "-40%" }
-          ]
-        },
-        {
-          name: "ShopMax",
-          sector: "E-Commerce",
-          description:
-            "E-commerce platform with integrated payments, inventory, and advanced data analytics.",
-          metrics: [
-            { label: "Online Sales", value: "+120%" },
-            { label: "Conversion", value: "+25%" }
-          ]
-        }
-      ]
-    }
-  }
+  ]
 };
-
-const { t, locale } = useI18n({
-  useScope: "local",
-  inheritLocale: true,
-  messages
-});
 </script>
 
 <template>
   <section class="featured-section">
     <v-container class="py-12 text-center">
-      <!-- Título y descripción traducidos -->
-      <h2 class="featured-title">{{ t("featured.title") }}</h2>
+      <h2 class="featured-title">{{ featuredData.title }}</h2>
       <p class="featured-desc">
-        {{ t("featured.description") }}
+        {{ featuredData.description }}
       </p>
 
       <v-row justify="center" class="mt-8">
         <v-col
-          v-for="(client, index) in messages[locale].featured.items"
+          v-for="(client, index) in featuredData.items"
           :key="index"
           cols="12"
           sm="6"

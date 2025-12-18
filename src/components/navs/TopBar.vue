@@ -1,75 +1,52 @@
 <script setup>
 import { ref, watch, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-import { setLocale, i18n } from '@/i18n'
-
-// INICIO TRADUCCIONES ==================================
-const messages = {
-  es: {
-    nav: {
-      home: 'INICIO',
-      about: 'ACERCA DE GIGS',
-      clients: 'CLIENTES',
-      challenges: 'RETOS',
-      services: 'SERVICIOS',
-      blog: 'BLOG',
-      contact: 'CONTACTO',
-      servicesMenu: {
-        softwareFactory: 'Fábrica de Software',
-        taas: 'TaaS (Talent as a Service)',
-        digitalTransformation: 'Transformación Digital',
-        helpDesk: 'Mesa de Ayuda/Servicio',
-        dbManagement: 'Gestión de Base de Datos',
-        appMaintenance: 'Mantenimiento y Soporte a Aplicaciones'
-      }
-    },
-    lang: { toggle: 'ES/EN' }
-  },
-  en: {
-    nav: {
-      home: 'HOME',
-      about: 'ABOUT',
-      clients: 'CLIENTS',
-      challenges: 'CHALLENGES',
-      services: 'SERVICES',
-      blog: 'BLOG',
-      contact: 'CONTACT',
-      servicesMenu: {
-        softwareFactory: 'Software Factory',
-        taas: 'TaaS (Talent as a Service)',
-        digitalTransformation: 'Digital Transformation',
-        helpDesk: 'Help Desk / Service Desk',
-        dbManagement: 'Database Management',
-        appMaintenance: 'Application Maintenance & Support'
-      }
-    },
-    lang: { toggle: 'EN/ES' }
-  }
-}
-
-const { t, locale } = useI18n({
-  useScope: 'local',
-  inheritLocale: true,
-  messages
-})
-
-const toggleLocale = () => {
-  const next = (i18n.global.locale.value === 'es') ? 'en' : 'es'
-  setLocale(next)
-  locale.value = next
-}
-
-onMounted(() => {
-  locale.value = i18n.global.locale.value
-})
-// FIN TRADUCCIONES ==================================
+import { auth } from '@/firebase'
+import { signOut } from 'firebase/auth'
+import { onAuthStateChanged } from 'firebase/auth'
 
 const router = useRouter()
 const route = useRoute()
 
+const isAuthenticated = ref(false)
+const userEmail = ref('')
+
+onMounted(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    isAuthenticated.value = !!user
+    userEmail.value = user?.email || ''
+  })
+  
+  return () => unsubscribe()
+})
+
+const handleLogout = async () => {
+  try {
+    await signOut(auth)
+    router.push('/iniciar-sesion')
+  } catch (error) {
+    console.error('Error al cerrar sesión:', error)
+  }
+}
+
 const mobileMenuOpen = ref(false)
 const activeId = ref('home')
+
+const navLabels = {
+  home: 'INICIO',
+  about: 'ACERCA DE GIGS',
+  clients: 'CLIENTES',
+  challenges: 'RETOS',
+  services: 'SERVICIOS',
+  blog: 'BLOG',
+  contact: 'CONTACTO',
+  softwareFactory: 'Fábrica de Software',
+  taas: 'TaaS (Talent as a Service)',
+  digitalTransformation: 'Transformación Digital',
+  helpDesk: 'Mesa de Ayuda/Servicio',
+  dbManagement: 'Gestión de Base de Datos',
+  appMaintenance: 'Mantenimiento y Soporte a Aplicaciones'
+}
 
 const items = [
   { id: 'home', icon: 'mdi-home', key: 'home', routeName: 'home', path: '/' },
@@ -144,7 +121,7 @@ watch(activeId, () => { servicesOpen.value = false })
           <button v-if="it.id !== 'services'" class="link" :class="{ active: activeId === it.id }"
             @click="navigateTo(it)" :aria-current="activeId === it.id ? 'page' : null">
             <v-icon v-if="activeId === it.id" size="18" class="ni">{{ it.icon }}</v-icon>
-            <span class="label">{{ t('nav.' + it.key) }}</span>
+            <span class="label">{{ navLabels[it.key] }}</span>
           </button>
 
           <div v-else class="dropdown">
@@ -153,14 +130,14 @@ watch(activeId, () => { servicesOpen.value = false })
               @keydown.enter.prevent="servicesOpen = !servicesOpen"
               @keydown.space.prevent="servicesOpen = !servicesOpen">
               <v-icon v-if="isInServices" size="18" class="ni">mdi-account-wrench</v-icon>
-              <span class="label" @click="navigateTo(it)">{{ t('nav.services') }}</span>
+              <span class="label" @click="navigateTo(it)">{{ navLabels.services }}</span>
               <v-icon size="16" class="caret" @click="servicesOpen = !servicesOpen">mdi-menu-down</v-icon>
             </button>
 
             <ul v-show="servicesOpen" class="menu" role="menu">
               <li v-for="child in servicesChildren" :key="child.id" role="none">
                 <button class="menu-item" role="menuitem" @click="navigateToService(child)">
-                  {{ t('nav.servicesMenu.' + child.key) }}
+                  {{ navLabels[child.key] }}
                 </button>
               </li>
             </ul>
@@ -169,10 +146,43 @@ watch(activeId, () => { servicesOpen.value = false })
       </nav>
 
       <div class="actions">
-        <button class="lang-toggle" @click="toggleLocale">
-          <v-icon size="18" class="ni">mdi-translate-variant</v-icon>
-          <span>{{ t('lang.toggle') }}</span>
-        </button>
+        <div v-if="isAuthenticated" class="user-menu">
+          <v-menu location="bottom end">
+            <template #activator="{ props }">
+              <v-btn 
+                v-bind="props"
+                variant="text"
+                size="small"
+                class="user-btn"
+                style="color: var(--color-primary);"
+              >
+                <v-icon start>mdi-account-circle</v-icon>
+                <span class="user-email">{{ userEmail }}</span>
+                <v-icon end>mdi-chevron-down</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item>
+                <v-list-item-title style="font-size: 0.875rem; color: var(--vt-c-text-light-2);">
+                  {{ userEmail }}
+                </v-list-item-title>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item @click="router.push('/admin')">
+                <v-list-item-title>
+                  <v-icon start size="small">mdi-view-dashboard</v-icon>
+                  Panel Admin
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="handleLogout">
+                <v-list-item-title style="color: var(--color-error);">
+                  <v-icon start size="small">mdi-logout</v-icon>
+                  Cerrar sesión
+                </v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
         <button class="hamburger" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Menu">
           <v-icon>{{ mobileMenuOpen ? 'mdi-close' : 'mdi-menu' }}</v-icon>
         </button>
@@ -194,33 +204,27 @@ watch(activeId, () => { servicesOpen.value = false })
         <button v-if="it.id !== 'services'" class="drawer-link" :class="{ active: activeId === it.id }"
           @click="navigateTo(it)">
           <v-icon v-if="activeId === it.id" size="18" class="ni">{{ it.icon }}</v-icon>
-          <span>{{ t('nav.' + it.key) }}</span>
+          <span>{{ navLabels[it.key] }}</span>
         </button>
 
         <div v-else class="drawer-group">
           <button class="drawer-link" :class="{ active: isInServices }" @click="toggleServicesExpand"
             aria-haspopup="true" :aria-expanded="servicesExpand ? 'true' : 'false'">
             <v-icon v-if="isInServices" size="18" class="ni">mdi-account-wrench</v-icon>
-            <span>{{ t('nav.services') }}</span>
+            <span>{{ navLabels.services }}</span>
             <v-icon class="push-right">{{ servicesExpand ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
           </button>
 
           <div class="drawer-sub" v-show="servicesExpand">
             <button v-for="child in servicesChildren" :key="child.id" class="drawer-sublink"
               @click="navigateToService(child)">
-              {{ t('nav.servicesMenu.' + child.key) }}
+              {{ navLabels[child.key] }}
             </button>
           </div>
         </div>
       </template>
     </nav>
 
-    <div class="drawer-footer">
-      <button class="lang-toggle" @click="toggleLocale">
-        <v-icon size="18" class="ni">mdi-translate-variant</v-icon>
-        <span>{{ t('lang.toggle') }}</span>
-      </button>
-    </div>
   </aside>
 </template>
 
@@ -501,9 +505,40 @@ watch(activeId, () => { servicesOpen.value = false })
 
 }
 
+.user-menu {
+  display: none;
+  margin-right: 8px;
+}
+
+.user-btn {
+  text-transform: none !important;
+  font-weight: 600;
+}
+
+.user-email {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (min-width: 900px) {
+  .user-menu {
+    display: block;
+  }
+}
+
 @media screen and (max-width: 900px) {
   .topbar-inner {
     justify-content: space-between !important;
+  }
+  
+  .user-menu {
+    display: block;
+  }
+  
+  .user-email {
+    display: none;
   }
 }
 

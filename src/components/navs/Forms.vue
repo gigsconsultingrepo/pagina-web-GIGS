@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import { computed, isRef } from 'vue'
-import { useI18n } from 'vue-i18n'
-
-type LangPair = { es: string; en: string }
-
 const props = withDefaults(defineProps<{
-  title: LangPair
-  subtitle?: LangPair
-  textButton: LangPair
+  title: string
+  subtitle?: string
+  textButton: string
   loading?: boolean
   disabled?: boolean
 }>(), {
@@ -19,35 +14,9 @@ const emit = defineEmits<{
   (e: 'save'): void
 }>()
 
-// ---- idioma reactivo (igual que el componente anterior) ----
-let localeSource: any = null
-try {
-  const i18n = useI18n({ useScope: 'global' })
-  localeSource = (isRef((i18n as any).locale))
-    ? (i18n as any).locale
-    : (i18n as any).global?.locale ?? (i18n as any).locale
-} catch { /* i18n no disponible en este árbol */ }
-
-function normalize(code: string): 'es' | 'en' {
-  const c = (code || '').toLowerCase()
-  if (c.startsWith('es')) return 'es'
-  if (c === 'en' || c === 'in' || c.startsWith('en')) return 'en'
-  return 'es'
-}
-
-const lang = computed<'es' | 'en'>(() => {
-  const fromI18n = localeSource
-    ? (isRef(localeSource) ? localeSource.value : String(localeSource))
-    : ''
-  const fromDom = typeof document !== 'undefined'
-    ? (document.documentElement.getAttribute('lang') || '')
-    : ''
-  return normalize(String(fromI18n || fromDom || 'es'))
-})
-
-const tTitle = computed(() => props.title[lang.value] ?? props.title.es)
-const tSubtitle = computed(() => props.subtitle?.[lang.value] ?? props.subtitle?.es ?? '')
-const tBtnLabel = computed(() => props.textButton[lang.value] ?? props.textButton.es)
+const tTitle = props.title
+const tSubtitle = props.subtitle ?? ''
+const tBtnLabel = props.textButton
 
 const onSave = () => { if (!props.loading && !props.disabled) emit('save') }
 </script>

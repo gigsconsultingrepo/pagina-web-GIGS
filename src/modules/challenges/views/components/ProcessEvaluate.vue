@@ -1,44 +1,23 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-
-const messages = {
-  es: {
-    process: {
-      title: '¿Cómo Evaluamos tu Reto?',
-      subtitle: 'Un proceso transparente y colaborativo para encontrar la mejor solución',
-      steps: [
-        { title: 'Recepción y Análisis', desc: 'Recibimos tu reto y nuestro equipo lo analiza en detalle para comprender tus necesidades.' },
-        { title: 'Investigación y Propuesta', desc: 'Exploramos tecnologías y metodologías adecuadas para resolver tu desafío específico.' },
-        { title: 'Consulta Personalizada', desc: 'Agendamos una sesión gratuita donde discutimos la solución y respondemos todas tus preguntas.' },
-        { title: 'Propuesta Detallada', desc: 'Entregamos un documento con alcance, cronograma, presupuesto y plan de implementación.' },
-        { title: 'Inicio del Proyecto', desc: 'Aprobada la propuesta, conformamos el equipo y arrancamos con un plan claro y medible.' }
-      ]
-    }
-  },
-  en: {
-    process: {
-      title: 'How Do We Evaluate Your Challenge?',
-      subtitle: 'A transparent, collaborative process to find the best solution',
-      steps: [
-        { title: 'Intake & Analysis', desc: 'We receive your challenge and analyze it in detail to fully understand your needs.' },
-        { title: 'Research & Proposal', desc: 'We explore the right technologies and methodologies for your specific case.' },
-        { title: 'Personalized Consultation', desc: 'We schedule a free session to discuss the solution and answer all your questions.' },
-        { title: 'Detailed Proposal', desc: 'You receive scope, timeline, budget and an implementation plan.' },
-        { title: 'Project Kickoff', desc: 'Once approved, we assemble the team and start with a clear, measurable plan.' }
-      ]
-    }
-  }
+const processData = {
+  title: '¿Cómo Evaluamos tu Reto?',
+  subtitle: 'Un proceso transparente y colaborativo para encontrar la mejor solución',
+  steps: [
+    { title: 'Recepción y Análisis', desc: 'Recibimos tu reto y nuestro equipo lo analiza en detalle para comprender tus necesidades.' },
+    { title: 'Investigación y Propuesta', desc: 'Exploramos tecnologías y metodologías adecuadas para resolver tu desafío específico.' },
+    { title: 'Consulta Personalizada', desc: 'Agendamos una sesión gratuita donde discutimos la solución y respondemos todas tus preguntas.' },
+    { title: 'Propuesta Detallada', desc: 'Entregamos un documento con alcance, cronograma, presupuesto y plan de implementación.' },
+    { title: 'Inicio del Proyecto', desc: 'Aprobada la propuesta, conformamos el equipo y arrancamos con un plan claro y medible.' }
+  ]
 }
-
-const { t, tm } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 </script>
 
 <template>
   <section class="process-section">
     <v-container class="py-12 py-md-14">
       <header class="text-center mb-8 mb-md-10">
-        <h2 class="title">{{ t('process.title') }}</h2>
-        <p class="subtitle">{{ t('process.subtitle') }}</p>
+        <h2 class="title">{{ processData.title }}</h2>
+        <p class="subtitle">{{ processData.subtitle }}</p>
       </header>
 
       <div class="timeline">
@@ -47,7 +26,7 @@ const { t, tm } = useI18n({ useScope: 'local', inheritLocale: true, messages })
         </div>
 
         <v-row class="gy-8" justify="center">
-          <v-col v-for="(step, i) in tm('process.steps')" :key="i" cols="12" md="10" class="step-col">
+          <v-col v-for="(step, i) in processData.steps" :key="i" cols="12" md="10" class="step-col">
             <div class="step" :class="{ right: i % 2 === 1 }">
               <div class="badge"><span>{{ i + 1 }}</span></div>
 

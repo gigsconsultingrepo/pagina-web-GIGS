@@ -1,25 +1,10 @@
 <script setup>
 import { ref, computed } from "vue";
-import { useI18n } from "vue-i18n";
-
-const messages = {
-  es: {
-    clients: {
-      title: "Nuestros Clientes",
-      description: "Una lista completa de empresas que han confiado en GIGS CONSULTING",
-      filters: ["Todos", "Seguros", "E-commerce", "Finanzas", "Retail", "Educación", "Salud", "Sector Público", "Logística"]
-    }
-  },
-  en: {
-    clients: {
-      title: "Our Clients",
-      description: "A complete list of companies that have trusted GIGS CONSULTING",
-      filters: ["All", "Insurance", "E-commerce", "Finance", "Retail", "Education", "Health", "Public Sector", "Logistics"]
-    }
-  }
+const clientsData = {
+  title: "Nuestros Clientes",
+  description: "Una lista completa de empresas que han confiado en GIGS CONSULTING",
+  filters: ["Todos", "Seguros", "E-commerce", "Finanzas", "Retail", "Educación", "Salud", "Sector Público", "Logística"]
 };
-
-const { t, locale } = useI18n({ useScope: "local", inheritLocale: true, messages });
 
 const clients = [
   { name: "TechStore", sector: "E-commerce" },
@@ -36,7 +21,7 @@ const clients = [
 const activeFilter = ref("Todos");
 
 const filteredClients = computed(() => {
-  if (activeFilter.value === "Todos" || activeFilter.value === "All") return clients;
+  if (activeFilter.value === "Todos") return clients;
   return clients.filter(c => c.sector === activeFilter.value);
 });
 </script>
@@ -44,12 +29,12 @@ const filteredClients = computed(() => {
 <template>
   <section class="clients-section">
     <v-container class="py-12 text-center">
-      <h2 class="clients-title">{{ t("clients.title") }}</h2>
-      <p class="clients-desc">{{ t("clients.description") }}</p>
+      <h2 class="clients-title">{{ clientsData.title }}</h2>
+      <p class="clients-desc">{{ clientsData.description }}</p>
 
       <div class="clients-filters">
         <button
-          v-for="filter in messages[locale].clients.filters"
+          v-for="filter in clientsData.filters"
           :key="filter"
           :class="['filter-btn', { active: activeFilter === filter }]"
           @click="activeFilter = filter"

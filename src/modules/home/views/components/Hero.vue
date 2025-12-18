@@ -1,29 +1,12 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
 import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
 
-const messages = {
-  es: {
-    hero: {
-      title: 'Asesoría para el éxito empresarial',
-      description:
-        'Ofrecemos soluciones y servicios integrales basados en las últimas tecnologías, orientados a transformar digitalmente las organizaciones, generando valor a través del descubrimiento de oportunidades mediante innovación con Tecnología y Procesos.',
-      btnOne: 'Nuestros Servicios',
-      btnTwo: 'Trabaja Con Nosotros'
-    }
-  },
-  en: {
-    hero: {
-      title: 'Business Success Consulting',
-      description:
-        'We offer comprehensive solutions and services based on the latest technologies, aimed at digitally transforming organizations and generating value through the discovery of opportunities via innovation with Technology and Processes.',
-      btnOne: 'Our Services',
-      btnTwo: 'Work With Us'
-    }
-  }
+const heroData = {
+  title: 'Asesoría para el éxito empresarial',
+  description: 'Ofrecemos soluciones y servicios integrales basados en las últimas tecnologías, orientados a transformar digitalmente las organizaciones, generando valor a través del descubrimiento de oportunidades mediante innovación con Tecnología y Procesos.',
+  btnOne: 'Nuestros Servicios',
+  btnTwo: 'Trabaja Con Nosotros'
 }
-
-const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 </script>
 
 <template>
@@ -35,19 +18,19 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
       <v-row class="hero-row" align="center" justify="space-between" no-gutters>
         <v-col cols="12" md="7" lg="6" class="order-2 order-md-1 text-center text-md-start px-4">
 
-          <h1 class="hero-title">{{ t('hero.title') }}</h1>
-          <p class="hero-desc mx-auto mx-md-0">{{ t('hero.description') }}</p>
+          <h1 class="hero-title">{{ heroData.title }}</h1>
+          <p class="hero-desc mx-auto mx-md-0">{{ heroData.description }}</p>
 
           <div class="d-flex flex-wrap ga-3 mt-4 justify-center justify-md-start">
             <v-btn variant="flat" color="white"
               class="text-high-emphasis font-weight-bold rounded-m btn-primary" size="large"
               :to="{ name: 'services' }">
-              {{ t('hero.btnOne') }}
+              {{ heroData.btnOne }}
             </v-btn>
 
             <v-btn variant="flat" color="grey-darken-4" class="font-weight-bold rounded-m btn-second"
               size="large" :to="{ name: 'contact' }">
-              {{ t('hero.btnTwo') }}
+              {{ heroData.btnTwo }}
             </v-btn>
           </div>
         </v-col>

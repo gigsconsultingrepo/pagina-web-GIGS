@@ -2,18 +2,17 @@
 import { RouterView } from 'vue-router'
 import TopBar from '@/components/navs/TopBar.vue'
 import Footer from '@/components/navs/Footer.vue'
-import AccessibilityBar from '@/components/navs/AccessibilityBar.vue'
 </script>
 
 <template>
   <v-app>
     <TopBar />
     <main class="app-content">
-      <RouterView />
+      <!-- Agregamos :key para forzar render al cambiar ruta -->
+    <RouterView :key="$route.fullPath" />
+
     </main>
     <Footer />
-    <!-- Barra de accesibilidad -->
-    <AccessibilityBar />
   </v-app>
 </template>
 

@@ -1,26 +1,11 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
 import contactUsImage from '@/assets/img/contact/contactUss.png'
 import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
 
-const messages = {
-	es: {
-		contact: {
-			title: '¿Necesitas asesoría tecnológica?',
-			subtitle:
-				'Estamos aquí para ayudarte. Contáctanos y conversemos sobre cómo podemos transformar tu negocio con soluciones tecnológicas innovadoras.'
-		}
-	},
-	en: {
-		contact: {
-			title: 'Do you need technology consulting?',
-			subtitle:
-				'We are here to help. Contact us and let’s talk about how we can transform your business with innovative technology solutions.'
-		}
-	}
+const contactData = {
+	title: '¿Necesitas asesoría tecnológica?',
+	subtitle: 'Estamos aquí para ayudarte. Contáctanos y conversemos sobre cómo podemos transformar tu negocio con soluciones tecnológicas innovadoras.'
 }
-
-const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 
 const props = defineProps({
 	image: {
@@ -39,8 +24,8 @@ const props = defineProps({
 			<v-card class="hero-card" elevation="0">
 				<v-row no-gutters align="center">
 					<v-col cols="12" md="7" class="px-5 px-md-8 py-6">
-						<h1 class="hero-title">{{ t('contact.title') }}</h1>
-						<p class="hero-subtitle">{{ t('contact.subtitle') }}</p>
+						<h1 class="hero-title">{{ contactData.title }}</h1>
+						<p class="hero-subtitle">{{ contactData.subtitle }}</p>
 					</v-col>
 
 					<!-- Imagen / Ilustración -->

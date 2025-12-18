@@ -1,77 +1,36 @@
 <script setup>
-import { useI18n } from "vue-i18n";
-
-const messages = {
-  es: {
-    testimonials: {
-      title: "Lo que dicen nuestros clientes",
-      description: "Testimonios reales de empresas satisfechas",
-      items: [
-        {
-          name: "María Elena Vargas",
-          role: "CEO - Banco Central",
-          feedback:
-            "“GIGS CONSULTING transformó completamente nuestra operación digital. El equipo fue profesional, innovador y entregó resultados excepcionales.”",
-        },
-        {
-          name: "Dr. Carlos Mendoza",
-          role: "CTO - MediTech",
-          feedback:
-            "“La implementación del sistema de IA superó nuestras expectativas. Hemos mejorado significativamente la eficiencia operativa.”",
-        },
-        {
-          name: "Roberto Silva",
-          role: "Director - ShopMax",
-          feedback:
-            "“Nuestras ventas online se dispararon después de implementar la nueva plataforma. El ROI fue increíblemente positivo.”",
-        },
-      ],
+const testimonialsData = {
+  title: "Lo que dicen nuestros clientes",
+  description: "Testimonios reales de empresas satisfechas",
+  items: [
+    {
+      name: "María Elena Vargas",
+      role: "CEO - Banco Central",
+      feedback: "GIGS CONSULTING transformó completamente nuestra operación digital. El equipo fue profesional, innovador y entregó resultados excepcionales.",
     },
-  },
-  en: {
-    testimonials: {
-      title: "What our clients say",
-      description: "Real testimonials from satisfied companies",
-      items: [
-        {
-          name: "María Elena Vargas",
-          role: "CEO - Banco Central",
-          feedback:
-            "“GIGS CONSULTING completely transformed our digital operations. The team was professional, innovative, and delivered outstanding results.”",
-        },
-        {
-          name: "Dr. Carlos Mendoza",
-          role: "CTO - MediTech",
-          feedback:
-            "“The implementation of the AI system exceeded our expectations. We have significantly improved operational efficiency.”",
-        },
-        {
-          name: "Roberto Silva",
-          role: "Director - ShopMax",
-          feedback:
-            "“Our online sales skyrocketed after implementing the new platform. The ROI was incredibly positive.”",
-        },
-      ],
+    {
+      name: "Dr. Carlos Mendoza",
+      role: "CTO - MediTech",
+      feedback: "La implementación del sistema de IA superó nuestras expectativas. Hemos mejorado significativamente la eficiencia operativa.",
     },
-  },
+    {
+      name: "Roberto Silva",
+      role: "Director - ShopMax",
+      feedback: "Nuestras ventas online se dispararon después de implementar la nueva plataforma. El ROI fue increíblemente positivo.",
+    },
+  ],
 };
-
-const { t, locale } = useI18n({
-  useScope: "local",
-  inheritLocale: true,
-  messages,
-});
 </script>
 
 <template>
   <section class="testimonials-section">
     <v-container class="py-12 text-center">
-      <h2 class="testimonials-title">{{ t("testimonials.title") }}</h2>
-      <p class="testimonials-subtitle">{{ t("testimonials.description") }}</p>
+      <h2 class="testimonials-title">{{ testimonialsData.title }}</h2>
+      <p class="testimonials-subtitle">{{ testimonialsData.description }}</p>
 
       <v-row justify="center" class="mt-8">
         <v-col
-          v-for="(testimonial, index) in messages[locale].testimonials.items"
+          v-for="(testimonial, index) in testimonialsData.items"
           :key="index"
           cols="12"
           sm="6"

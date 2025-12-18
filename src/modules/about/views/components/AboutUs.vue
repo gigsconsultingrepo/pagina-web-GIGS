@@ -1,25 +1,11 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
 import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
 
-const messages = {
-  es: {
-    about: {
-      subtitle: 'Sobre Nosotros',
-      title: 'Transformamos ideas en soluciones digitales',
-      description: 'Somos una empresa de consultoría tecnológica comprometida con la excelencia, la innovación y el éxito de nuestros clientes. Nuestra misión es impulsar la transformación digital de las organizaciones.'
-    }
-  },
-  en: {
-    about: {
-      subtitle: 'About Us',
-      title: 'We transform ideas into digital solutions',
-      description: 'We are a technology consulting company committed to excellence, innovation, and the success of our clients. Our mission is to drive the digital transformation of organizations.'
-    }
-  }
+const aboutData = {
+  subtitle: 'Sobre Nosotros',
+  title: 'Transformamos ideas en soluciones digitales',
+  description: 'Somos una empresa de consultoría tecnológica comprometida con la excelencia, la innovación y el éxito de nuestros clientes. Nuestra misión es impulsar la transformación digital de las organizaciones.'
 }
-
-const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 </script>
 
 <template>
@@ -28,9 +14,9 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
     <v-container class="py-8 py-md-14">
       <v-row class="about-row" align="center" justify="space-between" no-gutters>
         <v-col cols="12" md="7" lg="6" class="order-2 order-md-1 text-center text-md-start px-4">
-          <div class="subtitle">{{ t('about.subtitle') }}</div>
-          <h1 class="about-title">{{ t('about.title') }}</h1>
-          <p class="about-desc mx-auto mx-md-0">{{ t('about.description') }}</p>
+          <div class="subtitle">{{ aboutData.subtitle }}</div>
+          <h1 class="about-title">{{ aboutData.title }}</h1>
+          <p class="about-desc mx-auto mx-md-0">{{ aboutData.description }}</p>
         </v-col>
 
         <v-col cols="12" md="5" lg="5" class="order-1 order-md-2 d-flex justify-center px-4 mb-6 mb-md-0">

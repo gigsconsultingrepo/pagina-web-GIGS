@@ -99,7 +99,9 @@ const safeHtml = computed(() => {
 
 const fmtDateTime = (ts) => {
   try {
+    if (!ts) return '';
     const d = ts?.toDate?.() || (ts?.seconds ? new Date(ts.seconds * 1000) : new Date(ts));
+    if (isNaN(d.getTime())) return '';
     return d.toLocaleString(undefined, { year: 'numeric', month: 'long', day: '2-digit' });
   } catch { return ''; }
 };

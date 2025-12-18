@@ -1,107 +1,52 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
-import { useI18n } from "vue-i18n";
 
-const messages = {
-  es: {
-    sectors: {
-      title: "Sectores de Actividad",
-      description: "Diversidad de industrias que confían en nuestras soluciones",
-      items: [
-        {
-          name: "Finanzas",
-          desc: "Soluciones seguras para el sector financiero",
-          clients: "12 Clientes"
-        },
-        {
-          name: "E-commerce",
-          desc: "Plataformas de venta online innovadoras",
-          clients: "10 Clientes"
-        },
-        {
-          name: "Sector Público",
-          desc: "Soluciones digitales para mejorar atención ciudadana",
-          clients: "8 Clientes"
-        },
-        {
-          name: "Seguros",
-          desc: "Gestión de pólizas y siniestros con chatbots",
-          clients: "4 Clientes"
-        },
-        {
-          name: "Retail",
-          desc: "Soluciones digitales para optimizar la experiencia de compra",
-          clients: "12 Clientes"
-        },
-        {
-          name: "Educación",
-          desc: "Plataformas interactivas para instituciones educativas",
-          clients: "6 Clientes"
-        },
-        {
-          name: "Salud",
-          desc: "Tecnología para mejorar la atención médica y gestión de pacientes",
-          clients: "7 Clientes"
-        },
-        {
-          name: "Logística",
-          desc: "Soluciones digitales para optimizar la cadena de suministro",
-          clients: "9 Clientes"
-        }
-      ]
+const sectorsData = {
+  title: "Sectores de Actividad",
+  description: "Diversidad de industrias que confían en nuestras soluciones",
+  items: [
+    {
+      name: "Finanzas",
+      desc: "Soluciones seguras para el sector financiero",
+      clients: "12 Clientes"
+    },
+    {
+      name: "E-commerce",
+      desc: "Plataformas de venta online innovadoras",
+      clients: "10 Clientes"
+    },
+    {
+      name: "Sector Público",
+      desc: "Soluciones digitales para mejorar atención ciudadana",
+      clients: "8 Clientes"
+    },
+    {
+      name: "Seguros",
+      desc: "Gestión de pólizas y siniestros con chatbots",
+      clients: "4 Clientes"
+    },
+    {
+      name: "Retail",
+      desc: "Soluciones digitales para optimizar la experiencia de compra",
+      clients: "12 Clientes"
+    },
+    {
+      name: "Educación",
+      desc: "Plataformas interactivas para instituciones educativas",
+      clients: "6 Clientes"
+    },
+    {
+      name: "Salud",
+      desc: "Tecnología para mejorar la atención médica y gestión de pacientes",
+      clients: "7 Clientes"
+    },
+    {
+      name: "Logística",
+      desc: "Soluciones digitales para optimizar la cadena de suministro",
+      clients: "9 Clientes"
     }
-  },
-  en: {
-    sectors: {
-      title: "Sectors of Activity",
-      description: "A diversity of industries that trust our solutions",
-      items: [
-        {
-          name: "Finance",
-          desc: "Secure solutions for the financial sector",
-          clients: "12 Clients"
-        },
-        {
-          name: "E-commerce",
-          desc: "Innovative online sales platforms",
-          clients: "10 Clients"
-        },
-        {
-          name: "Public Sector",
-          desc: "Digital solutions to improve citizen service",
-          clients: "8 Clients"
-        },
-        {
-          name: "Insurance",
-          desc: "Policy and claims management with chatbots",
-          clients: "4 Clients"
-        },
-        {
-          name: "Retail",
-          desc: "Digital solutions to optimize the shopping experience",
-          clients: "12 Clients"
-        },
-        {
-          name: "Education",
-          desc: "Interactive platforms for educational institutions",
-          clients: "6 Clients"
-        },
-        {
-          name: "Healthcare",
-          desc: "Technology to improve medical care and patient management",
-          clients: "7 Clients"
-        },
-        {
-          name: "Logistics",
-          desc: "Digital solutions to optimize the supply chain",
-          clients: "9 Clients"
-        }
-      ]
-    }
-  }
+  ]
 };
-
-const { t, locale } = useI18n({ useScope: "local", inheritLocale: true, messages });
 
 // Array de imágenes (no cambia por idioma)
 const sectorImages = [
@@ -115,19 +60,12 @@ const sectorImages = [
   new URL("@/assets/img/clients/logistica.jpeg", import.meta.url).href
 ];
 
-// Combinar datos traducidos con imágenes
+// Combinar datos con imágenes
 const sectors = computed(() => {
-  const currentLocale = locale.value || 'es'; // Fallback a español si locale es undefined
-  console.log('Current locale:', currentLocale);
-  console.log('Messages structure:', messages[currentLocale]);
-  
-  const result = messages[currentLocale]?.sectors?.items?.map((item, index) => ({
+  return sectorsData.items.map((item, index) => ({
     ...item,
     img: sectorImages[index]
-  })) || [];
-  
-  console.log('Sectors result:', result);
-  return result;
+  }));
 });
 
 const currentIndex = ref(0);
@@ -166,8 +104,8 @@ const prev = () => {
 <template>
   <section class="sectors-section">
     <v-container class="py-12 text-center">
-      <h2 class="sectors-title">{{ t("sectors.title") }}</h2>
-      <p class="sectors-desc">{{ t("sectors.description") }}</p>
+      <h2 class="sectors-title">{{ sectorsData.title }}</h2>
+      <p class="sectors-desc">{{ sectorsData.description }}</p>
 
       <div class="sectors-carousel">
         <!-- Flecha Izquierda -->

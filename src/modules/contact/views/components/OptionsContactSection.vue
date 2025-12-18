@@ -1,35 +1,16 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-
-const messages = {
-	es: {
-		contact: {
-			items: [
-				{ icon: 'mdi-phone-outline', title: 'Teléfono', value: '+57 310 2885249', href: 'tel:+573102885249' },
-				{ icon: 'mdi-email-outline', title: 'Correo Electrónico', value: 'info@gigs.consulting', href: 'mailto:info@gigs.consulting' },
-				{ icon: 'mdi-map-marker-outline', title: 'Ubicación', value: 'CL 23 A BIS # 85 A – 25 OF 707, Bogotá', href: 'https://maps.google.com/?q=CL%2023%20A%20BIS%20%2385A-25%20OF%20707%20Bogotá' }
-			]
-		}
-	},
-	en: {
-		contact: {
-			items: [
-				{ icon: 'mdi-phone-outline', title: 'Phone', value: '+57 310 2885249', href: 'tel:+573102885249' },
-				{ icon: 'mdi-email-outline', title: 'Email', value: 'info@gigs.consulting', href: 'mailto:info@gigs.consulting' },
-				{ icon: 'mdi-map-marker-outline', title: 'Location', value: 'CL 23 A BIS # 85 A – 25 OF 707, Bogotá', href: 'https://maps.google.com/?q=CL%2023%20A%20BIS%20%2385A-25%20OF%20707%20Bogotá' }
-			]
-		}
-	}
-}
-
-const { tm } = useI18n({ useScope: 'local', inheritLocale: true, messages })
+const contactItems = [
+	{ icon: 'mdi-phone-outline', title: 'Teléfono', value: '+57 310 2885249', href: 'tel:+573102885249' },
+	{ icon: 'mdi-email-outline', title: 'Correo Electrónico', value: 'info@gigs.consulting', href: 'mailto:info@gigs.consulting' },
+	{ icon: 'mdi-map-marker-outline', title: 'Ubicación', value: 'CL 23 A BIS # 85 A – 25 OF 707, Bogotá', href: 'https://maps.google.com/?q=CL%2023%20A%20BIS%20%2385A-25%20OF%20707%20Bogotá' }
+]
 </script>
 
 <template>
 	<section class="contact-cards">
 		<v-container class="py-8">
 			<v-row class="g-6" justify="center" align="stretch">
-				<v-col v-for="(it, i) in tm('contact.items')" :key="i" cols="12" sm="6" md="4" class="d-flex card-content">
+				<v-col v-for="(it, i) in contactItems" :key="i" cols="12" sm="6" md="4" class="d-flex card-content">
 					<a :href="it.href" target="_blank" rel="noopener" class="card-link">
 						<v-card class="c-card" elevation="0">
 							<div class="c-body">

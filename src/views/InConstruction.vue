@@ -1,30 +1,13 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-
-const MESSAGES = {
-  es: {
-    title: 'En construcción',
-    subtitle: 'Estamos preparando algo increíble.',
-    desc: 'Esta sección aún no está lista, pero pronto estará disponible. Gracias por tu paciencia.',
-    ctas: {
-      home: 'Volver al inicio',
-      contact: 'Contáctanos'
-    }
-  },
-  en: {
-    title: 'Under Construction',
-    subtitle: 'We’re building something great.',
-    desc: 'This section isn’t ready yet, but it will be available soon. Thanks for your patience.',
-    ctas: {
-      home: 'Go to Home',
-      contact: 'Contact Us'
-    }
+const constructionData = {
+  title: 'En construcción',
+  subtitle: 'Estamos preparando algo increíble.',
+  desc: 'Esta sección aún no está lista, pero pronto estará disponible. Gracias por tu paciencia.',
+  ctas: {
+    home: 'Volver al inicio',
+    contact: 'Contáctanos'
   }
 }
-
-const { t, mergeLocaleMessage } = useI18n({ useScope: 'local' })
-mergeLocaleMessage('es', MESSAGES.es)
-mergeLocaleMessage('en', MESSAGES.en)
 </script>
 
 <template>
@@ -42,26 +25,26 @@ mergeLocaleMessage('en', MESSAGES.en)
 
                 <div class="uc-headings">
                   <h1 class="uc-title">
-                    <span class="glow">{{ t('title') }}</span>
+                    <span class="glow">{{ constructionData.title }}</span>
                   </h1>
-                  <p class="uc-subtitle">{{ t('subtitle') }}</p>
+                  <p class="uc-subtitle">{{ constructionData.subtitle }}</p>
                 </div>
               </div>
 
               <div class="uc-content">
                 <p class="uc-desc">
-                  {{ t('desc') }}
+                  {{ constructionData.desc }}
                 </p>
 
                 <div class="uc-cta">
                   <v-btn color="primary" class="btn-primary" variant="flat" :to="{ path: '/' }"
                     prepend-icon="mdi-home-variant-outline">
-                    {{ t('ctas.home') }}
+                    {{ constructionData.ctas.home }}
                   </v-btn>
 
                   <v-btn class="btn-second" variant="outlined" color="primary" :to="{ path: '/contacto' }"
                     prepend-icon="mdi-email-outline">
-                    {{ t('ctas.contact') }}
+                    {{ constructionData.ctas.contact }}
                   </v-btn>
                 </div>
 

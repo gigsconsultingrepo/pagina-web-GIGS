@@ -1,7 +1,7 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
+import { getFirestore, doc, getDoc } from 'firebase/firestore'
 
 const props = defineProps({
   customClass: {
@@ -10,75 +10,52 @@ const props = defineProps({
   }
 })
 
-const messages = {
-  es: {
-    breadcrumbs: {
-      home: 'Inicio',
-      about: 'Acerca de GIGS',
-      clients: 'Clientes',
-      challenges: 'Retos',
-      services: 'Servicios',
-      blog: 'Blog',
-      contact: 'Contacto',
-      newsList: 'Noticias',
-      newsDetail: 'Detalle',
-      adminNews: 'Admin Noticias',
-      notFound: 'No encontrado',
-      mantenimiento: 'Mantenimiento de Aplicaciones',
-      gestionbd: 'Gestión Base de Datos',
-      transformacion: 'Transformación Digital',
-      mesa: 'Mesa de Ayuda',
-      fabrica: 'Fábrica de Software',
-      taas: 'TaaS'
-    }
-  },
-  en: {
-    breadcrumbs: {
-      home: 'Home',
-      about: 'About',
-      clients: 'Clients',
-      challenges: 'Challenges',
-      services: 'Services',
-      blog: 'Blog',
-      contact: 'Contact',
-      newsList: 'News',
-      newsDetail: 'Detail',
-      adminNews: 'News Admin',
-      notFound: 'Not found',
-      mantenimiento: 'Application Maintenance',
-      gestionbd: 'Database Management',
-      transformacion: 'Digital Transformation',
-      mesa: 'Service Desk',
-      fabrica: 'Software Factory',
-      taas: 'TaaS'
-    }
-  }
+const breadcrumbLabels = {
+  home: 'Inicio',
+  about: 'Acerca de GIGS',
+  clients: 'Clientes',
+  challenges: 'Retos',
+  services: 'Servicios',
+  blog: 'Blog',
+  contact: 'Contacto',
+  newsList: 'Noticias',
+  newsDetail: 'Detalle',
+  adminNews: 'Admin Noticias',
+  notFound: 'No encontrado',
+  mantenimiento: 'Mantenimiento de Aplicaciones',
+  gestionbd: 'Gestión Base de Datos',
+  transformacion: 'Transformación Digital',
+  mesa: 'Mesa de Ayuda',
+  fabrica: 'Fábrica de Software',
+  taas: 'TaaS'
 }
 
-const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 const route = useRoute()
 const router = useRouter()
+const db = getFirestore()
+
+const serviceTitle = ref('')
 
 const labelFromName = (name) => {
   switch (name) {
-    case 'home': return t('breadcrumbs.home')
-    case 'about': return t('breadcrumbs.about')
-    case 'clients': return t('breadcrumbs.clients')
-    case 'challenges': return t('breadcrumbs.challenges')
-    case 'services': return t('breadcrumbs.services')
-    case 'blog': return t('breadcrumbs.blog')
+    case 'home': return breadcrumbLabels.home
+    case 'about': return breadcrumbLabels.about
+    case 'clients': return breadcrumbLabels.clients
+    case 'challenges': return breadcrumbLabels.challenges
+    case 'services': return breadcrumbLabels.services
+    case 'blog': return breadcrumbLabels.blog
     case 'blog-detail': return null // se maneja aparte abajo
-    case 'contact': return t('breadcrumbs.contact')
-    case 'news-list': return t('breadcrumbs.newsList')
-    case 'news-detail': return t('breadcrumbs.newsDetail')
-    case 'admin-news': return t('breadcrumbs.adminNews')
-    case 'NotFound': return t('breadcrumbs.notFound')
-    case 'mantenimiento-aplicaciones': return t('breadcrumbs.mantenimiento')
-    case 'gestion-base-datos': return t('breadcrumbs.gestionbd')
-    case 'transformación-digital': return t('breadcrumbs.transformacion')
-    case 'mesa-ayuda': return t('breadcrumbs.mesa')
-    case 'fabrica-software': return t('breadcrumbs.fabrica')
-    case 'taas': return t('breadcrumbs.taas')
+    case 'contact': return breadcrumbLabels.contact
+    case 'news-list': return breadcrumbLabels.newsList
+    case 'news-detail': return breadcrumbLabels.newsDetail
+    case 'admin-news': return breadcrumbLabels.adminNews
+    case 'NotFound': return breadcrumbLabels.notFound
+    case 'mantenimiento-aplicaciones': return breadcrumbLabels.mantenimiento
+    case 'gestion-base-datos': return breadcrumbLabels.gestionbd
+    case 'transformación-digital': return breadcrumbLabels.transformacion
+    case 'mesa-ayuda': return breadcrumbLabels.mesa
+    case 'fabrica-software': return breadcrumbLabels.fabrica
+    case 'taas': return breadcrumbLabels.taas
     default:
       return typeof name === 'string' ? name : ''
   }
@@ -89,17 +66,25 @@ const crumbs = computed(() => {
   const currentPath = route.path
   
   if (currentName === 'home') {
-    return [{ label: t('breadcrumbs.home'), to: null }]
+    return [{ label: breadcrumbLabels.home, to: null }]
   }
   
-  const items = [{ label: t('breadcrumbs.home'), to: '/' }]
+  const items = [{ label: breadcrumbLabels.home, to: '/' }]
   
   // Caso especial: blog detail
   if (currentName === 'blog-detail') {
-    items.push({ label: t('breadcrumbs.blog'), to: '/blog' })
+    items.push({ label: breadcrumbLabels.blog, to: '/blog' })
 
-    const articleTitle = route.params.slug || t('breadcrumbs.newsDetail')
+    const articleTitle = route.params.slug || breadcrumbLabels.newsDetail
     items.push({ label: String(articleTitle), to: null })
+    return items
+  }
+
+  // Caso especial: service detail
+  if (currentName === 'service-detail') {
+    items.push({ label: breadcrumbLabels.services, to: '/servicios' })
+    const title = serviceTitle.value || route.params.slug || 'Servicio'
+    items.push({ label: String(title), to: null })
     return items
   }
 
@@ -111,11 +96,48 @@ const crumbs = computed(() => {
 
   // Corrección para servicios anidados
   if (currentPath && currentPath.startsWith('/servicios/')) {
-    items.splice(1, 0, { label: t('breadcrumbs.services'), to: '/servicios' })
+    items.splice(1, 0, { label: breadcrumbLabels.services, to: '/servicios' })
   }
   
   return items
 })
+
+// Cargar el título del servicio cuando estamos en service-detail
+const loadServiceTitle = async (slug) => {
+  if (!slug) return
+  try {
+    const docRef = doc(db, 'services', slug)
+    const docSnap = await getDoc(docRef)
+    if (docSnap.exists()) {
+      const data = docSnap.data()
+      serviceTitle.value = data.title || slug
+    } else {
+      // Si no existe, formatear el slug como título
+      serviceTitle.value = slug.split('-').map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1)
+      ).join(' ')
+    }
+  } catch (error) {
+    console.error('Error loading service title:', error)
+    // Formatear el slug como título en caso de error
+    serviceTitle.value = slug.split('-').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ')
+  }
+}
+
+// Observar cambios en la ruta para cargar el título del servicio
+watch(
+  () => [route.name, route.params.slug],
+  ([routeName, slug]) => {
+    if (routeName === 'service-detail' && slug) {
+      loadServiceTitle(slug)
+    } else {
+      serviceTitle.value = ''
+    }
+  },
+  { immediate: true }
+)
 
 const navigate = async (to) => {
   if (!to) return

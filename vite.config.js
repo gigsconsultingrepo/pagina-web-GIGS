@@ -1,6 +1,5 @@
 import { fileURLToPath, URL } from 'node:url'
 import vuetify from 'vite-plugin-vuetify'
-import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -9,10 +8,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [
     vue(),
-    vuetify({ autoImport: true }),
-    VueI18nPlugin({
-      runtimeOnly: false,
-    })
+    vuetify({ autoImport: true })
   ],
   resolve: {
     alias: {
@@ -29,6 +25,11 @@ export default defineConfig({
       }
     },
   },
-  server: { proxy: { '/api': 'http://localhost:8787' } }
-
+  server: { 
+    host: true,   // ⬅ permitir acceso por red
+    port: 5174,   // ⬅ fija el puerto para evitar conflicto
+    proxy: { 
+      '/api': 'http://localhost:8787' 
+    } 
+  }
 })

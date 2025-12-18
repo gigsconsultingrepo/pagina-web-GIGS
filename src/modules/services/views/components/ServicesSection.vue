@@ -1,59 +1,29 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-
-import fabricaSoftware from '@/assets/img/services/fabrica-software.png'
-import gestionBaseDatos from '@/assets/img/services/gestion-bd.png'
-import mantenimiento from '@/assets/img/services/mantenimiento.png'
-import mesaAyuda from '@/assets/img/services/mesa-ayuda.png'
-import taas from '@/assets/img/services/taas.png'
-import transformacionDigital from '@/assets/img/services/transformacion-digital.png'
-
-const messages = {
-  es: {
-    showcase: {
-      title: 'Nuestros Servicios',
-      subtitle:
-        'En GIGS unimos innovación y tecnología para ofrecer soluciones que transforman la manera en que las empresas trabajan, comunican y crecen'
-    },
-    showcaseItems: [
-      { title: 'TaaS (Talent as a Service)', to: '/servicios/taas' },
-      { title: 'Transformación Digital', to: '/servicios/transformación-digital' },
-      { title: 'Mesa de Ayuda/Servicio', to: '/servicios/mesa-ayuda' },
-      { title: 'Gestión de Base de Datos', to: '/servicios/gestion-base-datos' },
-      { title: 'Mantenimiento y Soporte a Aplicaciones', to: '/servicios/mantenimiento-aplicaciones' },
-      { title: 'Fábrica de Software', to: '/servicios/fábrica-software' },
-    ],
-    cta: { more: 'Ver Más', all: 'Ver Todos' }
-  },
-  en: {
-    showcase: {
-      title: 'Our Services',
-      subtitle:
-        'At GIGS we combine innovation and technology to deliver solutions that transform how companies work, communicate, and grow'
-    },
-    showcaseItems: [
-      { title: 'TaaS (Talent as a Service)', to: '/servicios/taas' },
-      { title: 'Digital Transformation', to: '/servicios/transformación-digital' },
-      { title: 'Help Desk / Service Desk', to: '/servicios/mesa-ayuda' },
-      { title: 'Database Management', to: '/servicios/gestión-base-datos' },
-      { title: 'Application Maintenance & Support', to: '/servicios/mantenimiento-aplicaciones' },
-      { title: 'Software Factory', to: '/servicios/fábrica-software' },
-    ],
-    cta: { more: 'Learn More', all: 'View All' }
-  }
-}
-const { t, tm, locale } = useI18n({ useScope: 'local', inheritLocale: true, messages })
+import { db } from '@/firebase'
+import { collection, getDocs } from 'firebase/firestore'
 
 const router = useRouter()
+
+const showcaseData = {
+  title: 'Nuestros Servicios',
+  subtitle: 'Descubre nuestras soluciones tecnológicas especializadas',
+  cta: { more: 'Ver Más', all: 'Ver Todos' }
+}
+
+const services = ref([])
+
 const goCard = (baseIndex) => {
-  const list = tm('showcaseItems')
-  router.push(list?.[baseIndex]?.to || '/servicios')
+  const service = services.value[baseIndex]
+  if (service && service.id) {
+    router.push(`/servicios/${service.id}`)
+  } else {
+    router.push('/servicios')
+  }
 }
 const goAll = () => router.push('/servicios')
 
-const showcaseImgs = [taas, transformacionDigital, mesaAyuda, gestionBaseDatos, mantenimiento, fabricaSoftware]
 
 const viewport = ref(null)
 const track = ref(null)
@@ -68,10 +38,10 @@ const current = ref(0)
 const transitioning = ref(false)
 
 const baseItems = computed(() => {
-  const list = tm('showcaseItems') || []
-  return list.map((it, i) => ({
-    ...it,
-    img: showcaseImgs[i % showcaseImgs.length],
+  return services.value.map((service) => ({
+    id: service.id,
+    title: service.title,
+    img: service.image || '',
   }))
 })
 
@@ -153,7 +123,19 @@ const onResize = () => {
   startAutoplay()
 }
 
-onMounted(() => {
+onMounted(async () => {
+  // Cargar servicios de Firestore
+  try {
+    const querySnapshot = await getDocs(collection(db, 'services'))
+    services.value = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
+  } catch (error) {
+    console.error('Error loading services:', error)
+  }
+  
+  // Inicializar carrusel
   calcPerView()
   resetToRealStart()
   startAutoplay()
@@ -165,11 +147,6 @@ onBeforeUnmount(() => {
   stopAutoplay()
 })
 
-watch(locale, () => {
-  resetToRealStart()
-  measure()
-  startAutoplay()
-})
 watch(baseItems, () => {
   resetToRealStart()
   measure()
@@ -181,8 +158,8 @@ watch(baseItems, () => {
   <section class="services-top">
     <v-container class="py-8 py-md-12">
       <div class="info-head">
-        <h2 class="info-title">{{ t('showcase.title') }}</h2>
-        <p class="info-sub">{{ t('showcase.subtitle') }}</p>
+        <h2 class="info-title">{{ showcaseData.title }}</h2>
+        <p class="info-sub">{{ showcaseData.subtitle }}</p>
       </div>
 
       <div class="carousel" @mouseenter="isHover = true" @mouseleave="isHover = false">
@@ -193,7 +170,7 @@ watch(baseItems, () => {
               <div class="info-content">
                 <h3 class="info-name">{{ it.title }}</h3>
                 <button class="info-pill" type="button" @click="goCard(mapToBase(idx))">
-                  {{ t('cta.more') }}
+                  {{ showcaseData.cta.more }}
                 </button>
               </div>
             </article>
@@ -210,7 +187,7 @@ watch(baseItems, () => {
 
       <div class="info-bottom">
         <button class="info-primary" type="button" @click="goAll">
-          {{ t('cta.all') }}
+          {{ showcaseData.cta.all }}
         </button>
       </div>
     </v-container>

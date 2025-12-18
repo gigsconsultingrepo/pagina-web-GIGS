@@ -1,22 +1,8 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-
-const messages = {
-  es: {
-    history: {
-      title: 'Nuestra Historia',
-      description: 'Desde 2016, en Gigs Consulting ayudamos a empresas a transformar sus procesos a través de soluciones tecnológicas innovadoras. Nacimos con la visión de conectar negocios con herramientas digitales eficaces, y hoy seguimos creciendo junto a nuestros clientes, creando software útil, escalable y alineado con cada necesidad.'
-    }
-  },
-  en: {
-    history: {
-      title: 'Our History',
-      description: 'Since 2016, at Gigs Consulting we help companies transform their processes through innovative technological solutions. We were born with the vision of connecting businesses with effective digital tools, and today we continue to grow alongside our clients, creating useful, scalable software aligned with every need.'
-    }
-  }
+const historyData = {
+  title: 'Nuestra Historia',
+  description: 'Desde 2016, en Gigs Consulting ayudamos a empresas a transformar sus procesos a través de soluciones tecnológicas innovadoras. Nacimos con la visión de conectar negocios con herramientas digitales eficaces, y hoy seguimos creciendo junto a nuestros clientes, creando software útil, escalable y alineado con cada necesidad.'
 }
-
-const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 </script>
 
 <template>
@@ -31,8 +17,8 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
         </v-col>
 
         <v-col cols="12" md="7" lg="6" class="order-2 order-md-2 text-center text-md-start px-4">
-          <h2 class="history-title">{{ t('history.title') }}</h2>
-          <p class="history-desc mx-auto mx-md-0">{{ t('history.description') }}</p>
+          <h2 class="history-title">{{ historyData.title }}</h2>
+          <p class="history-desc mx-auto mx-md-0">{{ historyData.description }}</p>
         </v-col>
       </v-row>
     </v-container>

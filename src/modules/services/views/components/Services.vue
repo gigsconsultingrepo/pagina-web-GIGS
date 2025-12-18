@@ -1,25 +1,11 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
 import Breadcrumbs from '@/components/navs/Breadcrumbs.vue'
 
-const messages = {
-  es: {
-    services: {
-      subtitle: 'Nuestros Servicios',
-      title: 'Soluciones Tecnológicas Integrales',
-      description: 'Transformamos ideas en realidades digitales con servicios de desarrollo, consultoría e implementación tecnológica que impulsan el crecimiento de tu empresa.'
-    }
-  },
-  en: {
-    services: {
-      subtitle: 'Our Services',
-      title: 'Integrated Technological Solutions',
-      description: 'We transform ideas into digital realities through development, consulting, and technology implementation services that drive your company growth.'
-    }
-  }
+const servicesData = {
+  subtitle: 'Nuestros Servicios',
+  title: 'Soluciones Tecnológicas Integrales',
+  description: 'Transformamos ideas en realidades digitales con servicios de desarrollo, consultoría e implementación tecnológica que impulsan el crecimiento de tu empresa.'
 }
-
-const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
 </script>
 
 <template>
@@ -28,9 +14,9 @@ const { t } = useI18n({ useScope: 'local', inheritLocale: true, messages })
     <v-container class="py-8 py-md-14">
       <v-row class="services-row" align="center" justify="space-between" no-gutters>
         <v-col cols="12" md="7" lg="6" class="order-2 order-md-1 text-center text-md-start px-4">
-          <div class="subtitle">{{ t('services.subtitle') }}</div>
-          <h1 class="services-title">{{ t('services.title') }}</h1>
-          <p class="services-desc mx-auto mx-md-0">{{ t('services.description') }}</p>
+          <div class="subtitle">{{ servicesData.subtitle }}</div>
+          <h1 class="services-title">{{ servicesData.title }}</h1>
+          <p class="services-desc mx-auto mx-md-0">{{ servicesData.description }}</p>
         </v-col>
 
         <v-col cols="12" md="5" lg="5" class="order-1 order-md-2 px-4 mb-6 mb-md-0 illustration-col">
