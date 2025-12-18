@@ -64,7 +64,6 @@ Sitio web corporativo de GIGS Consulting con panel de administración completo p
 
 - **[FIREBASE_SETUP.md](./FIREBASE_SETUP.md)**: Configuración completa de Firebase Authentication
 - **[ADMIN_CONFIG.md](./ADMIN_CONFIG.md)**: Cómo configurar administradores
-- **[GUIA_ENTREGA_PROYECTO.md](./GUIA_ENTREGA_PROYECTO.md)**: Guía completa de despliegue y entrega
 
 ## 🎯 Scripts Disponibles
 
@@ -89,14 +88,6 @@ Para configurar qué usuarios tienen permisos de administrador completo, edita:
 - `src/router/index.js` (línea ~148)
 
 Ver [ADMIN_CONFIG.md](./ADMIN_CONFIG.md) para más detalles.
-
-## 🌐 Despliegue
-
-Para desplegar el proyecto en producción, consulta la [GUIA_ENTREGA_PROYECTO.md](./GUIA_ENTREGA_PROYECTO.md).
-
-**Opciones recomendadas:**
-- **Frontend**: Vercel, Netlify o hosting tradicional
-- **Backend**: Railway, Render o VPS propio
 
 ## 📁 Estructura del Proyecto
 
