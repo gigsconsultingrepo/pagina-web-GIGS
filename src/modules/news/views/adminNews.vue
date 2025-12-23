@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onBeforeUnmount, onMounted } from 'vue'
+import { ref, computed, onBeforeUnmount, onMounted, nextTick } from 'vue'
 import { auth, db } from '@/firebase'
 import { addDoc, collection, updateDoc, doc, serverTimestamp, getDoc } from 'firebase/firestore'
 import axios from 'axios'
@@ -96,12 +96,22 @@ const fileToPreview = (file, tgtRef) => {
 const onCover = (files) => {
   const f = Array.isArray(files) ? files[0] : files
   coverFile.value = f || null
-  fileToPreview(coverFile.value, coverPreview)
+  if (coverFile.value) {
+    fileToPreview(coverFile.value, coverPreview)
+  } else {
+    // Si se limpia el archivo, restaurar la imagen existente si estamos editando
+    coverPreview.value = editId && (coverUrl.value || img_one.value) ? (coverUrl.value || img_one.value) : ''
+  }
 }
 const onApoyo = (files) => {
   const f = Array.isArray(files) ? files[0] : files
   apoyoFile.value = f || null
-  fileToPreview(apoyoFile.value, apoyoPreview)
+  if (apoyoFile.value) {
+    fileToPreview(apoyoFile.value, apoyoPreview)
+  } else {
+    // Si se limpia el archivo, restaurar la imagen existente si estamos editando
+    apoyoPreview.value = editId && img_two.value ? img_two.value : ''
+  }
 }
 
 const signUpload = async ({ folder, publicId }) => {
@@ -114,6 +124,16 @@ const signUpload = async ({ folder, publicId }) => {
   } catch (error) {
     console.error('Error al obtener firma de Cloudinary:', error)
     throw new Error('Error al conectar con el servidor de imágenes. Verifica que el backend esté corriendo y configurado correctamente.')
+  }
+}
+
+const deleteInCloudinary = async (public_id) => {
+  if (!public_id) return
+  try {
+    await axios.delete(getApiUrl('/api/media'), { params: { public_id } })
+  } catch (e) {
+    // No lanzamos error para no interrumpir el proceso
+    console.warn('No se pudo borrar imagen en Cloudinary:', public_id, e?.response?.data || e.message)
   }
 }
 
@@ -216,13 +236,34 @@ const loadData = async () => {
   excerpt.value = data.excerpt || ''
   tagsCsv.value = (data.tags || []).join(', ')
   status.value = data.status || 'draft'
-  coverUrl.value = data.img_one || data.coverUrl || ''
+  
+  // Cargar imágenes - priorizar img_one sobre coverUrl
   img_one.value = data.img_one || ''
+  coverUrl.value = data.img_one || data.coverUrl || ''
   img_two.value = data.img_two || ''
   img_one_id.value = data.img_one_id || ''
   img_two_id.value = data.img_two_id || ''
+  
   editor.value?.commands?.setContent?.(data.content || '')
   
+  // Usar nextTick para asegurar que los cambios se reflejen en el template
+  await nextTick()
+  
+  // Mostrar las imágenes existentes en el preview cuando se está editando
+  // Esto asegura que las imágenes se muestren inmediatamente al cargar
+  const portadaUrl = img_one.value || coverUrl.value || ''
+  const apoyoUrl = img_two.value || ''
+  
+  if (portadaUrl) {
+    coverPreview.value = portadaUrl
+  }
+  if (apoyoUrl) {
+    apoyoPreview.value = apoyoUrl
+  }
+  
+  // Limpiar archivos seleccionados al cargar datos existentes
+  coverFile.value = null
+  apoyoFile.value = null
 }
 
 const savePost = async (forceStatus = null) => {
@@ -237,6 +278,10 @@ const savePost = async (forceStatus = null) => {
     let portada = { url: coverUrl.value || img_one.value || '', id: img_one_id.value || '' }
     let apoyo = { url: img_two.value || '', id: img_two_id.value || '' }
 
+    // Guardar los image_id antiguos para eliminarlos si hay nuevas imágenes
+    const oldPortadaId = editId && coverFile.value && img_one_id.value ? img_one_id.value : ''
+    const oldApoyoId = editId && apoyoFile.value && img_two_id.value ? img_two_id.value : ''
+
     // Solo subir si hay archivos nuevos
     // Generar publicId único basado en el slug
     const baseSlug = slug.value || title.value || 'draft'
@@ -248,6 +293,17 @@ const savePost = async (forceStatus = null) => {
     
     try {
       if (coverFile.value) {
+        // Si estamos editando y hay una imagen antigua, eliminarla primero de Cloudinary
+        if (oldPortadaId) {
+          try {
+            await deleteInCloudinary(oldPortadaId)
+            console.log('Imagen de portada antigua eliminada de Cloudinary:', oldPortadaId)
+          } catch (deleteError) {
+            // No interrumpir el proceso si falla la eliminación, solo registrar el error
+            console.warn('No se pudo eliminar la imagen de portada antigua de Cloudinary:', deleteError)
+          }
+        }
+        
         const portadaPublicId = `${slugClean}-portada`
         portada = await uploadToCloudinarySigned(coverFile.value, portadaPublicId)
       }
@@ -260,6 +316,17 @@ const savePost = async (forceStatus = null) => {
 
     try {
       if (apoyoFile.value) {
+        // Si estamos editando y hay una imagen antigua, eliminarla primero de Cloudinary
+        if (oldApoyoId) {
+          try {
+            await deleteInCloudinary(oldApoyoId)
+            console.log('Imagen de apoyo antigua eliminada de Cloudinary:', oldApoyoId)
+          } catch (deleteError) {
+            // No interrumpir el proceso si falla la eliminación, solo registrar el error
+            console.warn('No se pudo eliminar la imagen de apoyo antigua de Cloudinary:', deleteError)
+          }
+        }
+        
         const apoyoPublicId = `${slugClean}-apoyo`
         apoyo = await uploadToCloudinarySigned(apoyoFile.value, apoyoPublicId)
       }
@@ -518,13 +585,55 @@ const btnPrimary = computed(() => ({
         </div>
 
         <div class="d-flex flex-column" style="gap:8px;">
-          <v-file-input label="Portada (img_one)" accept="image/*" variant="outlined" density="comfortable" @update:model-value="onCover" prepend-icon="mdi-image" :clearable="true" />
-          <v-img v-if="coverPreview" :src="coverPreview" alt="Portada" class="rounded" height="200" cover style="border:1px solid var(--color-border); background: var(--vt-c-white);" />
+          <v-file-input 
+            label="Portada (img_one)" 
+            accept="image/*" 
+            variant="outlined" 
+            density="comfortable" 
+            @update:model-value="onCover" 
+            prepend-icon="mdi-image" 
+            :clearable="true"
+            hint="Selecciona una nueva imagen para reemplazar la actual"
+            persistent-hint
+          />
+          <v-img 
+            v-if="coverPreview || img_one || coverUrl" 
+            :src="coverPreview || img_one || coverUrl" 
+            alt="Portada" 
+            class="rounded" 
+            height="200" 
+            cover 
+            style="border:1px solid var(--color-border); background: var(--vt-c-white);" 
+          />
+          <v-alert v-if="editId && !coverPreview && !img_one && !coverUrl" type="info" variant="tonal" density="compact">
+            No hay imagen de portada. Selecciona una imagen para agregarla.
+          </v-alert>
         </div>
 
         <div class="d-flex flex-column" style="gap:8px;">
-          <v-file-input label="Imagen de apoyo (img_two)" accept="image/*" variant="outlined" density="comfortable" @update:model-value="onApoyo" prepend-icon="mdi-image-multiple" :clearable="true" />
-          <v-img v-if="apoyoPreview" :src="apoyoPreview" alt="Apoyo" class="rounded" height="200" cover style="border:1px solid var(--color-border); background: var(--vt-c-white);" />
+          <v-file-input 
+            label="Imagen de apoyo (img_two)" 
+            accept="image/*" 
+            variant="outlined" 
+            density="comfortable" 
+            @update:model-value="onApoyo" 
+            prepend-icon="mdi-image-multiple" 
+            :clearable="true"
+            hint="Selecciona una nueva imagen para reemplazar la actual"
+            persistent-hint
+          />
+          <v-img 
+            v-if="apoyoPreview || img_two" 
+            :src="apoyoPreview || img_two" 
+            alt="Apoyo" 
+            class="rounded" 
+            height="200" 
+            cover 
+            style="border:1px solid var(--color-border); background: var(--vt-c-white);" 
+          />
+          <v-alert v-if="editId && !apoyoPreview && !img_two" type="info" variant="tonal" density="compact">
+            No hay imagen de apoyo. Selecciona una imagen para agregarla.
+          </v-alert>
         </div>
 
         <v-select v-model="status" label="Estado" :items="[{ title:'Publicado', value:'published' }, { title:'Borrador', value:'draft' }]" variant="outlined" style="max-width:240px;" />

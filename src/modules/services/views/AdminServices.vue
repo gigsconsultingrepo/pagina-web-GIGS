@@ -277,6 +277,7 @@ const saveService = async () => {
   let imageUrl = (form.value.image || '').trim()
   const isEdit = !!form.value.id
   let targetId = form.value.id
+  let oldImageId = '' // Guardar el image_id de la imagen antigua para eliminarla
 
   try {
     if (!isEdit) {
@@ -285,7 +286,23 @@ const saveService = async () => {
 
     let imageId = form.value.image_id || '' // Mantener el image_id existente si no hay nueva imagen
     
+    // Si estamos editando y hay una nueva imagen, guardar el image_id antiguo para eliminarlo
+    if (isEdit && imageFile.value && form.value.image_id) {
+      oldImageId = form.value.image_id
+    }
+    
     if (imageFile.value) {
+      // Si estamos editando y hay una imagen antigua, eliminarla primero de Cloudinary
+      if (isEdit && oldImageId) {
+        try {
+          await deleteInCloudinary(oldImageId)
+          console.log('Imagen antigua eliminada de Cloudinary:', oldImageId)
+        } catch (deleteError) {
+          // No interrumpir el proceso si falla la eliminación, solo registrar el error
+          console.warn('No se pudo eliminar la imagen antigua de Cloudinary:', deleteError)
+        }
+      }
+      
       // Generar un public_id único para el servicio
       // IMPORTANTE: Solo el nombre del archivo, sin el folder (el folder se maneja por separado)
       const serviceSlug = slugify(form.value.title) || `service-${targetId || Date.now()}`
